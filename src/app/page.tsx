@@ -1,504 +1,450 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight, Shield, Globe, Truck, CheckCircle, Car, Play, ChevronDown, Star, Zap, MapPin } from 'lucide-react';
-import CarCard from '@/components/CarCard';
-
-// Dummy data for featured cars
-const featuredCars = [
-  {
-    id: 1,
-    brand: 'Hyundai',
-    model: 'Sonata DN8',
-    year: 2023,
-    mileage: 15000,
-    price: 28500,
-    fuel: 'Gasoline',
-    transmission: 'Automatic',
-    images: ['https://images.unsplash.com/photo-1590656371803-0ae2ae004989?w=800'],
-  },
-  {
-    id: 2,
-    brand: 'Kia',
-    model: 'K5 DL3',
-    year: 2022,
-    mileage: 28000,
-    price: 24500,
-    fuel: 'Gasoline',
-    transmission: 'Automatic',
-    images: ['https://images.unsplash.com/photo-1688893287874-ac7fbd686c24?w=800'],
-  },
-  {
-    id: 3,
-    brand: 'Genesis',
-    model: 'G80 RG3',
-    year: 2023,
-    mileage: 12000,
-    price: 52000,
-    fuel: 'Gasoline',
-    transmission: 'Automatic',
-    images: ['https://images.unsplash.com/photo-1714348938045-0c74379cd4d9?w=800'],
-  },
-  {
-    id: 4,
-    brand: 'Hyundai',
-    model: 'Tucson NX4',
-    year: 2022,
-    mileage: 32000,
-    price: 31000,
-    fuel: 'Diesel',
-    transmission: 'Automatic',
-    images: ['https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=800'],
-  },
-];
-
-const brands = [
-  { name: 'Hyundai', logo: '/images/brands/hyundai.svg' },
-  { name: 'Kia', logo: '/images/brands/kia.svg' },
-  { name: 'Genesis', logo: '/images/brands/genesis.svg' },
-  { name: 'Chevrolet', logo: '/images/brands/chevrolet.svg' },
-  { name: 'Renault', logo: '/images/brands/renault.svg' },
-  { name: 'SsangYong', logo: '/images/brands/ssangyong.svg' },
-];
-
-const features = [
-  {
-    icon: Shield,
-    title: 'Quality Guaranteed',
-    description: 'All vehicles undergo thorough inspection before export',
-  },
-  {
-    icon: Globe,
-    title: 'Worldwide Shipping',
-    description: 'We export to over 50 countries with reliable logistics',
-  },
-  {
-    icon: Truck,
-    title: 'Fast Delivery',
-    description: 'Efficient shipping process with real-time tracking',
-  },
-];
+import {
+  ArrowRight,
+  Shield,
+  Globe,
+  Truck,
+  CheckCircle,
+  Calendar,
+  Clock,
+  MapPin,
+  Gavel,
+} from 'lucide-react';
 
 const stats = [
   { value: '5,000+', label: 'Cars Exported' },
   { value: '50+', label: 'Countries' },
   { value: '10+', label: 'Years Experience' },
-  { value: '98%', label: 'Customer Satisfaction' },
+  { value: '98%', label: 'Satisfaction' },
+];
+
+const auctionImages = [
+  { src: '/Jungcar/images/auction/autohub/autohub-1.jpg', alt: 'AutoHub Auction Center', label: 'AutoHub Auction' },
+  { src: '/Jungcar/images/auction/autohub/autohub-2.jpg', alt: 'AutoHub Auction Interior', label: 'Auction Floor' },
+  { src: '/Jungcar/images/auction/autohub/autohub-3.jpg', alt: 'AutoHub Vehicle Lineup', label: 'Vehicle Inspection' },
+  { src: '/Jungcar/images/auction/glovis/glovis-1.jpg', alt: 'Hyundai Glovis Auction', label: 'Hyundai Glovis' },
+  { src: '/Jungcar/images/auction/glovis/glovis-2.jpg', alt: 'Glovis Auction Hall', label: 'Glovis Auction Hall' },
+  { src: '/Jungcar/images/auction/glovis/glovis-3.jpg', alt: 'Glovis Vehicle Yard', label: 'Vehicle Yard' },
+];
+
+const auctionSchedule = [
+  {
+    name: 'Hyundai Glovis',
+    location: 'Shihwa, Ansan',
+    days: 'Every Tuesday & Thursday',
+    time: '09:00 AM KST',
+    vehicles: '3,000+',
+    color: '#0a4d0e',
+  },
+  {
+    name: 'AutoHub Auction',
+    location: 'Gimpo, Gyeonggi-do',
+    days: 'Every Wednesday',
+    time: '10:00 AM KST',
+    vehicles: '2,000+',
+    color: '#0a4d0e',
+  },
+  {
+    name: 'SK Encar Auction',
+    location: 'Incheon, Gyeonggi-do',
+    days: 'Every Monday & Friday',
+    time: '09:30 AM KST',
+    vehicles: '1,500+',
+    color: '#0a4d0e',
+  },
+  {
+    name: 'Shinsegae Auto Auction',
+    location: 'Yongin, Gyeonggi-do',
+    days: 'Every Thursday',
+    time: '10:00 AM KST',
+    vehicles: '1,000+',
+    color: '#0a4d0e',
+  },
+];
+
+const teamMembers = [
+  { name: 'James Jung', role: 'CEO & Founder', image: '/Jungcar/images/staff/staff-8.png' },
+  { name: 'Sarah Kim', role: 'Sales Director', image: '/Jungcar/images/staff/staff-1.jpg' },
+  { name: 'Yuna Lee', role: 'Export Manager', image: '/Jungcar/images/staff/staff-2.jpg' },
+  { name: 'Jiwon Park', role: 'Auction Specialist', image: '/Jungcar/images/staff/staff-5.jpg' },
+  { name: 'Daniel Choi', role: 'Vehicle Inspector', image: '/Jungcar/images/staff/staff-6.jpg' },
+  { name: 'Minjae Seo', role: 'Logistics Manager', image: '/Jungcar/images/staff/staff-7.jpg' },
 ];
 
 export default function Home() {
   return (
     <div className="overflow-hidden">
-      {/* Hero Section - Clean & Bold */}
-      <section className="relative min-h-screen bg-white overflow-hidden">
-        {/* Subtle Background Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      {/* ===== SECTION 1: HERO ===== */}
+      <section className="relative min-h-screen flex items-center">
+        {/* Full-width background image */}
+        <div className="absolute inset-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/Jungcar/images/hero-banner.jpg"
+            alt="Premium Korean Vehicles"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a4d0e]/90 via-[#0a4d0e]/70 to-[#0a4d0e]/40" />
+        </div>
 
-        {/* Accent Shapes */}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-blue-50 to-transparent" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-gradient-to-br from-blue-500/10 to-cyan-500/10 blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-gradient-to-tr from-orange-500/10 to-yellow-500/10 blur-3xl" />
+        {/* Content */}
+        <div className="relative mx-auto max-w-7xl px-4 py-32 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#D4A843]/40 bg-[#D4A843]/10 px-4 py-1.5 text-sm font-medium text-[#D4A843] backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D4A843] animate-pulse" />
+                Premium Korean Auto Export
+              </span>
+            </motion.div>
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid min-h-screen items-center gap-8 py-20 lg:grid-cols-2 lg:gap-12">
+            {/* Heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mt-6 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl"
+            >
+              Your Gateway to
+              <br />
+              <span className="text-[#D4A843]">Korean Cars</span>
+            </motion.h1>
 
-            {/* Left Content */}
-            <div className="relative z-10 pt-16 lg:pt-0 order-2 lg:order-1">
-              {/* Eyebrow */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                className="flex items-center gap-3"
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-6 max-w-lg text-base leading-relaxed text-white/80 sm:text-lg"
+            >
+              Export premium Hyundai, Kia & Genesis vehicles from Korea&apos;s
+              largest auto auctions. Quality inspected, competitively priced,
+              delivered worldwide.
+            </motion.p>
+
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-8 flex flex-wrap gap-4"
+            >
+              <Link
+                href="/cars"
+                className="group inline-flex items-center gap-2 rounded-xl bg-[#D4A843] px-6 py-3.5 text-sm font-bold text-[#0a4d0e] transition-all hover:bg-[#e0b84f] hover:shadow-xl hover:shadow-[#D4A843]/25 sm:px-8 sm:text-base"
               >
-                <div className="h-px w-12 bg-gradient-to-r from-blue-600 to-cyan-500" />
-                <span className="text-sm font-semibold uppercase tracking-wider text-blue-600">
-                  Premium Auto Export
-                </span>
-              </motion.div>
-
-              {/* Main Heading */}
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="mt-4 text-3xl font-black tracking-tight text-gray-900 sm:mt-6 sm:text-5xl lg:text-7xl"
+                Browse Inventory
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 sm:h-5 sm:w-5" />
+              </Link>
+              <Link
+                href="/auction"
+                className="inline-flex items-center gap-2 rounded-xl border-2 border-white/30 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:border-white/60 hover:bg-white/10 sm:px-8 sm:text-base"
               >
-                Korean Cars,
-                <br />
-                <span className="relative inline-block">
-                  <span className="relative z-10 bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
-                    Global Reach
-                  </span>
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
-                    className="absolute -bottom-1 left-0 h-2 w-full origin-left bg-gradient-to-r from-blue-200 to-cyan-200 -skew-x-6 sm:-bottom-2 sm:h-4"
-                  />
-                </span>
-              </motion.h1>
+                <Gavel className="h-4 w-4 sm:h-5 sm:w-5" />
+                Auction Service
+              </Link>
+            </motion.div>
 
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="mt-4 max-w-md text-base text-gray-600 leading-relaxed sm:mt-8 sm:text-lg lg:text-xl"
-              >
-                Export premium Hyundai, Kia & Genesis vehicles to 50+ countries.
-                Quality inspected, competitively priced, delivered fast.
-              </motion.p>
-
-              {/* CTA Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="mt-6 flex flex-wrap items-center gap-3 sm:mt-10 sm:gap-4"
-              >
-                <Link
-                  href="/cars"
-                  className="group inline-flex items-center gap-2 rounded-xl bg-gray-900 px-5 py-3 text-sm font-bold text-white transition-all hover:bg-gray-800 hover:shadow-xl hover:shadow-gray-900/20 sm:gap-3 sm:rounded-2xl sm:px-8 sm:py-4 sm:text-base"
-                >
-                  View All Cars
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 sm:h-5 sm:w-5" />
-                </Link>
-                <Link
-                  href="/how-to-buy"
-                  className="inline-flex items-center gap-2 px-4 py-3 text-sm font-semibold text-gray-700 transition-colors hover:text-blue-600 sm:px-6 sm:py-4 sm:text-base"
-                >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 sm:h-10 sm:w-10">
-                    <Play className="h-3 w-3 text-blue-600 ml-0.5 sm:h-4 sm:w-4" />
-                  </div>
-                  How It Works
-                </Link>
-              </motion.div>
-
-              {/* Stats */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="mt-8 grid grid-cols-2 gap-4 border-t border-gray-200 pt-6 sm:mt-16 sm:grid-cols-4 sm:pt-8"
-              >
-                {stats.map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                  >
-                    <p className="text-xl font-black text-gray-900 sm:text-2xl lg:text-3xl">{stat.value}</p>
-                    <p className="mt-1 text-[10px] font-medium text-gray-500 uppercase tracking-wider sm:text-xs">{stat.label}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Right Content - Car Showcase */}
-            <div className="relative order-1 lg:order-2">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative"
-              >
-                {/* Main Image Container */}
-                <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-to-br from-gray-100 to-gray-50 shadow-2xl shadow-gray-300/50">
-                  <Image
-                    src="https://images.unsplash.com/photo-1714348938045-0c74379cd4d9?w=1200"
-                    alt="Genesis GV80"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-
-                  {/* Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-
-                  {/* Car Info Badge */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.8 }}
-                    className="absolute bottom-6 left-6 right-6"
-                  >
-                    <div className="flex items-end justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-white/80">Featured Vehicle</p>
-                        <p className="text-2xl font-bold text-white">Genesis GV80</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-medium text-white/80">Starting from</p>
-                        <p className="text-2xl font-bold text-white">$65,000</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-
-                {/* Floating Badge - Top Right (hidden on mobile) */}
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8"
+            >
+              {stats.map((stat, index) => (
                 <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.9 }}
-                  className="absolute -top-4 -right-4 hidden sm:block sm:-right-6"
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
                 >
-                  <div className="flex items-center gap-2 rounded-2xl bg-white px-4 py-3 shadow-xl shadow-gray-200/50 border border-gray-100">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-500">
-                      <CheckCircle className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-900">Quality Verified</p>
-                      <p className="text-xs text-gray-500">150-point inspection</p>
-                    </div>
-                  </div>
+                  <p className="text-2xl font-black text-white sm:text-3xl">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-xs font-medium uppercase tracking-wider text-white/50 sm:text-sm">
+                    {stat.label}
+                  </p>
                 </motion.div>
-
-                {/* Floating Badge - Bottom Left (hidden on mobile) */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 1 }}
-                  className="absolute -bottom-4 -left-4 hidden sm:block sm:-left-6"
-                >
-                  <div className="flex items-center gap-2 rounded-2xl bg-white px-4 py-3 shadow-xl shadow-gray-200/50 border border-gray-100">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500">
-                      <Globe className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-900">Free Shipping</p>
-                      <p className="text-xs text-gray-500">To 50+ countries</p>
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              {/* Small Car Thumbnails */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.1 }}
-                className="mt-4 flex gap-2 sm:mt-6 sm:gap-3"
-              >
-                {[
-                  { img: 'https://images.unsplash.com/photo-1590656371803-0ae2ae004989?w=300', name: 'Sonata' },
-                  { img: 'https://images.unsplash.com/photo-1688893287874-ac7fbd686c24?w=300', name: 'K5' },
-                  { img: 'https://images.unsplash.com/photo-1714348938323-534552cbfad9?w=300', name: 'G80' },
-                ].map((car, index) => (
-                  <div
-                    key={index}
-                    className="group relative h-16 w-20 cursor-pointer overflow-hidden rounded-lg bg-gray-100 transition-transform hover:scale-105 sm:h-20 sm:w-24 sm:rounded-xl"
-                  >
-                    <Image
-                      src={car.img}
-                      alt={car.name}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/20" />
-                  </div>
-                ))}
-                <Link
-                  href="/cars"
-                  className="flex h-16 w-20 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 text-gray-400 transition-colors hover:border-blue-400 hover:text-blue-500 sm:h-20 sm:w-24 sm:rounded-xl"
-                >
-                  <span className="text-xl sm:text-2xl">+</span>
-                </Link>
-              </motion.div>
-            </div>
+              ))}
+            </motion.div>
           </div>
         </div>
 
-        {/* Bottom Brand Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.2 }}
-          className="absolute bottom-0 left-0 right-0 border-t border-gray-100 bg-white/80 backdrop-blur-sm"
-        >
-          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-            <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-              <p className="text-xs font-medium text-gray-500 sm:text-sm">Trusted brands we export</p>
-              <div className="flex items-center gap-4 sm:gap-8">
-                {['Hyundai', 'Kia', 'Genesis'].map((brand) => (
-                  <span key={brand} className="text-sm font-bold text-gray-400 transition-colors hover:text-gray-900 sm:text-lg">
-                    {brand}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
+        {/* Bottom gradient fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 bg-muted">
+      {/* ===== SECTION 2: AUCTION GALLERIES ===== */}
+      <section className="py-20 sm:py-28 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Why Choose <span className="gradient-text">Jungcar</span>
+          {/* Section header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <span className="inline-block rounded-full bg-[#0a4d0e]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#0a4d0e]">
+              Our Auction Partners
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+              Korea&apos;s Largest{' '}
+              <span className="text-[#0a4d0e]">Auto Auctions</span>
             </h2>
-            <p className="mt-4 text-muted-foreground">
-              We make exporting Korean cars simple, reliable, and affordable
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              We source vehicles directly from Korea&apos;s most reputable auto
+              auction houses, ensuring competitive prices and verified quality
             </p>
-          </div>
+          </motion.div>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {features.map((feature, index) => (
+          {/* Masonry-style gallery */}
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {auctionImages.map((img, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={`group relative overflow-hidden rounded-2xl ${
+                  index === 0 || index === 3
+                    ? 'sm:row-span-2 aspect-[3/4] sm:aspect-auto'
+                    : 'aspect-[4/3]'
+                }`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a4d0e]/70 via-[#0a4d0e]/0 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute bottom-0 left-0 right-0 translate-y-full p-5 transition-transform duration-500 group-hover:translate-y-0">
+                  <p className="text-sm font-semibold text-white">{img.label}</p>
+                </div>
+                {/* Corner accent */}
+                <div className="absolute top-4 left-4 flex h-8 w-8 items-center justify-center rounded-lg bg-[#0a4d0e]/80 backdrop-blur-sm">
+                  <Gavel className="h-4 w-4 text-[#D4A843]" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-10 text-center"
+          >
+            <Link
+              href="/auction"
+              className="group inline-flex items-center gap-2 rounded-xl bg-[#0a4d0e] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#0d6611] hover:shadow-lg hover:shadow-[#0a4d0e]/20"
+            >
+              Learn More About Auctions
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ===== SECTION 3: AUCTION SCHEDULE ===== */}
+      <section className="py-20 sm:py-28 bg-[#f5f5f5]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <span className="inline-block rounded-full bg-[#0a4d0e]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#0a4d0e]">
+              Weekly Schedule
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#0a4d0e] sm:text-4xl lg:text-5xl">
+              Auction <span className="text-[#D4A843]">Calendar</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-[#0a4d0e]/60">
+              Stay updated with Korea&apos;s major auto auction schedules. We attend every session
+              to find the best vehicles for our clients.
+            </p>
+          </motion.div>
+
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {auctionSchedule.map((auction, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="card-hover rounded-2xl bg-card p-6 border border-border"
+                className="group relative overflow-hidden rounded-2xl border border-[#0a4d0e]/10 bg-white p-6 shadow-sm transition-all hover:border-[#0a4d0e]/30 hover:shadow-lg"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white">
-                  <feature.icon className="h-6 w-6" />
-                </div>
-                <h3 className="mt-4 text-lg font-semibold">{feature.title}</h3>
-                <p className="mt-2 text-muted-foreground">
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Cars Section */}
-      <section className="py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between">
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Featured Vehicles
-              </h2>
-              <p className="mt-2 text-muted-foreground">
-                Handpicked quality vehicles ready for export
-              </p>
-            </div>
-            <Link
-              href="/cars"
-              className="hidden items-center gap-2 text-sm font-medium text-primary hover:underline sm:flex"
-            >
-              View All Cars
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredCars.map((car) => (
-              <CarCard key={car.id} {...car} />
-            ))}
-          </div>
-
-          <div className="mt-8 text-center sm:hidden">
-            <Link
-              href="/cars"
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white"
-            >
-              View All Cars
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Brands Section */}
-      <section className="py-20 bg-muted">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Popular Brands
-            </h2>
-            <p className="mt-2 text-muted-foreground">
-              We specialize in major Korean automobile brands
-            </p>
-          </div>
-
-          <div className="mt-12 grid grid-cols-3 gap-4 md:grid-cols-6">
-            {brands.map((brand, index) => (
-              <motion.div
-                key={brand.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-              >
-                <Link
-                  href={`/cars?brand=${brand.name}`}
-                  className="flex h-24 items-center justify-center rounded-2xl bg-card border border-border transition-all hover:border-primary hover:shadow-lg"
-                >
-                  <span className="text-lg font-semibold text-foreground">
-                    {brand.name}
+                {/* Header */}
+                <div className="flex items-start justify-between">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a4d0e]/10">
+                    <Gavel className="h-6 w-6 text-[#0a4d0e]" />
+                  </div>
+                  <span className="rounded-full bg-[#0a4d0e]/10 px-3 py-1 text-xs font-medium text-[#0a4d0e]/70">
+                    {auction.vehicles} cars
                   </span>
-                </Link>
+                </div>
+
+                {/* Name */}
+                <h3 className="mt-5 text-lg font-bold text-[#0a4d0e]">{auction.name}</h3>
+
+                {/* Details */}
+                <div className="mt-4 space-y-3">
+                  <div className="flex items-center gap-3 text-sm text-[#0a4d0e]/60">
+                    <MapPin className="h-4 w-4 flex-shrink-0 text-[#0a4d0e]" />
+                    {auction.location}
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-[#0a4d0e]/60">
+                    <Calendar className="h-4 w-4 flex-shrink-0 text-[#0a4d0e]" />
+                    {auction.days}
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-[#0a4d0e]/60">
+                    <Clock className="h-4 w-4 flex-shrink-0 text-[#0a4d0e]" />
+                    {auction.time}
+                  </div>
+                </div>
+
+                {/* Hover accent */}
+                <div className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#0a4d0e] to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bottom note */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-10 text-center text-sm text-[#0a4d0e]/40"
+          >
+            Schedules may vary on national holidays. Contact us for the latest updates.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* ===== SECTION 4: TEAM ===== */}
+      <section className="py-20 sm:py-28 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <span className="inline-block rounded-full bg-[#0a4d0e]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#0a4d0e]">
+              Our People
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+              Meet the <span className="text-[#0a4d0e]">JungCar Team</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Our experienced professionals are dedicated to delivering the best
+              Korean vehicles to customers worldwide
+            </p>
+          </motion.div>
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {teamMembers.map((member, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="group relative overflow-hidden rounded-2xl bg-card border border-border transition-all hover:shadow-xl hover:shadow-[#0a4d0e]/5 hover:-translate-y-1"
+              >
+                {/* Photo */}
+                <div className="relative aspect-square overflow-hidden bg-muted">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                {/* Info */}
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-[#0a4d0e]">{member.name}</h3>
+                  <p className="mt-1 text-sm font-medium text-[#0a4d0e]/60">{member.role}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20">
+      {/* ===== CTA SECTION ===== */}
+      <section className="py-20 bg-[#f5f5f5]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[var(--primary)] to-blue-700 p-8 lg:p-16">
-            <div className="absolute right-0 top-0 -mt-20 -mr-20 h-80 w-80 rounded-full bg-white/10" />
-            <div className="absolute left-0 bottom-0 -mb-20 -ml-20 h-60 w-60 rounded-full bg-white/10" />
+          <div className="relative overflow-hidden rounded-3xl border border-[#0a4d0e]/10 bg-white p-8 shadow-lg sm:p-12 lg:p-20">
+            {/* Decorative elements */}
+            <div className="absolute right-0 top-0 -mt-20 -mr-20 h-80 w-80 rounded-full bg-[#0a4d0e]/5" />
+            <div className="absolute left-0 bottom-0 -mb-20 -ml-20 h-60 w-60 rounded-full bg-[#0a4d0e]/5" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-[#0a4d0e]/5 blur-3xl" />
 
-            <div className="relative">
-              <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                Ready to Find Your Perfect Car?
-              </h2>
-              <p className="mt-4 max-w-xl text-lg text-blue-100">
-                Browse our extensive inventory of quality Korean vehicles.
-                Contact us for personalized assistance with your purchase.
-              </p>
+            <div className="relative text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-3xl font-bold text-[#0a4d0e] sm:text-4xl lg:text-5xl">
+                  Ready to Find Your{' '}
+                  <span className="text-[#D4A843]">Perfect Car?</span>
+                </h2>
+                <p className="mx-auto mt-4 max-w-xl text-base text-[#0a4d0e]/60 sm:text-lg">
+                  Browse our inventory or let our auction experts find the ideal
+                  vehicle for you. We ship to over 50 countries worldwide.
+                </p>
 
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link
-                  href="/cars"
-                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-medium text-primary transition-all hover:scale-105"
-                >
-                  Browse Inventory
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/about"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-white/10"
-                >
-                  Contact Us
-                </Link>
-              </div>
+                <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+                  <Link
+                    href="/cars"
+                    className="group inline-flex items-center gap-2 rounded-xl bg-[#0a4d0e] px-8 py-3.5 font-semibold text-white transition-all hover:bg-[#0d6611] hover:shadow-lg hover:shadow-[#0a4d0e]/25"
+                  >
+                    Browse Inventory
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                  <Link
+                    href="/about"
+                    className="inline-flex items-center gap-2 rounded-xl border-2 border-[#0a4d0e]/30 px-8 py-3.5 font-semibold text-[#0a4d0e] transition-all hover:border-[#0a4d0e]/60 hover:bg-[#0a4d0e]/5"
+                  >
+                    Contact Us
+                  </Link>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Trust Indicators */}
-      <section className="border-t border-border py-12">
+      {/* Trust bar */}
+      <section className="border-t border-border py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-8 text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
-              <span className="text-sm">Verified Seller</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
-              <span className="text-sm">Quality Inspection</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
-              <span className="text-sm">Secure Payment</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
-              <span className="text-sm">Export Documentation</span>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-muted-foreground">
+            {[
+              { icon: Shield, text: 'Quality Guaranteed' },
+              { icon: CheckCircle, text: 'Verified Vehicles' },
+              { icon: Globe, text: 'Global Shipping' },
+              { icon: Truck, text: 'Fast Delivery' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <item.icon className="h-4 w-4 text-[#0a4d0e]" />
+                <span className="text-sm font-medium">{item.text}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>

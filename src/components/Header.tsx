@@ -40,7 +40,7 @@ export default function Header() {
         <div className="flex h-20 items-center justify-between lg:h-24">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative h-14 w-48 sm:h-16 sm:w-60 transition-transform group-hover:scale-105">
+            <div className="relative h-16 w-56 sm:h-20 sm:w-72 transition-transform group-hover:scale-105">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/Jungcar/images/logo/logo.png"
@@ -51,12 +51,12 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex lg:items-center lg:gap-1">
+          <div className="hidden lg:flex lg:items-center lg:gap-2">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="relative px-4 py-2 text-sm font-medium text-white/80 transition-all hover:text-[#D4A843] group"
+                className="relative px-5 py-2.5 text-base font-medium text-white/80 transition-all hover:text-[#D4A843] group"
               >
                 {item.name}
                 <span className="absolute bottom-0 left-1/2 h-[2px] w-0 -translate-x-1/2 bg-[#D4A843] transition-all duration-300 group-hover:w-3/4" />
@@ -64,7 +64,7 @@ export default function Header() {
             ))}
             <Link
               href="/cars"
-              className="ml-4 rounded-lg border border-[#D4A843] bg-[#D4A843]/10 px-5 py-2.5 text-sm font-semibold text-[#D4A843] transition-all hover:bg-[#D4A843] hover:text-[#0a4d0e] hover:shadow-lg hover:shadow-[#D4A843]/20"
+              className="ml-4 rounded-lg border border-[#D4A843] bg-[#D4A843]/10 px-6 py-3 text-base font-semibold text-[#D4A843] transition-all hover:bg-[#D4A843] hover:text-[#0a4d0e] hover:shadow-lg hover:shadow-[#D4A843]/20"
             >
               View Inventory
             </Link>

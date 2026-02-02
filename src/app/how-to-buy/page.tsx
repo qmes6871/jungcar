@@ -131,7 +131,7 @@ export default function HowToBuyPage() {
               How to <span className="text-[#D4A843]">Buy</span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-white/80">
-              Your step-by-step guide to purchasing a premium Korean vehicle
+              Your step-by-step guide to purchasing a premium vehicle
             </p>
           </motion.div>
         </div>

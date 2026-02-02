@@ -57,10 +57,10 @@ export default function Footer() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white/60 transition-all hover:bg-[#D4A843] hover:text-[#0a4d0e] hover:scale-110"
+                    className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white/60 transition-all hover:bg-[#D4A843] hover:text-[#0a4d0e] hover:scale-110"
                     aria-label={item.name}
                   >
-                    <item.icon className="h-4 w-4" />
+                    <item.icon className="h-5 w-5" />
                   </a>
                 ))}
               </div>

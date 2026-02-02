@@ -22,12 +22,12 @@ const stats = [
 ];
 
 const auctionImages = [
-  { src: '/Jungcar/images/auction/autohub/autohub-1.jpg', alt: 'AutoHub Auction Center', label: 'AutoHub Auction' },
-  { src: '/Jungcar/images/auction/autohub/autohub-2.jpg', alt: 'AutoHub Auction Interior', label: 'Auction Floor' },
-  { src: '/Jungcar/images/auction/autohub/autohub-3.jpg', alt: 'AutoHub Vehicle Lineup', label: 'Vehicle Inspection' },
-  { src: '/Jungcar/images/auction/glovis/glovis-1.jpg', alt: 'Hyundai Glovis Auction', label: 'Hyundai Glovis' },
-  { src: '/Jungcar/images/auction/glovis/glovis-2.jpg', alt: 'Glovis Auction Hall', label: 'Glovis Auction Hall' },
-  { src: '/Jungcar/images/auction/glovis/glovis-3.jpg', alt: 'Glovis Vehicle Yard', label: 'Vehicle Yard' },
+  { src: '/Jungcar/images/auction/1.jpg', alt: 'Korea Auto Auction', label: 'Auto Auction' },
+  { src: '/Jungcar/images/auction/2.jpg', alt: 'Auction Floor', label: 'Auction Floor' },
+  { src: '/Jungcar/images/auction/3.jpg', alt: 'Vehicle Inspection', label: 'Vehicle Inspection' },
+  { src: '/Jungcar/images/auction/4.jpg', alt: 'Auction Center', label: 'Auction Center' },
+  { src: '/Jungcar/images/auction/5.jpg', alt: 'Vehicle Yard', label: 'Vehicle Yard' },
+  { src: '/Jungcar/images/auction/6.jpg', alt: 'Premium Vehicles', label: 'Premium Vehicles' },
 ];
 
 const auctionSchedule = [
@@ -66,12 +66,13 @@ const auctionSchedule = [
 ];
 
 const teamMembers = [
-  { name: 'James Jung', role: 'CEO & Founder', image: '/Jungcar/images/staff/staff-8.png' },
-  { name: 'Sarah Kim', role: 'Sales Director', image: '/Jungcar/images/staff/staff-1.jpg' },
-  { name: 'Yuna Lee', role: 'Export Manager', image: '/Jungcar/images/staff/staff-2.jpg' },
-  { name: 'Jiwon Park', role: 'Auction Specialist', image: '/Jungcar/images/staff/staff-5.jpg' },
-  { name: 'Daniel Choi', role: 'Vehicle Inspector', image: '/Jungcar/images/staff/staff-6.jpg' },
-  { name: 'Minjae Seo', role: 'Logistics Manager', image: '/Jungcar/images/staff/staff-7.jpg' },
+  { name: 'James Jung', role: 'CEO & Founder', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058.jpg' },
+  { name: 'Sarah Kim', role: 'Sales Director', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_01.jpg' },
+  { name: 'Yuna Lee', role: 'Export Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_02.jpg' },
+  { name: 'Jiwon Park', role: 'Auction Specialist', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_03.jpg' },
+  { name: 'Daniel Choi', role: 'Vehicle Inspector', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_04.jpg' },
+  { name: 'Minjae Seo', role: 'Logistics Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_05.jpg' },
+  { name: 'Hyunwoo Kim', role: 'Customer Support', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_06.jpg' },
 ];
 
 export default function Home() {
@@ -125,9 +126,9 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mt-6 max-w-lg text-base leading-relaxed text-white/80 sm:text-lg"
             >
-              Export premium Hyundai, Kia & Genesis vehicles from Korea&apos;s
-              largest auto auctions. Quality inspected, competitively priced,
-              delivered worldwide.
+              Export premium Hyundai, Kia, BMW, Mercedes-Benz, Audi and more
+              from Korea&apos;s largest auto auctions. Quality inspected,
+              competitively priced, delivered worldwide.
             </motion.p>
 
             {/* CTA */}
@@ -206,7 +207,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* Masonry-style gallery */}
+          {/* Gallery grid */}
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {auctionImages.map((img, index) => (
               <motion.div
@@ -215,11 +216,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`group relative overflow-hidden rounded-2xl ${
-                  index === 0 || index === 3
-                    ? 'sm:row-span-2 aspect-[3/4] sm:aspect-auto'
-                    : 'aspect-[4/3]'
-                }`}
+                className="group relative overflow-hidden rounded-2xl aspect-[4/3]"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -355,8 +352,9 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {teamMembers.map((member, index) => (
+          {/* First row - 3 members */}
+          <div className="mt-14 grid gap-6 grid-cols-1 sm:grid-cols-3">
+            {teamMembers.slice(0, 3).map((member, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
@@ -366,12 +364,41 @@ export default function Home() {
                 className="group relative overflow-hidden rounded-2xl bg-card border border-border transition-all hover:shadow-xl hover:shadow-[#0a4d0e]/5 hover:-translate-y-1"
               >
                 {/* Photo */}
-                <div className="relative aspect-square overflow-hidden bg-muted">
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#f5f5f5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                {/* Info */}
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-[#0a4d0e]">{member.name}</h3>
+                  <p className="mt-1 text-sm font-medium text-[#0a4d0e]/60">{member.role}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Second row - 4 members */}
+          <div className="mt-6 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            {teamMembers.slice(3, 7).map((member, index) => (
+              <motion.div
+                key={index + 3}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: (index + 3) * 0.1 }}
+                className="group relative overflow-hidden rounded-2xl bg-card border border-border transition-all hover:shadow-xl hover:shadow-[#0a4d0e]/5 hover:-translate-y-1"
+              >
+                {/* Photo */}
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#f5f5f5]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
                 {/* Info */}

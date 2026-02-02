@@ -29,9 +29,9 @@ const auctionHouses = [
     vehicles: 'All vehicle types except vans',
     volume: '3,000+ vehicles per session',
     images: [
-      '/Jungcar/images/auction/glovis/glovis-1.jpg',
-      '/Jungcar/images/auction/glovis/glovis-2.jpg',
-      '/Jungcar/images/auction/glovis/glovis-3.jpg',
+      '/Jungcar/images/auction/1.jpg',
+      '/Jungcar/images/auction/2.jpg',
+      '/Jungcar/images/auction/3.jpg',
     ],
   },
   {
@@ -43,9 +43,9 @@ const auctionHouses = [
     vehicles: 'All vehicle types',
     volume: '1,500+ vehicles per session',
     images: [
-      '/Jungcar/images/auction/autohub/autohub-1.jpg',
-      '/Jungcar/images/auction/autohub/autohub-2.jpg',
-      '/Jungcar/images/auction/autohub/autohub-3.jpg',
+      '/Jungcar/images/auction/4.jpg',
+      '/Jungcar/images/auction/5.jpg',
+      '/Jungcar/images/auction/6.jpg',
     ],
   },
 ];

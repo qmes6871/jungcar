@@ -366,7 +366,7 @@ export default function CarsPage() {
               Browse Our <span className="text-[#D4A843]">Cars</span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-white/80">
-              {filteredCars.length} quality Korean vehicles available for export
+              Browse all our premium vehicles.
             </p>
 
             {/* Search Bar */}

@@ -27,47 +27,37 @@ import {
 const stats = [
   { icon: Users, value: '5,000+', label: 'Satisfied Customers' },
   { icon: Globe, value: '50+', label: 'Countries Served' },
-  { icon: Award, value: '10+', label: 'Years Experience' },
+  { icon: Award, value: '15+', label: 'Years Experience' },
   { icon: Truck, value: '500+', label: 'Monthly Exports' },
 ];
 
-const whyChoose = [
-  {
-    icon: Shield,
-    title: 'Quality Assurance',
-    description: 'Every vehicle undergoes thorough multi-point inspection before export to ensure top quality.',
-  },
+const sections = [
   {
     icon: Search,
-    title: 'Competitive Pricing',
-    description: 'Direct sourcing from Korean auctions means the best market prices with full transparency.',
+    title: 'Our Mission',
+    description: 'Our mission is to make used car exports simple, transparent, and dependable. By providing clear information, honest inspections, and well-prepared vehicles, we help our partners reduce risk and trade with confidence.',
   },
   {
-    icon: Globe,
-    title: 'Global Shipping',
-    description: 'Reliable RoRo and container shipping to over 50 countries with full documentation support.',
+    icon: Shield,
+    title: 'Our Team & Quality Control',
+    description: 'Jungcar is operated by automotive professionals with extensive knowledge of vehicle conditions and export standards. Each vehicle undergoes a strict inspection process, covering engine performance, mechanical systems, exterior, and interior condition. Only vehicles that meet our stringent standards are approved for export.',
   },
   {
     icon: Handshake,
-    title: 'Dedicated Support',
-    description: 'Personalized service via WhatsApp, email, and phone throughout your entire buying journey.',
+    title: 'Our Responsibility',
+    description: 'Our responsibility does not end with the inspection. Jungcar manages documentation, logistics, and ocean freight, taking full responsibility until the vehicle safely arrives at its destination.',
+  },
+  {
+    icon: Globe,
+    title: 'Global Partners',
+    description: 'Trusted by buyers in the Middle East, South America, Europe, the CIS, South Asia, and Africa, we are always open to cooperation with global partners who value reliability and accountability.',
   },
 ];
 
-const teamMembers = [
-  { name: 'James Jung', role: 'CEO & Founder', image: '/Jungcar/images/staff/staff-8.png' },
-  { name: 'Sarah Kim', role: 'Sales Director', image: '/Jungcar/images/staff/staff-1.jpg' },
-  { name: 'Yuna Lee', role: 'Export Manager', image: '/Jungcar/images/staff/staff-2.jpg' },
-  { name: 'Jiwon Park', role: 'Auction Specialist', image: '/Jungcar/images/staff/staff-5.jpg' },
-  { name: 'Daniel Choi', role: 'Vehicle Inspector', image: '/Jungcar/images/staff/staff-6.jpg' },
-  { name: 'Minjae Seo', role: 'Logistics Manager', image: '/Jungcar/images/staff/staff-7.jpg' },
-];
-
 const contactInfo = [
-  { icon: MapPin, label: 'Address', value: 'Seoul, South Korea', link: null },
+  { icon: MapPin, label: 'Address', value: '경기도 시흥시 산기대학로 163 A동 330호', link: null },
   { icon: Phone, label: 'Phone', value: '+82 10-1234-5678', link: 'tel:+821012345678' },
   { icon: Mail, label: 'Email', value: 'info@jungcar.com', link: 'mailto:info@jungcar.com' },
-  { icon: Clock, label: 'Business Hours', value: 'Mon-Fri: 9:00 AM - 6:00 PM (KST)', link: null },
 ];
 
 const socialLinks = [
@@ -114,15 +104,13 @@ export default function AboutPage() {
                 About Us
               </span>
               <h1 className="mt-5 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-                Beyond Borders,
+                Your Long-Term
                 <br />
-                Elevating{' '}
-                <span className="text-[#D4A843]">Your Car&apos;s Value</span>
+                <span className="text-[#D4A843]">Export Partner</span>
               </h1>
               <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70 sm:text-lg">
-                JungCar is Korea&apos;s trusted auto export partner. We source premium
-                vehicles from Korea&apos;s largest auctions and deliver them worldwide
-                with full quality assurance since 2014.
+                Jungcar is a professional used car export company with over 15 years of experience in global vehicle trading.
+                Built on expertise and accountability.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
@@ -179,19 +167,18 @@ export default function AboutPage() {
                 Who We Are
               </span>
               <h2 className="mt-4 text-3xl font-bold text-[#0a4d0e] sm:text-4xl">
-                Exporting Quality Korean Cars{' '}
-                <span className="text-[#D4A843]">Worldwide</span>
+                Trust Built on{' '}
+                <span className="text-[#D4A843]">Experience</span>
               </h2>
               <p className="mt-5 text-[#0a4d0e]/60 leading-relaxed">
-                JungCar is a leading Korean used car exporter, dedicated to providing
-                high-quality vehicles to customers around the world. With over a decade of
-                experience in the automotive industry, we have built a reputation for
-                excellence, reliability, and customer satisfaction.
+                We specialize in supplying carefully inspected used vehicles to overseas markets,
+                providing our partners with a safe, reliable, and convenient export experience.
+                In international trade, trust is essential.
               </p>
               <p className="mt-4 text-[#0a4d0e]/60 leading-relaxed">
-                We specialize in exporting premium Korean brands including Hyundai, Kia,
-                and Genesis. Our team carefully inspects each vehicle and handles all
-                export documentation, shipping, and customs clearance to your destination.
+                Jungcar focuses on accuracy, professionalism, and responsibility, ensuring that
+                every vehicle meets actual market expectations before it is shipped. We do not
+                sacrifice quality for speed. We deliver quality that lasts.
               </p>
               <div className="mt-8">
                 <Link
@@ -233,7 +220,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ===== WHY CHOOSE US ===== */}
+      {/* ===== OUR VALUES ===== */}
       <section className="py-20 sm:py-28 bg-[#f5f5f5]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -243,82 +230,33 @@ export default function AboutPage() {
             className="text-center"
           >
             <span className="inline-block rounded-full bg-[#0a4d0e]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#0a4d0e]">
-              Why JungCar
+              What We Stand For
             </span>
             <h2 className="mt-4 text-3xl font-bold text-[#0a4d0e] sm:text-4xl">
-              Why Choose <span className="text-[#D4A843]">Us?</span>
+              Expertise &amp; <span className="text-[#D4A843]">Accountability</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-[#0a4d0e]/60">
-              We are committed to providing the best service from vehicle selection to delivery
+              Jungcar is your long-term export partner—built on expertise and accountability
             </p>
           </motion.div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {whyChoose.map((item, index) => (
+          <div className="mt-14 grid gap-6 sm:grid-cols-2">
+            {sections.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group rounded-2xl border border-[#0a4d0e]/10 bg-white p-6 shadow-sm transition-all hover:shadow-lg hover:border-[#0a4d0e]/20 hover:-translate-y-1"
+                className="group rounded-2xl border border-[#0a4d0e]/10 bg-white p-8 shadow-sm transition-all hover:shadow-lg hover:border-[#0a4d0e]/20"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a4d0e]/10 transition-colors group-hover:bg-[#0a4d0e] group-hover:text-white">
-                  <item.icon className="h-6 w-6 text-[#0a4d0e] group-hover:text-white" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#0a4d0e]/10 transition-colors group-hover:bg-[#0a4d0e]">
+                  <item.icon className="h-7 w-7 text-[#0a4d0e] group-hover:text-white" />
                 </div>
-                <h3 className="mt-5 text-lg font-bold text-[#0a4d0e]">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#0a4d0e]/60">
+                <h3 className="mt-6 text-xl font-bold text-[#0a4d0e]">{item.title}</h3>
+                <p className="mt-3 text-base leading-relaxed text-[#0a4d0e]/60">
                   {item.description}
                 </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== TEAM ===== */}
-      <section className="py-20 sm:py-28 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <span className="inline-block rounded-full bg-[#0a4d0e]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#0a4d0e]">
-              Our People
-            </span>
-            <h2 className="mt-4 text-3xl font-bold text-[#0a4d0e] sm:text-4xl">
-              Meet the <span className="text-[#D4A843]">JungCar Team</span>
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-[#0a4d0e]/60">
-              Our experienced professionals are dedicated to delivering the best
-              Korean vehicles to customers worldwide
-            </p>
-          </motion.div>
-
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="group relative overflow-hidden rounded-2xl bg-white border border-[#0a4d0e]/10 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
-              >
-                <div className="relative aspect-square overflow-hidden bg-[#f5f5f5]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-bold text-[#0a4d0e]">{member.name}</h3>
-                  <p className="mt-1 text-sm font-medium text-[#0a4d0e]/60">{member.role}</p>
-                </div>
               </motion.div>
             ))}
           </div>
@@ -395,6 +333,26 @@ export default function AboutPage() {
                       <social.icon className="h-5 w-5" />
                     </a>
                   ))}
+                </div>
+              </div>
+
+              {/* Google Map */}
+              <div className="mt-8">
+                <p className="text-sm font-semibold uppercase tracking-wider text-[#0a4d0e]/40">
+                  Our Location
+                </p>
+                <div className="mt-3 overflow-hidden rounded-xl border border-[#0a4d0e]/10 shadow-sm">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3174.5!2d126.7339!3d37.3405!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b6f!2z7IKw6riw64yA7ZWZ66GcIDE2Mywg7Iuc7Z2l7IucLCDqsr3quLDrj4Q!5e0!3m2!1sko!2skr!4v1706861234567!5m2!1sko!2skr"
+                    width="100%"
+                    height="200"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="JungCar Location - 경기도 시흥시 산기대학로 163"
+                    className="w-full"
+                  />
                 </div>
               </div>
             </motion.div>

@@ -1,0 +1,2840 @@
+/**
+ * Supported Browser : MSIE, Chrome, FireFox, Safari
+ * 
+ * Object       : common-util.js
+ * Description  : 공통 Util용 스크립트 
+ * Author       : xeogen
+ * Since        : 2015.11.04.
+ * Version      : 1.0
+ * 
+ * Modification Information
+ *     since          author              description
+ *  ===========    =============    ===========================
+ *  2015.11.04.    xeogen           최초 생성
+ */
+
+var $$MENU_ID;
+
+/**
+ * 앞뒤 공백 제거
+ * @returns 공백이 제거된 문자열
+ */
+String.prototype.trim = function(){
+    return this.replace(/(^\s*)|(\s*$)/gi, '');
+};
+
+
+/**
+ * Java StartWith 구현
+ * @param   시작문자(문자열)
+ * @returns Boolean : 시작문자유무(true:시작문자)
+ */
+String.prototype.startWith = function(str){
+    return this.indexOf(str) == 0;
+};
+
+
+/**
+ * 문자열 자르기
+ * @returns 공백이 제거된 문자열
+ */
+String.prototype.substr = function(sIndex, eIndex){
+    return this.substring(sIndex, eIndex);
+};
+
+
+/**
+ * 대문자 변환 
+ * @returns 대문자로 변환된 문자열
+ */
+String.prototype.upper = function(){
+    return this.toUpperCase();
+};
+
+/**
+ * 소문자 변환 
+ * @returns 소문자로 변환된 문자열
+ */
+String.prototype.lower = function(){
+    return this.toLowerCase();
+};
+
+/**
+ * 페이지 로딩시 bind 되어야 할 이벤트 등록 
+ */
+$(function() {  
+    
+    $(".alert_box_close").click(function(){
+        $("#alert_box").hide(); 
+     });
+    
+    /** 상세검색 열기닫기 s **/
+/*    $('.search_all_car .btn_searchall').on('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $(this).parent().siblings().removeClass('open');
+        $(this).parent().toggleClass('open');
+        
+        if($(this).parent().hasClass('open')){
+            $(this).text('상세 검색 닫기');
+        }else{
+            $(this).text('상세 검색 열기');
+        }
+    });*/
+    $('#andesignBtn').on('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $(this).parent().parent().siblings().removeClass('open');
+        $(this).parent().parent().toggleClass('open');
+        
+        if($(this).parent().parent().hasClass('open')){
+            carInfoUtil.mode = "o";
+            $(".manufsch").hide();
+            $(this).text('상세 검색 닫기');
+            $("#brdiv").html("<br/><br/>");
+        }else{
+            carInfoUtil.mode = "c";
+            $(".manufsch").show();
+            $(this).text('상세 검색 열기');
+            $("#brdiv").html("");
+        }
+    });
+    
+    
+    if($(".anodesign").hasClass("open")){
+        $(".manufsch").hide();
+        carInfoUtil.mode = "o";
+    }else{
+        $(".manufsch").show();
+        carInfoUtil.mode = "c";
+    }
+    
+    /** 상세검색 열기닫기 e **/
+    
+    $("input[name=bMaker]").bind("click", function(){
+
+        var mcd = $(this).val();
+        
+        fnBMakers(mcd);            
+    });
+    
+
+    $( "#search_step" ).accordion({ /** 상세검색 선택 **/
+        collapsible : true, 
+        heightStyle: "content" 
+        //active : 'none'
+    });    
+
+    //$('img').error( function(){$(this).attr('src', '/images/main_bg.gif'); });
+    
+    $('#header ul.menu').ready(function(){
+        if ($$MENU_ID != undefined && $$MENU_ID != ''){
+            var depth = $$MENU_ID.split('|');    
+            $('li.'+depth[0]).addClass('on');        
+        }
+    });
+
+    $('#left').ready(function(){
+        if ($$MENU_ID != undefined && $$MENU_ID != ''){
+            var depth = $$MENU_ID.split('|');        
+            
+            for(var i = 1; i < depth.length; i++){
+                $('.'+depth[i]).addClass('on');
+            }                
+        }
+    });
+    
+    /**
+     * A태그중 .submit은 Form객체 전송시 사용
+     */
+    $('a.submit').on({
+        click : function(event){    
+            event.preventDefault();            
+            submitUtil.disabled();
+            $(this).parents('form').eq(0).submit();            
+        }
+    });
+    
+    /**
+     * Submit버튼 클릭시 disabled 시키기
+     */
+    $('button[type=submit]').on({
+        click : function(event){    
+            submitUtil.disabled();
+        }
+    });
+    
+    /**
+     * A태그중 .reset은 Form객체 초기화
+     * - hidden은 초기화 되지 않음.
+     */
+    $("a.reset").on({
+        click : function(event){ 
+            event.preventDefault();  
+            
+            if('새로 입력한 모든 내용을 초기화 하시겠습니까?\n저장하지 않는 정보는 삭제 됩니다.'){
+                $('form[name=mainForm]')[0].reset();
+                $('input[type=text]').eq(0).focus();
+            }
+        }
+    });
+    
+    /**
+     * A태그중 .searchSubmit .reportSubmit은 엑셀다운로드 Form객체 전송시 사용
+     */
+    $('a.searchSubmit, a.reportSubmit').on({
+        click : function(event){    
+            event.preventDefault();            
+            submitUtil.disabled();
+            
+            var form = $(this).parents('form').eq(0);
+            $(form).attr('action', $(this).attr('href'));
+            $(form).submit(); 
+        }
+    });
+
+    /**
+     * input태그중 .submit은 Form객체 전송시 사용
+     */
+    $('input.submit').on({
+        keypress :function(event){
+            if(event.which == '13'){
+                submitUtil.disabled();
+                $(this).parents('form').eq(0).submit();
+            }
+        }
+    });
+    
+    /**
+     * 입력글자 대문자로 변환
+     * enter submit금지
+     * space 금지
+     *
+     * 1 .enter key / space key 무시
+     * 2. 영문 소문자는 대문자로 치환 (a = 65, z = 90)
+     *    - enter = 13
+     *    - space = 32    
+     */
+    $('.txtUpperNoSubmit').on({
+        keypress :function(event){
+            if(event.which == '13' || event.which == '32'){
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            if(event.which >= 65 && event.which <= 90){
+                $(this).val($(this).val().toUpperCase());
+            }
+        }
+    });
+    
+    /**
+     * space 금지
+     */     
+    $(".noSpace").on({
+        keypress : function(event){
+            if(event.which == '32'){
+                event.preventDefault();
+            }
+        }
+    });    
+    
+    /**
+     *  숫자만 입력
+     *  0~9 : 48~57  
+     *  BAKC SPACE : 8
+     *  ENTER : 13
+     *  SPACE : 32    
+     */
+    $('.numOnly').css('imeMode', 'disabled').on({
+        keypress : function(event){   
+            if(event.which && !(event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13')) {
+                show_alertV2('숫자만 입력해 주세요.');
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+            
+            for(var i=0; i < len; i++){
+                if(str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58){
+                    replaceStr += str.charAt(i);
+                }
+            }
+            
+            $(this).val(replaceStr);
+        }
+    });
+    
+    /**
+     *  숫자, 소숫점만 입력
+     *  0~9 : 48~57  
+     *  BAKC SPACE : 8
+     *  ENTER : 13
+     *  SPACE : 32  
+     *  소숫점 : 46
+     */
+    $('.numOnly2').css('imeMode', 'disabled').on({
+        keypress : function(event){   
+            
+            if(event.which && !(event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13' || event.which == '46' )) {
+                show_alertV2('숫자만 입력해 주세요.');
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+
+            for(var i=0; i < len; i++){
+                if(str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58 || str.charCodeAt(i) == 46){
+                    replaceStr += str.charAt(i);
+                }
+            }
+
+            $(this).val(replaceStr);
+        }
+    });
+    
+    /**
+     *  숫자만 입력 
+     *  0~9 : 48~57  
+     *  BAKC SPACE : 8
+     *  ENTER : 13
+     *  SPACE : 32    
+     */
+    $('.numOnlyQ').css('imeMode', 'disabled').on({
+        keypress : function(event){   
+            if(event.which && !(event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13')) {
+                show_alertV2('숫자만 입력해 주세요.');
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+            
+            for(var i=0; i < len; i++){
+                if(str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58){
+                    replaceStr += str.charAt(i);
+                }
+            }
+            // tab 이동시 focus 문제인한 주석처리
+//            $(this).val(replaceStr);
+        }
+    });
+    
+    /**
+     *  숫자, 소숫점만 입력 
+     *  0~9 : 48~57  
+     *  BAKC SPACE : 8
+     *  ENTER : 13
+     *  SPACE : 32  
+     *  소숫점 : 46
+     */
+    $('.numOnlyQ2').css('imeMode', 'disabled').on({
+        keypress : function(event){   
+            
+            if(event.which && !(event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13' || event.which == '46' )) {
+                show_alertV2('숫자만 입력해 주세요.');
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+
+            for(var i=0; i < len; i++){
+                if(str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58 || str.charCodeAt(i) == 46){
+                    replaceStr += str.charAt(i);
+                }
+            }
+            // tab 이동시 focus 문제인한 주석처리        
+//            $(this).val(replaceStr);
+        }
+    });
+    
+    /**
+     *  숫자, 콤마만 입력
+     *  0~9 : 48~57  
+     *  BAKC SPACE : 8
+     *  ENTER : 13
+     *  SPACE : 32  
+     *  콤마 : 44
+     */
+    $('.numOnly3').css('imeMode', 'disabled').on({
+        keypress : function(event){   
+            
+            if(event.which && !(event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13' || event.which == '44' )) {
+                show_alertV2('숫자만 입력해 주세요.');
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+
+            for(var i=0; i < len; i++){
+                if(str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58 || str.charCodeAt(i) == 44){
+                    replaceStr += str.charAt(i);
+                }
+            }
+
+            $(this).val(replaceStr);
+        }
+    });
+    
+    /**
+     *  숫자, 소숫점만 입력 1자리, 3자리
+     *  0~9 : 48~57  
+     *  BAKC SPACE : 8
+     *  ENTER : 13
+     *  SPACE : 32  
+     *  소숫점 : 46
+     */
+    $('.numOnly21').css('imeMode', 'disabled').on({
+        keypress : function(event){   
+            
+            if(event.which && !(event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13' || event.which == '46' )) {
+                show_alertV2('숫자만 입력해 주세요.');
+                event.preventDefault();
+            }
+            
+            returnStr = $(this).val();
+        },
+        keyup : function(event){
+            var strArr = new Array();
+            var str = $(this).val();
+            var count = 0;
+            
+            strArr = str.split('.');
+                    
+            //소수점 갯수 체크
+            if(strArr.length > 2){
+                show_alertV2('소수점 1자리만 입력해 주세요.');
+                $(this).val(returnStr);
+            }
+            
+            //소수점 체크
+            if (strArr.length > 1) {
+                if (strArr[0].length > 3) {
+                    show_alertV2('3자리 숫자만 입력해 주세요.');
+                    $(this).val(returnStr);
+                }
+                if (strArr[1].length > 1) {
+                    show_alertV2('소수점 한자리만 입력해 주세요.');
+                    $(this).val(returnStr);
+                }
+            } else {
+                if (str.length > 3) {
+                    show_alertV2('3자리 숫자만 입력해 주세요.');
+                    $(this).val(returnStr);
+                }
+            }
+            
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+
+            for(var i=0; i < len; i++){
+                if(str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58 || str.charCodeAt(i) == 46){
+                    replaceStr += str.charAt(i);
+                }
+            }
+
+            $(this).val(replaceStr);
+        }
+    });
+    
+    
+    /**
+     *  전화번호 : 숫자와 -만 입력
+     *  0~9 : 48~57  
+     *  BAKC SPACE : 8
+     *  - : 45 
+     */
+    $('.telNumOnly').css('imeMode', 'disabled').on({
+        keypress : function(event){   
+            if(event.which && !(event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13' || event.which == '45' )) {
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+
+            for(var i=0; i < len; i++){
+                if(str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58 || str.charCodeAt(i) == 45){
+                    replaceStr += str.charAt(i);
+                }
+            }
+
+            $(this).val(replaceStr);
+        }
+    });
+
+    /**
+     * 기본으로 영문을 입력받아햐 할때 사용(IE만 가능)
+     */
+    $('.engMode').css('imeMode', 'disabled');
+    
+    /**
+     *  대소문자만 입력
+     *  0~9 : 48~57  
+     *  대문자문자 : 65~90
+     *  소문자: 97~122
+     */
+    $('.engOnly').css('imeMode', 'disabled').on({
+        keypress : function(event){   
+            if (!(event.which && (event.which  > 64 && event.which  < 91 || event.which == 8) || (event.which  > 96 && event.which  < 123 || event.which == 8))) {
+                show_alertV2('대소문자만 입력해 주세요.');
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+
+            for(var i=0; i < len; i++){
+                if((str.charCodeAt(i) > 64 && str.charCodeAt(i) < 91) || (str.charCodeAt(i) > 96 && str.charCodeAt(i) < 123)){
+                    replaceStr += str.charAt(i);
+                }
+            }
+
+            $(this).val(replaceStr);
+        }
+    });
+    
+    
+    /**
+     *  아이디에 영문/숫자만 가능
+     *  0~9 : 48~57  
+     *  대문자문자 : 65~90
+     *  소문자: 97~122
+     */
+    $('.idPattern').css('imeMode', 'disabled').on({
+        keypress : function(event){   
+            if (!(event.which && (event.which > 47 && event.which  < 58 || event.which == 8) || (event.which  > 64 && event.which  < 91 || event.which == 8) 
+                    || (event.which  > 96 && event.which  < 123 || event.which == 8) )) {
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+
+            for(var i=0; i < len; i++){
+                if( (str.charCodeAt(i) > 47  && str.charCodeAt(i) < 58) || (str.charCodeAt(i) > 64 && str.charCodeAt(i) < 91) 
+                        || (str.charCodeAt(i) > 96 && str.charCodeAt(i) < 123)){
+                    replaceStr += str.charAt(i);
+                }
+            }
+
+            $(this).val(replaceStr);
+        }
+    });
+    
+    /**
+     * 아이디에 특문입력금지
+    **/
+    /*$(".idPattern").on({
+        keypress : function(event){
+            if (!((event.which && (event.which  > 64 && event.which  < 91 || event.which == 8) || 
+                    (event.which  > 96 && event.which  < 123 || event.which == 8) || 
+                    (event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13' || event.which == '32') || 
+                    (event.which == '45' || event.which == '95' || event.which == '46')))) {
+                event.preventDefault();
+            }
+        }
+    });  */
+    
+    /**
+     * 모달 화면 열기
+     */
+    $('.btn_modal_open').on({
+        click : function(event){
+            event.preventDefault();
+            modalUtil.open($(this));
+        } 
+    });
+    
+    /**
+     * 모달 화면 닫기
+     */
+    $('.modal a.btn_pop_close, .modal a.btn_cancle').on({
+        click : function(event){
+            event.preventDefault();
+            modalUtil.close($(this));
+        } 
+    });   
+    
+    
+    /**
+     * 달력
+     */
+    try{
+        $('.datepicker').datepicker({
+            dateFormat: 'yy.mm.dd',
+            showOn: "button",
+            buttonText: "<span class='blind'>달력보기</span>",
+            showMonthAfterYear: true,
+            showOtherMonths: true,
+            changeMonth : false,
+            changeYear : false,
+            yearSuffix: '년',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            firstDay: 0,
+            beforeShow: function() {
+                $('.ui-datepicker').css('z-index', '999999');
+            },
+            onSelect : function(date) {
+                //예외 처리
+                if($(".rdoSearchType")){
+                    $(".rdoSearchType").prop("checked", false);
+                    //$("#searchSubType").val("02");
+                }
+            }
+        }).live({
+            keypress : function(event){   
+                if(event.which && !(event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13' || event.which == '32')) {
+                    show_alertV2('숫자만 입력해 주세요.');
+                    event.preventDefault();
+                }
+            },
+            keyup : function(event){
+                var obj = $(this);
+                var strDate = $(this).val().replace(/[-]/gi,"");
+                
+                if( isNaN(strDate) || strDate==null ){
+                    return;
+                }
+    
+                var maxSize = 8;
+                var size = strDate.length;
+    
+                if(size == maxSize || size > maxSize){
+                    if(!dateUtil.isDateFormat(strDate)){
+                        $(this).select();
+                        show_alertV2("날짜가 잘못 입력되었습니다.\n\n 다시 입력해주세요..");
+                        return;
+                    }
+                }
+    
+                if(size > 6 ){
+                    $(this).val(strDate.substring(0,4) + dateUtil.delimiter + strDate.substring(4,6) + dateUtil.delimiter + strDate.substring(6));
+                }else if(size >= 4 ){
+                    $(this).val(strDate.substring(0,4) + dateUtil.delimiter + strDate.substring(4));
+                }
+            }
+        });
+    }catch(e){ 
+        //show_alertV2('[ERROR DATEPICKER] message : ' + e.message); 
+    }
+    
+    //우편번호 시 초기 바인딩
+    if($("#_siSelBx").length >0){
+        zipSelectUtil.getSiData();
+    }
+    //우편번호 시 선택데이터 바인드
+    $("#_siSelBx").bind("change", function(){
+        zipSelectUtil.getGuData($(this).val());
+    });
+    
+    
+    eventObj.disabledEvent();
+    
+    //목록에서 전체 ROW선택
+    //eventObj.checkboxSelectAll();
+    
+    //eventObj.searchAddress();
+});
+
+
+var eventObj = {
+    /**
+     * Iframe Click이벤트
+     */
+    iframeClickEvent : function(){
+        //document.getElementById('ifr3').contentWindow.document.body.onclick = function(){
+        //    $('.datepicker').datepicker('hide');
+        //    $('#ifr3').hide();        
+        //};
+    },
+    /**
+     * 파일첨부를 변경시 해당 파일정보는 input.text에 보여준다.
+     * 
+     * eventObj.inputFileChangeEvent();
+     */    
+    inputFileChangeEvent : function(){        
+        $('input[type=file]').live({            
+            change : function(){
+                var txtName = $(this).attr('name');
+                
+                try{
+                    $('#txt_'+ txtName).val($(this).val());
+                    $('.desc_'+ txtName).prop('disabled', false);
+                    
+                    if(loginObj.isDevice == 'N'){
+                        $('.desc_'+ txtName).css({'background-color' : '#FFF'});
+                    }
+                }catch(e){
+                    //ignore
+                }
+            }
+        });   
+    },
+    /**
+     * .disabled 일때 배경색 설정하기
+     */
+    disabledEvent : function(){
+        $('.disabled').prop('disabled', true); //.css({'background-color' : '#F5F5F5'});
+    },
+    /**
+     * 주소 찾기
+     * - 사용하는 페이지에서 이벤트 적용해 줄것.
+     * @use eventObj.searchAddress();
+     
+    searchAddress : function(){
+        $('.btn_find_address').on({
+            click : function(event){
+                event.preventDefault();  
+                commonUtil.searchAddress();
+            }
+        });
+    },*/
+    /**
+     * 목록에서 전체 ROW선택을 위한 이벤트
+     */
+    checkboxSelectAll : function(){
+        $('input.checkbox-selectAll').live({
+            change : function(event){
+                $(this).parents('table').find('input.checkbox-select').prop('checked', $(this).is(':checked'));
+            }
+        });
+    },
+    /**
+     * 주소 찾기
+     * - 사용하는 페이지에서 이벤트 적용해 줄것.111
+     * @use eventObj.searchAddress();
+     */
+    searchAddress : function(){
+//        $(".find-address").click(function(){
+//            window.open("/common/pop/addressPList.do", 'popAddress', 'width=740,height=724,scrollbars=yes,resizable=no');
+//        }); 
+    }
+};
+
+
+
+/**
+ * 공통 코드 조회
+ */
+var comCodeUtil = {        
+    /**
+     * 출력할 영역의 elementID(#id)
+     */
+    docuemntElementID : '',
+    
+    /**
+     *  출력한 select element의 name값
+     */
+    selectElementName : '',
+        
+    /**
+     * ref : comCodeUtil.getCode('검색코드', '출력 Element Name(ID아님)', 'code,code');
+     * @param code 조회 부모 코드
+     * @param callBack 리턴되는 Call Back 함수명, TEXT로 넘기면 안됨.
+     * @param notSelectCode 검색 예외 자식코드, 구분자는 "," 
+     *          ref : 'aa,ab'  
+     */
+    getCode : function(code, callBack, notSelectCode){
+        var data = { prenComCd : code, notSelectCode : notSelectCode};
+        ajaxUtil.postDisableAsync(comCodeUtil.searchUrl, data, callBack);
+    },
+    /**
+     * 공통 코드 조회후 화면 출력 :: 커스텀용으로 추가
+     * ref : comCodeUtil.getCodeNPrint('Url', '검색코드', '출력 Element Name(ID아님)', 'select||checkbox||radio');
+     * @param code 조회 부모 코드
+     * @param selectElementName 출력한 select element의 name값
+     * @param type 화면 표시 방법 (select / checkbox / radio)
+     */
+    getCodeNPrintByCustom : function(url, code, selectElementName, type, notSelectCode){
+        comCodeUtil.selectElementName = selectElementName;
+        
+        var data = { searchKey : code };
+       
+        if(type == undefined || type === 'select'){
+            ajaxUtil.postDisableAsync(url, data, comCodeUtil.getCodeNSelectPrintResult);
+        }else if(type === 'checkbox'){
+            ajaxUtil.postDisableAsync(url, data, comCodeUtil.getCodeNCheckPrintResult);
+        }else if(type === 'radio'){
+            ajaxUtil.postDisableAsync(url, data, comCodeUtil.getCodeNRadioPrintResult);
+        }
+    },
+    /**
+     * 공통 코드 조회후 화면 출력
+     * ref : comCodeUtil.getCodeNPrint('검색코드', '출력 Element Name(ID아님)', 'select||checkbox||radio', 'code,code');
+     * @param code 조회 부모 코드
+     * @param selectElementName 출력한 select element의 name값
+     * @param type 화면 표시 방법 (select / checkbox / radio)
+     * @param notSelectCode 검색 예외 자식코드, 구분자는 "," 
+     *          ref : 'aa,ab'            
+     */
+    getCodeNPrint : function(code, selectElementName, type, notSelectCode){
+        comCodeUtil.selectElementName = selectElementName;
+        
+        var data = { prenComCd : code, notSelectCd : notSelectCode};
+        
+        if(type == undefined || type === 'select'){
+            ajaxUtil.postDisableAsync(comCodeUtil.searchUrl, data, comCodeUtil.getCodeNSelectPrintResult);
+        }else if(type === 'checkbox'){
+            ajaxUtil.postDisableAsync(comCodeUtil.searchUrl, data, comCodeUtil.getCodeNCheckPrintResult);
+        }else if(type === 'radio'){
+            ajaxUtil.postDisableAsync(comCodeUtil.searchUrl, data, comCodeUtil.getCodeNRadioPrintResult);
+        }
+    },
+    /**
+     * 공통 코드 SELECTE로 화면 출력
+     * - 기존 Default는 유지하고 option을 추가 하도록 수정
+     * @param json json
+     */
+    getCodeNSelectPrintResult : function(json){
+        try{
+            json = JSON.parse(json);
+        }catch(e){}
+        
+        //show_alertV2(JSON.stringify(json));
+        if(json.bindingStatus == undefined && json.result.status){
+            var codeList = json.result.list;
+            var codeSize = codeList.length;
+            var oSelect = $('select[name='+comCodeUtil.selectElementName+']');
+            
+            oSelect.children().not(':eq(0)').remove();
+            
+            if(json.result.searchInfo.prenComCd === 'AG'){
+                //RowLimit은 Value값을 지정된 값으로 한다.
+                for(var i = 0; i < codeSize ; i++){
+                    $(oSelect).append('<option value="'+codeList[i].comCdNm+'">'+codeList[i].comCdNm+'</option>');
+                }
+            }else{
+                for(var i = 0; i < codeSize ; i++){
+                    $(oSelect).append('<option value="'+codeList[i].comCd+'">'+codeList[i].comCdNm+'</option>');
+                }
+            }
+            
+        }else{
+            ajaxUtil.error(json);
+        }
+    },
+    /**
+     * 공통 코드 CHECK로 화면 출력
+     * - 기존 Default는 유지하고 option을 추가 하도록 수정
+     * @param json json
+     */
+    getCodeNCheckPrintResult : function(json){
+        try{
+            json = JSON.parse(json);
+        }catch(e){}
+        
+        if(json.bindingStatus == undefined && json.result.status){
+            var codeList = json.result.list;
+            var codeSize = codeList.length;
+            var text = '';
+            
+            for(var i = 0; i < codeSize ; i++){
+                text += '<input type="checkbox" name="'+comCodeUtil.selectElementName+'" id="'+codeList[i].comCd+'" value="'+codeList[i].comCd+'" /><label for="'+codeList[i].comCd+'">'+codeList[i].comCdNm+'</label>';
+            }
+            
+            $('#'+comCodeUtil.selectElementName).html(text);
+            
+        }else{
+            ajaxUtil.error(json);
+        }
+    },
+    /**
+     * 공통 코드 RADIO로 화면 출력
+     * - 기존 Default는 유지하고 option을 추가 하도록 수정
+     * @param json json
+     */
+    getCodeNRadioPrintResult : function(json){
+        try{
+            json = JSON.parse(json);
+        }catch(e){}
+        
+        //show_alertV2(JSON.stringify(json));
+        if(json.bindingStatus == undefined && json.result.status){
+            var codeList = json.result.list;
+            var codeSize = codeList.length;
+            var text = '';
+            
+            for(var i = 0; i < codeSize ; i++){
+                text += '<input type="radio" name="'+comCodeUtil.selectElementName+'" id="'+codeList[i].comCd+'" value="'+codeList[i].comCd+'" /><label for="'+codeList[i].comCd+'">'+codeList[i].comCdNm+'</label>';
+            }
+            
+            $('#'+comCodeUtil.selectElementName).html(text);
+            
+        }else{
+            ajaxUtil.error(json);
+        }
+    }
+};
+
+/**
+ * AJAX 페이징 처리
+ */
+var ajaxPagging = {  
+    /**
+     * 현재 페이지 번호
+     */
+    currentPageNo : 1,
+    /**
+     * AJAX 페이징 처리
+     * 
+     * @use ajaxPagging.create(pUrl, pElementClass, pTotalRow, pPage, pRowLimit, pPageLimit)
+     * @param pUrl              페이지 url
+     * @param pElementClass     Dom ID
+     * @param pTotalRow         전체 갯수
+     * @param pPage             현재 페이지
+     * @param pRowLimit         페이지 노출 Row갯수
+     * @param pPageLimit        한번에 보여주는 페이지수
+     */
+    create : function(pUrl, pElementClass, pTotalRow, pPage, pRowLimit, pPageLimit){
+        var btFirst = '';           //첫페이지 번호
+        var btPrev = '';            //이전 페이지 번호
+        var btPage = '';            //현재 페이지 번호
+        var btNext = '';            //다음 페이지 번호
+        var btLast = '';            //마지막 페이지 번호
+        
+        currentPageNo = pPage > 0 ? pPage : 1;
+        
+        var totalPage = parseInt(pTotalRow / pRowLimit + (pTotalRow % pRowLimit == 0 ? 0 : 1));       //전체 페이지 수
+        var startPage =  parseInt( parseInt((currentPageNo-1)/pPageLimit) * pPageLimit  + 1);           //시작페이지 번호
+        
+        //첫페이지로
+//        if(currentPageNo > 1){
+//            btFirst = '<button type="button" class="paging-first">&lt;</button>&nbsp;';
+//        }
+        //이전 페이지
+        if(parseInt(currentPageNo) > parseInt(pPageLimit)){
+            btPrev = '<button type="button" class="paging-prev" onclick="javascript:fnZipCode('+(parseInt(startPage)-10)+');"><span class="blind">이전 페이지</span></button>';
+//            btPrev = '<a href="javascript:' + pUrl +'('+ (parseInt(startPage)-1) + ')" class="btnprev" >&lt;</a>';
+        }
+        //다음 페이지
+        if((parseInt(startPage) + parseInt(pPageLimit)) <= parseInt(totalPage)){
+            btNext = '<button type="button" class="paging-next" onclick="javascript:fnZipCode('+(parseInt(startPage)+10)+');"><span class="blind">다음 페이지</span></button>';
+//            btNext = '<a href="javascript:' + pUrl +'('+ (parseInt(startPage)+parseInt(pPageLimit)) + ')" class="btnnext">&gt;</a>';
+        }  
+//        //마지막 페이지로
+//        if(currentPageNo < totalPage){
+//            btLast = '<button type="button" class="paging-last">&lt;</a>&nbsp;';
+//        }
+        
+        for(var i=0; i < pPageLimit; i++){
+            var pageNo = startPage + i;       
+            if(pageNo > totalPage){  break;  }        
+            if(pageNo == currentPageNo){
+                btPage += '<button type="button" class="on" onclick="return false;">'+ pageNo +'</button>';
+//                btPage += '<a href="javascript:;" class="on" onclick="return false;">'+ pageNo +'</a>';
+            }else{
+                btPage += '<button type="button" onclick="javascript:fnZipCode('+pageNo+');">'+ pageNo +'</button>';
+//                btPage += '<a href="javascript:'+ pUrl +'('+ pageNo + ')">'+ pageNo +'</a>';
+            }
+        }
+//        $('.'+pElementClass).html(btFirst + btPrev + btPage + btNext + btLast);
+        $('.'+pElementClass).html(btPrev +"<div class='numbers'>"+ btPage +"</div>"+ btNext);
+    }
+};
+
+var ajaxPaggingOld = {  
+        /**
+         * 현재 페이지 번호
+         */
+        currentPageNo : 1,
+        /**
+         * AJAX 페이징 처리
+         * 
+         * @use ajaxPagging.create(pUrl, pElementClass, pTotalRow, pPage, pRowLimit, pPageLimit)
+         * @param pUrl              페이지 url
+         * @param pElementClass     Dom ID
+         * @param pTotalRow         전체 갯수
+         * @param pPage             현재 페이지
+         * @param pRowLimit         페이지 노출 Row갯수
+         * @param pPageLimit        한번에 보여주는 페이지수
+         */
+        create : function(pUrl, pElementClass, pTotalRow, pPage, pRowLimit, pPageLimit){
+            //show_alertV2(1);
+            var btFirst = '';           //첫페이지 번호
+            var btPrev = '';            //이전 페이지 번호
+            var btPage = '';            //현재 페이지 번호
+            var btNext = '';            //다음 페이지 번호
+            var btLast = '';            //마지막 페이지 번호
+            
+            currentPageNo = pPage > 0 ? pPage : 1;
+            
+            var totalPage = parseInt(pTotalRow / pRowLimit + (pTotalRow % pRowLimit == 0 ? 0 : 1));       //전체 페이지 수
+            var startPage =  parseInt( parseInt((currentPageNo-1)/pPageLimit) * pPageLimit  + 1);           //시작페이지 번호
+            
+            //첫페이지로 <- 현재 사이트 사용 안함
+            /*if(currentPageNo > 1){
+            btFirst = '<a href="'+ pUrl + 1 +'" class="btnprev" >&lt;</a>&nbsp;';
+        }*/
+            //이전 페이지
+            if(parseInt(currentPageNo) > parseInt(pPageLimit)){
+                btPrev = '<a href="javascript:' + pUrl +'('+ (parseInt(startPage)-1) + ')" class="btnprev" >&lt;</a>';
+            }
+            //다음 페이지
+            if((parseInt(startPage) + parseInt(pPageLimit)) <= parseInt(totalPage)){
+                btNext = '<a href="javascript:' + pUrl +'('+ (parseInt(startPage)+parseInt(pPageLimit)) + ')" class="btnnext">&gt;</a>';
+            }  
+            //마지막 페이지로 <- 현재 사이트 사용 안함
+            /*if(currentPageNo < totalPage){
+            btLast = '<a href="' + pUrl + totalPage + '" class="btnnext">&gt;</a>';
+        }*/
+            
+            for(var i=0; i < pPageLimit; i++){
+                var pageNo = startPage + i;       
+                if(pageNo > totalPage){  break;  }        
+                if(pageNo == currentPageNo){
+                    btPage += '<a href="javascript:;" class="on" onclick="return false;">'+ pageNo +'</a>';
+                }else{
+                    btPage += '<a href="javascript:'+ pUrl +'('+ pageNo + ')">'+ pageNo +'</a>';
+                }
+            }
+            //$('.'+pElementClass+' .pagination').html(btFirst + btPrev + btPage + btNext + btLast);
+            $('.'+pElementClass).html(btPrev +"<div class='num'>"+ btPage +"</div>"+ btNext);
+        }
+};
+
+
+
+/**
+ * 윈도우 팝업 처리
+ */
+var windowUtil = {
+    /**
+     * 팝업 열기
+     * 
+     * - 기본 팝업 열기 : windowUtil.open(uri,  "poptitle", 430, 190, 0) ;
+     * - 팝업사이즈 변경 필요할 경우 : windowUtil.open(uri,  "poptitle1", 430, 190, 0,1);
+     *  
+     * @param url           경로
+     * @param windowName    팝업명
+     * @param width         가로크기
+     * @param height        세로크기
+     * @param strScroll     스크롤 여부
+     * @param strResize     크기변경 여부
+     */
+    open: function(url,  windowName, width, height, strScroll, strResize) {
+        var popupWindow = "" ;
+        
+        if(!(width == '' && height == '')){
+            windowX = Math.ceil( (window.screen.width  - width) / 2 );
+            windowY = Math.ceil( (window.screen.height - height) / 2 );
+        }
+        
+        if(strResize == undefined || strResize == '') {
+            strResize = 0 ;
+        }
+        
+        if(!(width == '' && height == '')){
+            popupWindow = window.open(url, windowName, "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", scrollbars="+ strScroll+", resizable="+ strResize);
+        }else{
+            popupWindow = window.open(url, windowName, '', '');
+        }
+
+        if(!popupWindow){
+            // @TODO  팝업 해제 방법  메뉴얼 필요.
+            show_alertV2("팝업을 해제해 주세요.");
+        }else{
+            try {popupWindow.focus(); } catch(e){}
+        }
+    },
+    /**
+     * 팝업창을 닫는다. 
+     * - 팝업창에서 사용.  
+     * 
+     * @use windowUtil.close();
+     * @returns {Boolean}
+     */
+    close : function() {
+        window.open('', '_self', '');
+        window.close();
+        return false;
+    }        
+};
+
+/**
+ * 문자열 관련
+ */
+var stringUtil = {
+    /**
+     * NULL인지 체크
+     * @param str
+     * @returns {Boolean} true : null
+     */
+    isNull : function(str)    {
+        var bRtn = false;
+        if (str == undefined || str == null || str == 'null' || str.toString().replace(/ /g,"") == ""){
+            bRtn =  true;
+        }
+        return bRtn;
+    },
+    /**
+     * MessageResource문자열에서 개행 문자 제거 
+     * @param str   문자열
+     * @returns
+     */
+    replaceNewLine : function(str){
+        return str.replace(/\\n/g,'\n');
+    },
+    /**
+     * 
+     * 날자 형식으로 리턴
+     * ref) var param = stringUtil.makeDateFormat(20140101);  // 2014.01.01
+     * @param YYYYMMDD
+     * @returns YYYY.MM.DD
+     */
+    makeDateFormat : function(strDate){
+        
+        var delimiter = "-";    //날짜 형식 구분자
+        
+        if( isNaN(strDate) || strDate == null ){
+            strDate = "";
+        }
+        
+        var size = strDate.length;
+        if(size >= 6 ){
+            strDate = strDate.substring(0,4) + delimiter + strDate.substring(4,6) + delimiter + strDate.substring(6);
+        }else if(size >= 4 ){
+            strDate = strDate.substring(0,4) + delimiter + strDate.substring(4);
+        }
+        
+        return strDate;
+    },
+    
+    /**
+     * 
+     * 날자 형식으로 리턴
+     * ref) var param = stringUtil.makeDateFormat2(20140101,'.');  // 2014.01.01
+     * @param YYYYMMDD, delimiter('.' , '-' , '/'...........)
+     * @returns YYYY.MM.DD
+     */
+    makeDateFormat2 : function(strDate,delimiter){
+        if(delimiter == ""){
+            delimiter = "-";    //날짜 형식 구분자
+        }
+        
+        if( isNaN(strDate) || strDate == null ){
+            strDate = "";
+        }
+        
+        var size = strDate.length;
+        if(size >= 6 ){
+            strDate = strDate.substring(0,4) + delimiter + strDate.substring(4,6) + delimiter + strDate.substring(6);
+        }else if(size >= 4 ){
+            strDate = strDate.substring(0,4) + delimiter + strDate.substring(4);
+        }
+        
+        return strDate;
+    }
+};
+
+
+/**
+ * 숫자 관련 처리 
+ */
+var numUtil = {
+    /**
+     * 콤마 제거
+     * 
+     * @use numUtil.removeComma(num);
+     * @param num
+     * @returns
+     */
+    removeComma : function(num) {
+        num = new String(num);
+        return num.replace(/,/gi,"");
+    },
+    /**
+     * 숫자에 자릿수 표시
+     * 
+     * @use numUtil.createComma(num);
+     * @param num
+     * @returns
+     */
+    createComma : function(num) {
+        num = numUtil.removeComma(num);
+
+        if (isNaN(num) || num == 0){
+            return 0;
+        }
+    
+        var sign = "";
+    
+        if (num < 0) {
+            num = num * (-1);
+            sign = "-";
+        } else {
+            num = num * 1;
+        }
+    
+        var reg = /(^[+-]?\d+)(\d{3})/;
+        num += '';
+    
+        while (reg.test(num))
+            num = num.replace(reg, '$1' + ',' + '$2');
+    
+        return sign + num ;
+    }        
+};
+
+
+var dateUtil = {
+    /**
+     * 날짜 형식 구분자
+     */
+    delimiter : "-",
+    /**
+     * 요청에 따른 날짜리턴
+     * 아무값이 없으면 오늘 날짜
+     * @param sdate 특정 날자를 넘길 경우.
+     * @param dateFormat 요청 데이터 형식
+     * @param split
+     * @returns
+     */
+    getDate : function( sdate, dateFormat) {
+        var date;
+        
+        if( sdate == undefined || sdate == "" || sdate == null){
+            date = new Date();
+        }else{
+            date = new Date(sdate);
+        }
+        
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+
+        if (("" + month).length == 1) { month = "0" + month; }
+        if (("" + day).length  == 1) { day  = "0" + day;  }
+
+        if(dateFormat == "yyyy"){
+            return year;
+        }else if(dateFormat == "mm"){
+            return month ;
+        }else if(dateFormat == "dd"){
+            return day;
+        }else if(dateFormat == "yyyymm"){
+            return year + this.delimiter + month;
+        }else if(dateFormat == "mmdd"){
+            return month + this.delimiter + day;
+        }else{
+            return  year + this.delimiter + month + this.delimiter + day;
+        }
+    },
+    /**
+     * 월의 마지막 날짜 구하기
+     * @param year 년도
+     * @param month 월
+     * @returns
+     */
+    getMonthLastDay : function(year, month) {
+        // 월별 마지막 날짜
+        var arrLastDay = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+
+        // 윤년인 경우 2월의 마지막은 29일
+        if((0 == year%4 && 0 != year%100) || 0 == year%400) {
+            arrLastDay[1]=29;
+        }
+        
+        return arrLastDay[month-1];
+    },
+    /**
+     * 년월일(YYYYMMDD)의 유효성을 체크    
+     * ref : dateUtil.isDateFormat(yyyymmdd)
+     * @param ymd
+     * @returns {Boolean} ture : OK
+     */
+    isDateFormat : function(ymd) {
+        ymd = ymd.replace(/-/gi,"");
+        
+        if( isNaN(ymd) || ymd==null ){
+            return false;
+        }else{
+            var year = ymd.substring(0, 4);
+            var month = parseInt(ymd.substring(4, 6), 10) -1;
+            var day = parseInt(ymd.substring(6), 10);
+            var endDay = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+
+            if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+                endDay[1] = 29;
+            }
+            
+            return (day >= 1 && day <= endDay[month]);
+        }
+    },
+    /**
+     * 입력시간의 유효성을 체크
+     * ref : dateUtil.isTimeFormat('HHMM')
+     * @param hhmm  시간
+     * @returns {Boolean}
+     */
+    isTimeFormat : function(hhmm){
+        var bRtn = true;
+       
+        hhmm = hhmm.replace(/[-:]/gi,"");
+        
+        if( isNaN(hhmm) || hhmm == null ||  hhmm.length != 4){
+            bRtn = false;
+        }else{
+            if(parseInt(hhmm.substr(0, 2)) > 23){
+                bRtn = false;
+            }
+            
+            if(parseInt(hhmm.substr(2, 2)) > 59){
+                bRtn = false;
+            }            
+        }
+        
+        if(!bRtn){
+            show_alertV2('시간범위가 아닙니다. 최대 23시 59분까지 입니다.');
+        }
+        
+        return bRtn;
+    },
+   /**
+    * 입력시간의 유효성을 체크
+    * - 시작시간과 종료시간의 범위검사 추가
+    * ref : dateUtil.isTimeFormat('HHMM', 'HHMM')
+    * @param hhmm   시작시간
+    * @param hhmm2  종료시간
+    * @returns {Boolean}
+    */
+    isTimeFormat2 : function(hhmm, hhmm2){
+        var bRtn = true;
+        
+        hhmm = hhmm.replace(/[-:]/gi,"");
+        hhmm2 = hhmm2.replace(/[-:]/gi,"");
+        
+        if(dateUtil.isTimeFormat(hhmm) && dateUtil.isTimeFormat(hhmm2)){
+            if(parseInt(hhmm) > parseInt(hhmm2)){
+                bRtn = false;
+                show_alertV2('시작시간이 종료시간보다 늦습니다. 다시 확인해 주세요.');
+            }
+        }else{
+            bRtn = false;
+        }
+        
+        return bRtn;
+    },
+    /**
+     * 날짜 차이를 일로계산 한다    
+     * ref : dateUtil.diffDate('2002/02/01','2003/03/01')
+     * @param fromDate
+     * @param toDate
+     * @returns
+     */
+    diffDate : function( fromDate, toDate) {
+        // 값이 없는 경우 0일을 리턴한다.(조회 최소기간:하루)
+        if(stringUtil.isNull(fromDate) || stringUtil.isNull(toDate)){
+            return "0";
+        }
+
+        var MinMilli = 1000 * 60;
+        var HrMilli = MinMilli * 60;
+        var DyMilli = HrMilli * 24;
+
+        //var d1 = new Date(stringUtil.replaceAll(fromDate, ".", "/"));
+        //var d2 = new Date(stringUtil.replaceAll(toDate, ".", "/"));
+        // 날자 표현형식 통일 : yyyy/mm/dd
+        var d1 = new Date(fromDate);
+        var d2 = new Date(toDate);
+
+        var d3 = d2-d1;
+        var str = d3 /DyMilli ;
+
+        return str;
+    },
+    /**
+     * 특정 날짜에 대해 지정한 값만큼 가감(+-)한 날짜를 반환
+     * ref : dateUtil.addDate(aType, aDay, aDate, split)
+     *       20130304 로부터 2달뒤 ==> dateUtil.addDate("m", 2, "20130304", "/");
+     * @param aType 가감타입 : y(연도), m(월),  d(일), md(월가감 날짜까지 표현)
+     * @param aDay 가감일
+     * @param aDate 가감기준일
+     * @returns {String}
+     */
+    addDate : function (aType, aDay, aDate){
+        var yyyy;
+        var mm;
+        var dd;
+        var cDate;
+        var cYear, cMonth, cDay;
+        
+        if(aDate == undefined){
+            aDate = dateUtil.getDate();
+        }
+
+        aDate = aDate.replace(/-/gi,"");
+
+        yyyy = aDate.substr(0, 4);
+        mm  = aDate.substr(4, 2);
+        dd  = aDate.substr(6, 2);
+
+        if (aType == "y") {
+            yyyy = (yyyy * 1) + (aDay * 1);
+        } else if (aType == "m" || aType == "md") {
+            mm  = (mm * 1) + (aDay * 1);
+        } else if (aType == "d") {
+            dd  = (dd * 1) + (aDay * 1);
+            if (aDay < 0) dd++;
+            else  dd--;
+        }
+
+        cDate = new Date(yyyy, mm - 1, dd); // 12월, 31일을 초과하는 입력값에 대해 자동으로 계산된 날짜가 만들어짐.
+        cYear = cDate.getFullYear();
+        cMonth = cDate.getMonth() + 1;
+        cDay = cDate.getDate();
+
+        cMonth = cMonth < 10 ? "0" + cMonth : cMonth;
+        cDay = cDay < 10 ? "0" + cDay : cDay;
+
+
+        if (aType == "m"){
+            return cYear + this.delimiter + cMonth;
+        }else{
+            return cYear + this.delimiter + cMonth + this.delimiter + cDay;
+        }
+    }    
+};
+
+/**
+ * 모달 팝업 처리
+ * 
+ * 공통으로 모달을 열고 닫을때 사용한다.
+ * 모달의 상세한 설정은 각 페이지 에 modalUtil을 생성해서 사용한다.
+ * ref.) /localhost-support-system-user/src/main/webapp/WEB-INF/jsp/sq/qsg/qsgaMan.jsp
+ *
+ * 
+ * ***주의사항
+ * 팝업과 모달의 코딩을 같이 하고 있기 때문에 Modal사용시 Class에 'modal'을 추가 표기해줄것.
+ * 하나의 페이지에서 여러개의 모달을 싸용해야 한다면 class명을 modal과 modal-{식별아이이}을 선언해줄것.
+ * ref.) 퍼블리싱 : <div id="pop_wrap" class="pop_wrap">
+ *       모달적용 : <div id="pop_wrap" class="pop_wrap modal modal-{식별아이이}">
+ * 
+ * //이벤트를 등록해준다.
+ * //.btn_modal_open 공통으로 적용을 해두었음.
+ * //기본적으로 하나의 모달을 사용한다면 모달 오픈 버튼 이름을 아래로 변경해 줄것.
+ * //여러개의 모달을 사용한다면 각 모달 버튼에 대한 이벤트를 별도로 주어서 처리해야한다.(공통모듈 참고할것.)
+ * $('.btn_modal_open').on({
+ *     click : function(event){
+ *         event.preventDefault();
+ *         modalUtil.open($(this));
+ *     } 
+ * });
+ * 
+ * //모달 열고 닫기위한 페이지별 함수를 아래와 같이 공통으로 생성한다.
+ * //모달 열고 닫기 전에 처리해야하는 로직을 아래에 추가한다.
+ * var modalUtil = {
+ *     open : function(object){
+ *          //모달 오픈전 처리해야할 로직 추가
+ *          
+ *          //모달 열기         
+ *          모달이 하나일때 : modalComUtil.open();  *          
+ *          모달리 여러개일때 : modalComUtil.open('cont'); //modal-cont로 선언시
+ *     },    
+ *     close : function(object){
+ *          //모달 닫기전 처리해야할 로직 추가
+ *          
+ *          //모달 닫기
+ *          modalComUtil.close();
+ *     }
+ * };
+ */
+var modalComUtil = {
+    /**
+     * 모달 팝업 열기
+     * 
+     * @use modalComUtil.open();
+     *      -> modal_box의 컨텐츠 영역이 하나뿐일때 사용 
+     *      modalComUtil.open('new_cont');
+     *      -> modal_box의 컨텐츠 영역이 여러개 일때 보여줄 영역의 Class명을 입력한다. 
+     * @param 모달 팝업 열기
+     */
+    open : function(pContentClassName){
+        
+        if(pContentClassName == undefined){
+            pContentClassName = '';
+        }else{
+            pContentClassName = '-' + pContentClassName;
+        }
+        
+        $('.modal').hide();
+        $('#mask').show();  
+        
+        //글 갯수에 따른 높이값 계산 후 화면 중앙 위치
+        this.resize();
+
+        $('#ifr').show();
+        $('#mask').fadeTo("slow", 0.5);    
+        $('.modal'+pContentClassName).show();
+    },    
+    /**
+     * 모달 팝업 닫기 
+     * @use modalUtil.close();
+     */
+    close : function(){
+        $('#ifr, #mask, .modal').hide();
+    },
+    /**
+     * 윈도우 크기변환시 실행
+     * Statements
+     */
+    resize : function(){
+        var left = ( $(window).scrollLeft() + ($(window).width() - $('.modal').width()) / 2 );
+        var top =  ((document.documentElement.clientHeight / 2) - ( $('.modal').height() / 2)) - 20;
+        $('.modal').css({'top': top+'px', 'left':left + 'px', 'position':'fixed'});
+        $('#ifr, #mask').css({'width':$(window).width(),'height':$(document).height()}); 
+    }
+};
+
+
+/**
+ * 공통 함수 :: 이벤트 아님
+ */
+var comUtil = {
+    
+};
+
+/**
+ * 쿠키관련 함수
+ */
+var cookieUtil = {
+    /**
+     * 쿠키 확인 
+     * @param name  cookie name
+     * @returns
+     */    
+    getCookie : function(name){
+        var nameOfCookie = name+"=";
+        var x = 0;
+        while ( x <= document.cookie.length )
+        {
+                var y = (x+nameOfCookie.length);
+                if ( document.cookie.substring( x, y ) == nameOfCookie ) {
+                        if ( (endOfCookie=document.cookie.indexOf( ";", y )) == -1 )
+                                endOfCookie = document.cookie.length;
+                        return unescape( document.cookie.substring( y, endOfCookie ) );
+                }
+                x = document.cookie.indexOf( " ", x ) + 1;
+                if ( x == 0 )
+                        break;
+        }
+        return null;
+    },
+    /**
+     * 쿠키 설정
+     * - day가 0이거나 undefined면 해당 쿠키가 삭제된다.
+     * @param name cookie name
+     * @param value cookie value
+     * @param day   expires day
+     */
+    setCookie : function(name, value, day){
+        if(typeof day == 'undefined'){
+            day = 0;
+        }        
+        var expire = new Date();
+        expire.setDate(expire.getDate() + day);
+        document.cookie = name + '=' + escape(value) + '; path=/ ' + ';expires=' + expire.toGMTString() + ';';
+    }
+};
+
+/**
+*
+*  Base64 encode / decode
+*  http://www.webtoolkit.info/
+*
+**/
+var Base64 = {
+ 
+    // private property
+    _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+ 
+    // public method for encoding
+    encode : function (input) {
+        var output = "";
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        var i = 0;
+ 
+        input = Base64._utf8_encode(input);
+ 
+        while (i < input.length) {
+ 
+            chr1 = input.charCodeAt(i++);
+            chr2 = input.charCodeAt(i++);
+            chr3 = input.charCodeAt(i++);
+ 
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+ 
+            if (isNaN(chr2)) {
+                enc3 = enc4 = 64;
+            } else if (isNaN(chr3)) {
+                enc4 = 64;
+            }
+ 
+            output = output +
+            this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+            this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+ 
+        }
+ 
+        return output;
+    },
+ 
+    // public method for decoding
+    decode : function (input) {
+        var output = "";
+        var chr1, chr2, chr3;
+        var enc1, enc2, enc3, enc4;
+        var i = 0;
+ 
+        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+ 
+        while (i < input.length) {
+ 
+            enc1 = this._keyStr.indexOf(input.charAt(i++));
+            enc2 = this._keyStr.indexOf(input.charAt(i++));
+            enc3 = this._keyStr.indexOf(input.charAt(i++));
+            enc4 = this._keyStr.indexOf(input.charAt(i++));
+ 
+            chr1 = (enc1 << 2) | (enc2 >> 4);
+            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+            chr3 = ((enc3 & 3) << 6) | enc4;
+ 
+            output = output + String.fromCharCode(chr1);
+ 
+            if (enc3 != 64) {
+                output = output + String.fromCharCode(chr2);
+            }
+            if (enc4 != 64) {
+                output = output + String.fromCharCode(chr3);
+            }
+ 
+        }
+ 
+        output = Base64._utf8_decode(output);
+ 
+        return output;
+ 
+    },
+ 
+    // private method for UTF-8 encoding
+    _utf8_encode : function (string) {
+        string = string.replace(/\r\n/g,"\n");
+        var utftext = "";
+ 
+        for (var n = 0; n < string.length; n++) {
+ 
+            var c = string.charCodeAt(n);
+ 
+            if (c < 128) {
+                utftext += String.fromCharCode(c);
+            }
+            else if((c > 127) && (c < 2048)) {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+            else {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+ 
+        }
+ 
+        return utftext;
+    },
+ 
+    // private method for UTF-8 decoding
+    _utf8_decode : function (utftext) {
+        var string = "";
+        var i = 0;
+        var c = c1 = c2 = 0;
+ 
+        while ( i < utftext.length ) {
+ 
+            c = utftext.charCodeAt(i);
+ 
+            if (c < 128) {
+                string += String.fromCharCode(c);
+                i++;
+            }
+            else if((c > 191) && (c < 224)) {
+                c2 = utftext.charCodeAt(i+1);
+                string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                i += 2;
+            }
+            else {
+                c2 = utftext.charCodeAt(i+1);
+                c3 = utftext.charCodeAt(i+2);
+                string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                i += 3;
+            }
+ 
+        }
+ 
+        return string;
+    }
+};
+
+/**
+ * 편번호 시/구 셀렉트 박스
+ * id : _siSelBx 로 셋팅해야함.
+ */
+var zipSelectUtil = {
+    getSiData : function(){
+        var _data = { areacd : ''};
+        var _url = "/cm/codeSiList.do";
+        var callback = function(data){
+            $("#_siSelBx").html("<option value=''>선택</option>");
+            for(var i=0;i< data.result.length;i++){
+                $("#_siSelBx").append("<option value='" + data.result[i].areacd + "'>" + data.result[i].addr1 + "</option>");
+            }
+        };
+        ajaxUtil.postDisableAsync(_url, _data, callback);
+    },
+    getGuData : function(cd){
+        var _data = { areacd : cd };
+        var _url = "/cm/codeGuList.do";
+        var callback = function(data){
+            $("#_guSelBx").html("<option value=''>선택</option>");
+            for(var i=0;i< data.result.length;i++){
+                $("#_guSelBx").append("<option value='" +data.result[i].addr2 + "'>" + data.result[i].addr2 + "</option>");
+            }
+        };
+        ajaxUtil.postDisableAsync(_url, _data, callback);
+    },
+    getDongData : function(cd, gucd){
+        var _data = { areacd : cd, addr2 : gucd };
+        var _url = "/cm/codeDongList.do";
+        var callback = function(data){
+            $("#_dongSelBx").html("<option value=''>선택</option>");
+            for(var i=0;i< data.result.length;i++){
+                $("#_dongSelBx").append("<option value='" +data.result[i].addr3 + "' ordeno='" + data.result[i].ordeno + "' postno='" + data.result[i].postno + "'>" + data.result[i].addr3 + "</option>");
+            }
+        };
+        ajaxUtil.postDisableAsync(_url, _data, callback);
+    },
+    getSejongDongData : function(cd){
+        var _data = { areacd : cd };
+        var _url = "/cm/codeGuList.do";
+        var callback = function(data){
+            $("#_dongSelBx").html("<option value=''>선택</option>");
+            for(var i=0;i< data.result.length;i++){
+                $("#_dongSelBx").append("<option value='" +data.result[i].addr2 + "' ordeno='" + data.result[i].ordeno + "' postno='" + data.result[i].postno + "'>" + data.result[i].addr2 + "</option>");
+            }
+        };
+        ajaxUtil.postDisableAsync(_url, _data, callback);
+    }
+}
+
+var carInfoUtil = {
+
+        menuCd : '',
+        
+        /**
+         * 모드 c:닫힘, o:열림
+         */
+        mode : 'c',
+        
+        /**
+         * 연식/미션/연료: A, 가격: B
+         */
+        type : 'A',
+        
+        /**
+         * action url
+         */
+        searchUrl : '',
+        
+        /**
+         * 바인딩할 현재 depth (0 부터 시작)
+         */
+        depthValue : 0,
+        
+        /**
+         * depth 별 css value
+         */
+        depth1Css : 'sel01',
+        depth2Css : 'tsel02',
+        depth3Css : 'tsel03',
+        depth4Css : 'tsel04',
+        depth5Css : 'tsel05',
+                
+        /**
+         * 한줄에 보여줄 item 갯수
+         */
+        depth1ColCount : 4,
+        depth2ColCount : 4,
+        depth3ColCount : 5,
+        depth4ColCount : 4,
+        depth5ColCount : 0,
+        
+        /**
+         * rc code
+         */
+        rc : '',
+        
+        /**
+         * acc code
+         */
+        acc : '',
+        
+        /**
+         * atn code
+         */
+        atn : '',
+        
+        
+        /**
+         * css명 get
+         * Statements
+         * @param menucd
+         * @param idx
+         * @returns
+         */
+        getDepthCss : function(menucd,idx){
+            carInfoUtil.menuCd = menucd;
+            carInfoUtil.depth3Css = menucd =='WMCA'?'sel02':carInfoUtil.depth3Css
+            carInfoUtil.depth4Css = menucd =='WMCA'?'sel03':carInfoUtil.depth4Css
+            var depthArray = new Array(carInfoUtil.depth1Css, carInfoUtil.depth2Css, carInfoUtil.depth3Css, carInfoUtil.depth4Css, carInfoUtil.depth5Css);
+            return depthArray[idx];
+        },
+        
+        /**
+         * item 갯수 get
+         * Statements
+         * @param idx
+         * @returns
+         */
+        getDepthColCount : function(menucd, idx){
+            var depthArray = new Array();
+            if(menucd == 'WMCA'){
+                depthArray = new Array(5, 4, 7, 5, carInfoUtil.depth5ColCount);
+            }else{
+                depthArray = new Array(carInfoUtil.depth1ColCount, carInfoUtil.depth2ColCount, carInfoUtil.depth3ColCount, carInfoUtil.depth4ColCount, carInfoUtil.depth5ColCount);
+            }
+            return depthArray[idx];
+        },
+
+        /**
+         * 차급(depth 2)의 css value
+         * Statements
+         * @param idx
+         */
+        getCarGradeCss : function(grade){
+            var result = '';
+            switch(grade){
+                case "경차" :
+                    result = 'ctype01';
+                    break;
+                case "소형" :
+                    result = 'ctype02';
+                    break;
+                case "준중형" :
+                    result = 'ctype03';
+                    break;
+                case "중형" :
+                    result = 'ctype04';
+                    break;
+                case "대형" :
+                    result = 'ctype05';
+                    break;
+                case "스포츠/쿠페" :
+                    result = 'ctype06';
+                    break;
+                case "SUV" :
+                    result = 'ctype07';
+                    break;
+                case "RV/짚" :
+                    result = 'ctype08';
+                    break;
+                case "승합/밴" :
+                    result = 'ctype09';
+                    break;
+                case "트럭/화물" :
+                    result = 'ctype010';
+                    break;
+                case "버스" :
+                    result = 'ctype011';
+                    break;
+                case "CUV" :
+                    result = 'ctype012';
+                    break;
+                case "기타" :
+                    result = 'ctype013';
+                    break;
+                case "SUV/RV" :
+                    result = 'ctype08';
+                    break;
+                
+            }
+            
+            return result;
+        },
+        
+        /**
+         * 
+         * 차량 제조사 정보를 조회
+         * @param code 메뉴코드
+         */
+        carCorpDataRequest : function(menucd, rc, acc, atn, callback){
+            /**
+             * 초기 셋팅
+             */
+            carInfoUtil.rc = rc;
+            carInfoUtil.acc = acc;
+            carInfoUtil.atn = atn;
+            var carGubun = $("input[type=radio][name=searchGubun]:checked").val();
+            
+            var data = { menuCd : menucd , prodclascd : carGubun};
+            
+            carInfoUtil.searchUrl = '/cmm/carCorpInfo.do';
+            carInfoUtil.depthValue = 0;
+            carInfoUtil.menuCd = menucd;
+            ajaxUtil.postDisableAsync(carInfoUtil.searchUrl, data, callback);
+        },
+        
+        /**
+         * 
+         * 차량 차급 정보를 조회
+         * @param code 메뉴코드
+         */
+        carGradeDataRequest : function(menucd, carcd, callback){
+            var data = { menuCd : menucd, carcd : carcd, rc : carInfoUtil.rc, acc : carInfoUtil.acc, atn : carInfoUtil.atn };
+            carInfoUtil.searchUrl = '/cmm/carGradeInfo.do';
+            carInfoUtil.depthValue = 1;
+            carInfoUtil.menuCd = menucd;
+            ajaxUtil.postDisableAsync(carInfoUtil.searchUrl, data, callback);
+        },
+        
+        /**
+         * 
+         * 차량 대표차종 정보를 조회
+         * @param code 메뉴코드
+         */
+        carKindDataRequest : function(menucd, carcd, callback){
+            var data = { menuCd : menucd, carcd : carcd, rc : carInfoUtil.rc, acc : carInfoUtil.acc, atn : carInfoUtil.atn };
+            carInfoUtil.searchUrl = '/cmm/carKindInfo.do';
+            carInfoUtil.depthValue = 2;
+            carInfoUtil.menuCd = menucd;
+            ajaxUtil.postDisableAsync(carInfoUtil.searchUrl, data, callback);
+        },
+        
+        /**
+         * 
+         * 차량 세부차종 정보를 조회
+         * @param code 메뉴코드
+         */
+        carKindDetailDataRequest : function(menucd, carcd, callback){
+            var data = { menuCd : menucd, carcd : carcd, rc : carInfoUtil.rc, acc : carInfoUtil.acc, atn : carInfoUtil.atn };
+            carInfoUtil.searchUrl = '/cmm/carKindDetailInfo.do';
+            carInfoUtil.depthValue = 3;
+            carInfoUtil.menuCd = menucd;
+            ajaxUtil.postDisableAsync(carInfoUtil.searchUrl, data, callback);
+        },
+        
+        /**
+         * parameter 있을경우 전체 바인딩 및 초기값 셋팅
+         * Statements
+         * @param menucd
+         * @param carcd1
+         * @param carcd2
+         * @param carcd3
+         * @param carcd4
+         */
+        carAllDataRequest : function(menucd, carcd1, carcd2, carcd3, carcd4, rc, acc, atn){
+            carInfoUtil.rc = rc;
+            carInfoUtil.acc = acc;
+            carInfoUtil.atn = atn;
+            
+            var data = { menuCd : menucd, carcd1 : carcd1, carcd2 : carcd2, carcd3 : carcd3, carcd4 : carcd4, rc : carInfoUtil.rc, acc : carInfoUtil.acc, atn : carInfoUtil.atn };
+            if("WMCA" == menucd){
+                var carGubun = $("input[type=radio][name=searchGubun]:checked").val();
+                data.prodclascd = carGubun;
+            }
+            carInfoUtil.searchUrl = '/cmm/carAllSearchDataInfo.do';
+            ajaxUtil.postDisableAsync(carInfoUtil.searchUrl, data, carInfoUtil.resultAllDataBind);
+        },
+        
+        /**
+         * select
+         * Statements
+         * @param idx
+         * @param carcd
+         */
+        carItemSelect : function(idx, carcd){
+            var $depth = $('#search_step').find('.dv .scr').eq(idx);
+            $depth.removeClass('over');
+            $depth.find('a[makeid=' + carcd + ']').addClass('over');
+            var makenm = $depth.find('a[makeid=' + carcd + ']').attr('makenm');
+            //결과값 넣어주기
+            $(".search_result").find('#' + (parseInt(idx) + 1) + 'depth').text(makenm);
+        },
+        
+        /**
+         * 데이터 바인딩
+         * Statements
+         * @param json
+         */
+        resultDataBind : function(json){
+            try{
+                json = JSON.parse(json);
+            }catch(e){}
+            
+            if(json.bindingStatus == undefined && json.result.status){
+                var con = $('#search_step').find('.dv .scr').eq(carInfoUtil.depthValue);
+                var codeList = json.result.list;
+                var codeSize = codeList.length;
+                var text = '';
+                
+                //초기화
+                con.empty();
+
+                for(var i = 0; i < codeSize ; i++){
+                    
+                    if(i == 0){
+                        text += "<ul class='" + carInfoUtil.getDepthCss(carInfoUtil.menuCd, carInfoUtil.depthValue) + "'>";
+                    }
+                    
+                    if(carInfoUtil.depthValue == 0){
+                        text += '<li><a makeid="' + codeList[i].makeid + '" makenm="' + codeList[i].makenm + '" href="#"><img src="/resource/autoauction/images/brand/' + codeList[i].makenm + '.jpg" alt="' + codeList[i].makenm + '" /></a></li>';
+                    }else if(carInfoUtil.depthValue == 1){
+                        text += '<li><a makeid="' + codeList[i].makeid + '" makenm="' + codeList[i].makenm + '" href=\"#\"><span class=\"icoon\"></span><span class=\"ctype ' + carInfoUtil.getCarGradeCss(codeList[i].makenm) + '\"></span><span class="t">' + codeList[i].makenm + '</span></a></li>';
+                    }else if(carInfoUtil.depthValue == 2){
+                        text += '<li><a makeid="' + codeList[i].makeid + '" makenm="' + codeList[i].makenm + '" href="#">' + codeList[i].makenm + '</a></li>';
+                    }else if(carInfoUtil.depthValue == 3){
+                        text += '<li><a makeid="' + codeList[i].makeid + '" makenm="' + codeList[i].makenm + '" href="#">' + codeList[i].makenm + '</a></li>';
+                    }else{
+                        text += '';
+                    }
+                   
+                    if(i != 0 && (i + 1)%carInfoUtil.getDepthColCount(carInfoUtil.menuCd, carInfoUtil.depthValue) == 0){
+                        text += "</ul><ul class='" + carInfoUtil.getDepthCss(carInfoUtil.menuCd, carInfoUtil.depthValue) + "'>";
+                    }
+                    
+                    if((codeSize - 1) == i){
+                        text += "</ul>";
+                    }
+                }
+                
+                if(text != ''){
+                    con.html(text);    
+                }
+                
+             
+                carInfoUtil.carEventBind(carInfoUtil.depthValue);
+                
+            }else{
+                ajaxUtil.error(json);
+            }
+        },        
+        
+        /**
+         * 전체 데이터 바인딩
+         * Statements
+         * @param json
+         */
+        resultAllDataBind : function(json){
+            try{
+                json = JSON.parse(json);
+            }catch(e){}
+            
+            if(json.bindingStatus == undefined && json.result.status){
+                
+                if(json.result.prodclascd != undefined){
+                    $("input[type=radio][name=searchGubun]").each(function(){
+                        var rval = $(this).val();
+                        if(rval  == json.result.prodclascd){
+                            $(this).attr("checked",true);
+                        }
+                    });
+                }
+                
+                if(json.result.corp != undefined && json.result.corp.result.list != undefined && json.result.corp.result.list.length > 0){
+                    carInfoUtil.depthValue = 0;
+                    carInfoUtil.resultDataBind(json.result.corp);    
+                }
+                
+                if(json.result.grade != undefined && json.result.grade.result.list != undefined && json.result.grade.result.list.length > 0){
+                    carInfoUtil.depthValue = 1;
+                    carInfoUtil.resultDataBind(json.result.grade);    
+                }
+                
+                if(json.result.kind != undefined && json.result.kind.result.list != undefined && json.result.kind.result.list.length > 0){
+                    carInfoUtil.depthValue = 2;
+                    carInfoUtil.resultDataBind(json.result.kind);    
+                }
+                
+                if(json.result.kindDetail != undefined && json.result.kindDetail.result.list != undefined && json.result.kindDetail.result.list.length > 0){
+                    carInfoUtil.depthValue = 3;
+                    carInfoUtil.resultDataBind(json.result.kindDetail);    
+                }
+            }
+        },
+
+        /**
+         * 이벤트 재바인딩
+         */
+        carEventBind : function (idx){
+            var depth = $('#search_step').find('.dv .scr').eq(idx).find('a');
+            
+            
+            depth.bind('click', function(event){
+                event.preventDefault();
+                
+                num = idx + 1;
+                
+                var makeid = $(this).attr('makeid');
+                var makenm = $(this).attr('makenm');
+                
+                //결과값 넣어주기
+                $(".search_result").find('#' + num + 'depth').text(makenm);
+                
+                //선택
+                depth.removeClass('over');
+                $(this).addClass('over');
+                
+                //하위 depth 초기화
+                carInfoUtil.initCarData(num);
+                
+                //데이터 request
+                if(num == 1){
+                    $("#carcd1").val(makeid);  
+                    carInfoUtil.carGradeDataRequest(carInfoUtil.menuCd, makeid, carInfoUtil.resultDataBind);    
+                }else if (num == 2){
+                    $("#carcd2").val(makeid);
+                    carInfoUtil.carKindDataRequest(carInfoUtil.menuCd, makeid, carInfoUtil.resultDataBind);
+                }else if (num == 3){
+                    $("#carcd3").val(makeid);
+                    carInfoUtil.carKindDetailDataRequest(carInfoUtil.menuCd, makeid, carInfoUtil.resultDataBind);
+                }else if (num == 4){
+                    $("#carcd4").val(makeid);
+                    if("WMCA" == carInfoUtil.menuCd){
+                        $('#5depthTab').click();
+                    }
+                }
+                
+                $("#carcd").val(makeid);
+                
+                //$("#search_step").accordion("option", "active", num);
+                carInfoUtil.show(num)
+                $('#search_step').find('.dv .scr').eq(num - 1).scrollTop(0);
+                
+            });
+        },
+
+        /**
+         * 상위 단계 클릭시 초기화
+         */
+        initCarData : function (num){
+            var $depth = $('#search_step').find('.dv .scr');
+            
+            for(var i = num; i < $depth.size() + 1; i ++){
+                $depth.eq(i).empty();
+                
+                $(".search_result").find("#" + (i+1).toString() + "depth").text("");
+                $("#carcd" + (i+1).toString()).val('');
+                
+                $("#carcd").val($("#carcd" + i.toString()).val());
+            }
+            
+            /**
+             * 5depth 초기화 처리
+             */
+            if($('#5depth_y')){
+                $('#5depth_y').text('');
+                $("#sYear").val('');
+                $("#eYear").val('');
+                $("#syearcd").val('');
+                $("#eyearcd").val('');
+            }
+            if($('#5depth_m')){
+                $('#5depth_m').text('');
+                $(".mission").removeAttr('checked');
+                $("#missioncd").val('');
+            }
+            if($('#5depth_p')){
+                $('#5depth_p').text('');
+                $("#carPrice").val('');
+                $("#pricecd").val('');
+            }
+        },
+        
+        /**
+         * 탭을 보여준다. 0부터 시작
+         * Statements
+         * @param num
+         */
+        show : function(idx){
+            if($('#search_step').find('.dv .scr').eq(idx).find('ul').size() > 0){
+                $("#search_step").accordion("option", "active", idx);    
+            }
+        },
+        
+        /**
+         * 검색 조건 validation 체크
+         * Statements
+         */
+        validation : function(){
+            var carcd1 = $("#carcd1").val();
+            var syear = $("#syearcd").val();
+            var eyear = $("#eyearcd").val();
+            
+            
+            if(carcd1 == ''){
+                carInfoUtil.show(0);
+                show_alertV2('제조사를 선택하세요');
+                return false;
+            }
+            
+            
+            if(syear == '' && eyear == '' && syear > eyear){
+                carInfoUtil.show(4);
+                show_alertV2('연식을 정확히 선택하세요.');
+                return false;
+            }
+            return true;
+        }
+};
+
+
+
+function chk_byte(in_texts, text_max){
+  var ls_str = in_texts.value; 
+  var li_str_len = ls_str.length; //전체길이
+
+  //변수초기화
+  var li_max = text_max; //제한할 글자수 크기
+  var i = 0;
+  var li_byte = 0;   //한글일경우 2, 그외글자는 1을 더함
+  var li_len = 0;    // substring하기 위해 사용
+  var ls_one_char = "";  //한글자씩 검사
+  var ls_str2 = "";      //글자수를 초과하면 제한한 글자전까지만 보여줌.
+  
+  for(i=0; i< li_str_len; i++)
+  {
+    ls_one_char = ls_str.charAt(i);   //한글자 추출
+    if(escape(ls_one_char).length > 4){ 
+      li_byte +=2;   //한글이면 2를 더한다
+    }else{
+      li_byte++;     //한글아니면 1을 다한다
+    }
+      
+    if(li_byte <= li_max){
+      li_len = i + 1;
+    }
+  }
+
+  if(li_byte > li_max)
+  {
+    show_alertV2( li_max + "글자를 초과 입력할 수 없습니다.");
+    ls_str2 = ls_str.substr(0, li_len);
+    in_texts.value = ls_str2;
+  }
+
+  //in_texts.focus();
+  return li_byte;
+}
+
+function chk_byte_text(in_texts, text_max){
+    var ls_str = in_texts.val(); 
+    var li_str_len = ls_str.length; //전체길이
+
+    //변수초기화
+    var li_max = text_max; //제한할 글자수 크기
+    var i = 0;
+    var li_byte = 0;   //한글일경우 2, 그외글자는 1을 더함
+    var li_len = 0;    // substring하기 위해 사용
+    var ls_one_char = "";  //한글자씩 검사
+    var ls_str2 = "";      //글자수를 초과하면 제한한 글자전까지만 보여줌.
+    
+    for(i=0; i< li_str_len; i++)
+    {
+      ls_one_char = ls_str.charAt(i);   //한글자 추출
+      if(escape(ls_one_char).length > 4){ 
+        li_byte +=2;   //한글이면 2를 더한다
+      }else{
+        li_byte++;     //한글아니면 1을 다한다
+      }
+        
+      if(li_byte <= li_max){
+        li_len = i + 1;
+      }
+    }
+
+    if(li_byte > li_max)
+    {
+      show_alertV2( li_max + "글자를 초과 입력할 수 없습니다.");
+      ls_str2 = ls_str.substr(0, li_len);
+      in_texts.val(ls_str2);
+      li_byte = li_max;
+    }
+
+    in_texts.focus();
+    return li_byte;
+  }
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+/**
+ * 
+ * data 자릿수 체크
+ * @param argObject
+ * @param argMsg
+ * @param argMin
+ * @returns {Boolean}
+ */
+function fnDataCheckLength(objId, msg, minLen) {
+    if ($("#"+objId).val().substr(0,1) == "　" || $("#"+objId).val().length < minLen ) {
+        show_alertV2(argMsg + "을(를) 정확하게 입력하십시오.")
+        $("#"+objId).focus(); 
+        $("#"+objId).select(); 
+        return false;
+    }
+    return true;
+}
+
+
+function fnSendSns(sns, url, txt, _appid, _appname){    
+    var obj;    
+    var _url = encodeURIComponent(url);    
+    var _txt = encodeURIComponent(txt);    
+    var _br  = encodeURIComponent('\r\n');     
+
+    switch(sns)    {        
+        case 'facebook':            
+        obj = {                
+            method:'popup',                
+            url:'http://www.facebook.com/sharer/sharer.php?u=' + _url            
+        };            
+        break;         
+    
+        case 'twitter':            
+        obj = {                
+            method:'popup',                
+            url:'http://twitter.com/intent/tweet?text=' + _txt + '&url=' + _url            
+        };           
+        break;         
+        case 'me2day':            
+        obj = {                
+            method:'popup',                
+            url:'http://me2day.net/posts/new?new_post[body]=' + _txt + _br + _url + '&new_post[tags]=epiloum'            
+        };            
+        break;         
+        case 'kakaotalk':            
+        obj = {                
+            method:'web2app',                
+            param:'sendurl?msg=' + _txt + '&url=' + _url + '&type=link&apiver=2.0.1&appver=2.0&appid='+_appid+'&appname=' + encodeURIComponent(_appname),                
+            a_store:'itms-apps://itunes.apple.com/app/id362057947?mt=8',                
+            g_store:'market://details?id=com.kakao.talk',                
+            a_proto:'kakaolink://',                
+            g_proto:'scheme=kakaolink;package=com.kakao.talk'            
+        };            
+        break;         
+        case 'kakaostory':            
+        obj = {                
+            method:'web2app',                
+            param:'posting?post=' + _txt + _br + _url + '&apiver=1.0&appver=2.0&appid='+_appid+'&appname=' + encodeURIComponent(_appname),                
+            a_store:'itms-apps://itunes.apple.com/app/id486244601?mt=8',                
+            g_store:'market://details?id=com.kakao.story',                
+            a_proto:'storylink://',                
+            g_proto:'scheme=kakaolink;package=com.kakao.story'            
+        };            
+        break;         
+         
+        case 'band':            
+        obj = {                
+            method:'web2app',                
+            param:'create/post?text=' + _txt + _br + _url,                
+            a_store:'itms-apps://itunes.apple.com/app/id542613198?mt=8',                
+            g_store:'market://details?id=com.nhn.android.band',                
+            a_proto:'bandapp://',                
+            g_proto:'scheme=bandapp;package=com.nhn.android.band'           
+        };            
+        break;         
+         
+        default: show_alertV2('지원하지 않는 SNS입니다.');            return false;    
+    }     
+         
+    switch(obj.method)    {        
+        case 'popup':            
+            window.open(obj.url);            
+            break;         
+        case 'web2app':            
+             if(navigator.userAgent.match(/android/i))            {                                
+                 setTimeout(function(){ location.href = 'intent://' + obj.param + '#Intent;' + obj.g_proto + ';end'}, 100);            
+             }else if(navigator.userAgent.match(/(iphone)|(ipod)|(ipad)/i)){                       
+                 setTimeout(function(){ location.href = obj.a_store; }, 200);                          
+                 setTimeout(function(){ location.href = obj.a_proto + obj.param }, 100);            
+             }else{                
+                show_alertV2('이 기능은 모바일에서만 사용할 수 있습니다.');            
+             }            
+             break;    
+    }
+};
+
+function fnBMakers(mcd, sel){
+    if(mcd  ==''){
+        $("#bmodel").html("<option value=''>제조사를 먼저 선택하세요.</option>");
+    }else{
+        var _pUrl = "/cmm/carModelSearchList.do";
+        var param = {"makeid": mcd};
+        var  callBackData = function(data) {
+            $("#bmodel").html("<option value=''>전체</option>");
+
+            for(var i=0;i<data.result.length;i++){
+                $("#bmodel").append("<option value='" + data.result[i].modelcd + "'>" + data.result[i].modelnm + "</option>");
+            }
+                
+            if(sel != ''){
+                $('#bmodel option[value=' + sel + ']').attr('selected', true);
+            }
+        }
+        ajaxUtil.post(_pUrl,param,callBackData);
+    }
+}
+
+function check_search_date(url){
+    if($("input[name=searchType]").is(":checked")){
+        $("#searchForm #searchSubType").val("01");
+    }else{
+        $("#searchForm #searchSubType").val("02");  
+    }
+    
+    var stDt    =   $("#searchStartDate").val().split('.');
+    var dat1 = new Date(stDt[0], stDt[1]-1, stDt[2]);
+    var edDt    =   $("#searchEndDate").val().split('.');
+    var dat2 = new Date(edDt[0], edDt[1]-1, edDt[2]);
+    
+    if(stDt  == "" && edDt == ""){
+        $("#1week").click();
+    } else if(dat1.getTime() > dat2.getTime()){
+        show_alertV2("검색 기간을 잘못 입력하셨습니다.\n시작일 또는 종료일을 다시 확인해주세요.");
+        return false;
+    } else {
+        return true;
+    }
+    
+//    $('#searchForm').attr('action', url);
+//    $('#searchForm').submit();
+}
+
+function openBidKeypadEvent(){
+    $("#bidMoney").unbind("click").bind("click", function(event){
+        openKeypad("bidMoney" ,"신청가격 입력", "5");
+    });
+    $("#bidHpno2").unbind("click").bind("click", function(event){
+        openKeypad("bidHpno2" ,"연락처 입력", "4");
+    });
+    $("#bidHpno3").unbind("click").bind("click", function(event){
+        openKeypad("bidHpno3" ,"연락처 입력", "4");
+    });
+    
+    var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+    $("#bidPassno").unbind("keyup").bind("keyup", function(event){
+        var text    =   $(this).val();
+        if(check.test(text)){
+            show_alertV2('비밀번호는 한글입력이 불가능합니다.', function close_alert(){
+                $("#bidPassno").val("");
+            });
+        }
+    });
+}
+function openBidKeypadEvent2(flagHouse){
+    if(flagHouse == "N"){
+        $("#bidMoney").unbind("click").bind("click", function(event){
+            openKeypad("bidMoney" ,"신청가격 입력", "5");
+        });
+        $("#bidHpno2").unbind("click").bind("click", function(event){
+            openKeypad("bidHpno2" ,"연락처 입력", "4");
+        });
+        $("#bidHpno3").unbind("click").bind("click", function(event){
+            openKeypad("bidHpno3" ,"연락처 입력", "4");
+        });
+    }
+    keyNumberOnly();
+    
+    var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+    $("#bidPassno").unbind("keyup").bind("keyup", function(event){
+        var text    =   $(this).val();
+        if(check.test(text)){
+            show_alertV2('비밀번호는 한글입력이 불가능합니다.', function close_alert(){
+                $("#bidPassno").val("");
+            });
+        }
+    });
+    
+}
+
+function openBidKeypadEvent3(wrap, flagHouse){
+    if(flagHouse == "N"){
+        $("."+wrap+" #bidMoney").unbind("click").bind("click", function(event){
+            openKeypad("bidMoney"+"-"+wrap, "신청가격 입력", "5");
+        });
+        $("."+wrap+" #bidHpno2").unbind("click").bind("click", function(event){
+            openKeypad("bidHpno2"+"-"+wrap, "연락처 입력", "4");
+        });
+        $("."+wrap+" #bidHpno3").unbind("click").bind("click", function(event){
+            openKeypad("bidHpno3"+"-"+wrap, "연락처 입력", "4");
+        });
+    }
+    keyNumberOnly();
+    
+    var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+    $("."+wrap+" #bidPassno").unbind("keyup").bind("keyup", function(event){
+        var text    =   $(this).val();
+        if(check.test(text)){
+            show_alertV2('비밀번호는 한글입력이 불가능합니다.', function close_alert(){
+                $("."+wrap+" #bidPassno").val("");
+            });
+        }
+    });
+    
+}
+function openReExhibKeypadEvent(){
+    $("#starpric").unbind("click").bind("click", function(event){
+        openKeypad("starpric" ,"시작가 입력", "4");
+    });
+    $("#hopepric").unbind("click").bind("click", function(event){
+        openKeypad("hopepric" ,"희망가 입력", "4");
+    });
+}
+function keyNumberOnly(){
+    $(".numOnly").on({
+        keypress : function(event){   
+            if(event.which && !(event.which  > 47 && event.which  < 58 || event.which == 8 || event.which == '13')) {
+                show_alertV2('숫자만 입력해 주세요.');
+                event.preventDefault();
+            }
+        },
+        keyup : function(event){
+            var str = $(this).val();
+            var len = str.length;
+            var replaceStr = new String;
+            
+            for(var i=0; i < len; i++){
+                if(str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58){
+                    replaceStr += str.charAt(i);
+                }
+            }
+            
+            $(this).val(replaceStr);
+        }
+    });
+}
+//[s]앱인터페이스 스크립트
+function checkDevice(){
+    var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+ 
+    if ( varUA.indexOf('android') > -1) {
+        //안드로이드
+        return "android";
+    } else if ( varUA.indexOf("iphone") > -1||varUA.indexOf("ipad") > -1||varUA.indexOf("ipod") > -1 ) {
+        //IOS
+        return "ios";
+    } else {
+        //아이폰, 안드로이드 외
+        return "other";
+    }
+}
+
+function openBrowser(url){
+    var device = checkDevice();
+    if(device == "android"){
+        window.GlovisAuctionJavaInterface.openBrowser(url);
+    } else if(device == "ios"){
+        window.webkit.messageHandlers.openBrowser.postMessage(url);
+    } else {
+        window.open(url);
+//        GlovisAuctionJavaInterface.openBrowser(url);
+    }
+}
+function openWebView(url){
+    var device = checkDevice();
+    if(device == "android"){
+        window.GlovisAuctionJavaInterface.openWebView(url);
+    } else if(device == "ios"){
+        window.webkit.messageHandlers.openWebView.postMessage(url);
+    } else {
+        GlovisAuctionJavaInterface.openWebView(url);
+    }
+}
+function closeWebView(){
+    var device = checkDevice();
+    
+    try {
+        if(device == "android"){
+            window.GlovisAuctionJavaInterface.closeWebView();
+        } else if(device == "ios"){
+            window.webkit.messageHandlers.closeWebView.postMessage("");
+        } else {
+            GlovisAuctionJavaInterface.closeWebView();
+        }
+    } catch(e) {
+        window.close();
+    }
+}
+function printPage(){
+    var device = checkDevice();
+    if(device == "android"){
+        window.GlovisAuctionJavaInterface.printPage();
+    } else if(device == "ios"){
+        window.webkit.messageHandlers.printPage.postMessage("");
+    } else {
+        GlovisAuctionJavaInterface.printPage();
+    }
+}
+function isAuctionHouseDevice(){
+    var device = checkDevice();
+    var flag    =   "";
+    
+    if(device != "android" && device != "ios"){
+        flag    =   GlovisAuctionJavaInterface.isAuctionHouseDevice();
+    }
+    return flag;
+}
+function openKeypad2(id ,title, length, flagHouse){
+    if(flagHouse == "N"){
+        GlovisAuctionJavaInterface.openKeypad(id, title, length);
+    }
+    
+    keyNumberOnly();
+}
+function openKeypad(id ,title, length){
+    var device = checkDevice(); //디바이스 판단
+    var flag    =   ""; //응찰프로그램 판단
+    
+    if(device != "android" && device != "ios"){
+        flag    =   GlovisAuctionJavaInterface.isAuctionHouseDevice();
+        if(flag == "N"){
+            GlovisAuctionJavaInterface.openKeypad(id, title, length);
+        }
+    }
+}
+function setKeypadValue(param){
+    var arr = param.split('|');
+    var id  = arr[0];
+    if(id.indexOf("-") > -1) {
+        var _id = id.split('-')[0];
+        var _wrap = id.split('-')[1];
+        var val = arr[1];
+        
+        $("."+_wrap+ " #"+_id).val(val);
+        
+        if( typeof(fnPriceCheck) == 'function' ) {
+            fnPriceCheck();
+        }
+        
+    }else{
+    
+        var val = arr[1];
+        $("#"+id).val(val);
+        
+        if( typeof(fnPriceCheck) == 'function' ) {
+            fnPriceCheck();
+        }
+        if( typeof(inputNumberFormat) == 'function' ) {
+            inputNumberFormat();
+        }
+    }
+}
+function appLogout(){
+    var device = checkDevice();
+    if(device == "android"){
+        window.GlovisAuctionJavaInterface.logout();
+    } else if(device == "ios"){
+        window.webkit.messageHandlers.logout.postMessage("");
+    } else {
+        GlovisAuctionJavaInterface.logout();
+    }
+}
+//[e]앱인터페이스 스크립트
+
+//202504 프라임 옥션의 경우 참가권한여부 체크
+function primeChk(){
+    var result     = true;
+    var primeAuctionChk = $("#primeAuctionChk").val();
+    var primeauctionyn  = $("#primeauctionyn").val();
+    var primeauctionAlertMessage  = $("#primeauctionAlertMessage").val();
+    
+    if(primeauctionyn == "Y"){
+        if(primeAuctionChk != "Y"){
+            show_alertV2(primeauctionAlertMessage);
+            result  =   false;
+        }
+    }
+    return result;
+}
+
+// param 복호화
+async function setPrvVal(contentMap) {
+    for(var key in contentMap) {
+        if(contentMap.hasOwnProperty(key)) {
+            var sendData = {
+                    "encodeStr" : contentMap[key] // key에 해당하는 value만 전송
+                };
+            await callDecodeAjax(sendData, key);
+        }
+    }
+}
+
+async function callDecodeAjax(sendData, key) {
+    return new Promise((resolve) => {
+        $.ajax({
+            type : "POST",
+            data : sendData,
+            url : "/cm/commonDecodeStr.do" ,
+            success : function(json) {
+                contentMap[key] = json.result;
+            },
+            error : function(e) {
+                show_alertV2('<spring:message code="msg.ACW.A189" />')
+            },
+            done : function(e) {
+                $(".loading-layer").hide();
+            }
+        });
+        setTimeout(() => {
+            resolve();
+        }, 200);
+    });
+}
+
+/*
+ - 팝업 등 특정 영역을 PDF 파일로 다운로드 하는 함수
+ - 다운로드 할 영역 id="prf_print_wrap" 로 지정
+*/
+function htmlToPdf(fileName, contentMap) {
+    // 출력 영역 clone -> 가상 DOM 생성
+    const orgWrap = document.getElementById('pdf_print_wrap');
+    const clonedWrap = orgWrap.cloneNode(true);
+
+    // 가상 DOM에서 내용 변경
+    for (const id in contentMap) {
+        const cell = clonedWrap.querySelector('#' + id);
+        if (cell) {
+            cell.textContent = contentMap[id];
+        }
+    }
+
+    // 가상 DOM 에서 인쇄하기 버튼 삭제
+    const btn_print = clonedWrap.querySelector('#btn_print');
+    btn_print.remove();
+
+    // 가상 DOM을 화면에 보이지 않게 추가
+    const hiddenContainer = document.createElement('div');
+    hiddenContainer.style.position = 'fixed';
+    hiddenContainer.style.top = '-10000px';
+    
+    hiddenContainer.appendChild(clonedWrap);
+    document.body.appendChild(hiddenContainer);
+
+    // 가상 DOM을 캡처하여 PDF로 변환
+    html2canvas(clonedWrap).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+
+        // PDF 페이지 크기와 이미지 크기
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+
+        // 여백 설정 (단위: mm)
+        const margin = 10;
+        const contentWidth = pdfWidth - 2 * 30;
+        const contentHeight = pdfHeight - 2 * margin;
+
+        // 이미지 크기 조정 비율 계산
+        const scaleFactor = Math.min(contentWidth / imgWidth, contentHeight / imgHeight);
+
+        // 이미지의 새로운 크기
+        const newWidth = imgWidth * scaleFactor;
+        const newHeight = imgHeight * scaleFactor;
+
+        // 이미지를 중앙에 배치하기 위한 좌표 계산
+        const x = (pdfWidth - newWidth) / 2;
+        const y = (pdfHeight - newHeight) / 2;
+
+        // 이미지 추가
+        pdf.addImage(imgData, 'PNG', x, y, newWidth, newHeight);
+        pdf.save(fileName+".pdf");
+
+        // 가상 DOM 제거
+        document.body.removeChild(hiddenContainer);
+    });
+}
+
+/*
+ - 팝업 등 특정 영역을 PDF 파일로 다운로드 하는 함수
+ - 다운로드 할 영역 id="prf_print_wrap" 로 지정
+*/
+function htmlToEncryptPdf(fileName, contentMap) {
+    
+    var url = "/cm/downHtmlToEncryptPdf.do";
+
+    // 출력 영역 clone -> 가상 DOM 생성
+    const orgWrap = document.getElementById('pdf_print_wrap');
+    const clonedWrap = orgWrap.cloneNode(true);
+
+    // 가상 DOM에서 내용 변경
+    for (const id in contentMap) {
+        const cell = clonedWrap.querySelector('#' + id);
+        if (cell) {
+            cell.textContent = contentMap[id];
+        }
+    }
+
+    // 가상 DOM 에서 인쇄하기 버튼 삭제
+    const btn_print = clonedWrap.querySelector('#btn_print');
+    btn_print.remove();
+
+    // 가상 DOM을 화면에 보이지 않게 추가
+    const hiddenContainer = document.createElement('div');
+    hiddenContainer.style.position = 'fixed';
+    hiddenContainer.style.top = '-10000px';
+    
+    hiddenContainer.appendChild(clonedWrap);
+    document.body.appendChild(hiddenContainer);
+
+    // 가상 DOM을 캡처
+    html2canvas(clonedWrap).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+
+        document.getElementById('imgData').value = imgData;
+        document.getElementById('fileName').value = fileName;
+        show_alertV2("파일 열람 시 경매회원 및 법인 회원은 사업자번호, 개인 회원은 휴대폰 번호가 비밀번호로 설정됩니다. 비밀번호 입력 시 하이픈('-') 없이 입력 부탁드립니다.", function close_alert(){
+            document.getElementById('pdfForm').submit();
+        });
+
+        // 가상 DOM 제거
+        document.body.removeChild(hiddenContainer);
+    });
+}

@@ -1,0 +1,234 @@
+$(function (){
+    // contents height
+    var winH = $(window).outerHeight();
+    var footerH = $('footer').outerHeight(true);
+    var heightTotal = winH - footerH - 64;
+
+    $('#contents').css('min-height',heightTotal + 'px');
+
+    // 탭
+    $('.tab-group .tab').on('click', 'button', function (){
+        $(this).addClass('on').siblings().removeClass('on');
+        $(this).closest('.tab-group').find('.tab-contents .cont').eq($(this).index()).show().siblings().hide();
+    });
+
+    $('.tab-button a').on('click', function (e) {
+        e.preventDefault();
+
+        $(this).addClass('on').siblings().removeClass('on');
+    });
+
+    $('.sorting-tab button').on('click', function (){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+
+    // accodion
+    $('.accodion-section .question').on('click', function(){
+        var answer = $(this).closest('.item').find('.answer');
+
+        $('.accodion-section .item').removeClass('on');
+        $('.accodion-section .item .answer').slideUp(300);
+
+        if(answer.is(':hidden')) {
+            $(this).closest('.item').toggleClass('on');
+            $(this).closest('.item').find('.answer').slideDown(300)
+        }
+    });
+
+    // textarea
+    $('.textarea-wrap').each(function(){
+        var _this = $(this);
+        var textArea = _this.find('textarea');
+
+        // 글자수 체크
+        textArea.on('keyup', function (){
+            var redex = redex = /\s/ig;
+            var textLength = textArea.val().toString().replace(redex, "").length;
+
+            _this.find('.count em').text(textLength);
+        });
+
+        // hover, focus
+        textArea.on('mouseover', function (){
+            _this.addClass('hover');
+        })
+        textArea.on('mouseleave', function (){
+            _this.removeClass('hover');
+        })
+        textArea.on('focus', function (){
+            _this.addClass('focus');
+        })
+        textArea.on('focusout', function (){
+            _this.removeClass('focus');
+        })
+        if(_this.hasClass('disabled')) {
+            textArea.attr('disabled', 'true');
+        }
+    });
+
+    // search disabled
+    $('.search-area').each(function(){
+        var _this = $(this),
+            _input = _this.find('input');
+
+        if(_input.prop('disabled') === true) {
+            _this.addClass('disabled');
+        }
+    });
+
+    // attach file
+    $('.attach-file-group .regist-file').on('click', '.delete', function () {
+        $(this).closest('.file').remove();
+
+        if($('.attach-file-group .regist-file .file').length === 0) {
+            $('.attach-file-group .regist-file').remove();
+        };
+    });
+
+    // calendar
+    //$('.calendar-area .calendar-button').on('click', 'button', function(){
+    //    $(this).closest('.calendar-box').toggleClass('hide');
+    //});
+
+    $('.calendar-area .btn-calendar').on('click', function(){
+        $('.calendar-area').removeClass('on');
+        $(this).closest('.calendar-area').addClass('on');
+    });
+
+    // mypage lnb
+    $('.mypage-lnb .depth-02').each(function(){
+        $('.mypage-lnb .depth > button').on('click', function(){
+            $(this).closest('li').addClass('on').siblings().removeClass('on');
+        })
+
+        var _this = $(this);
+        var depth = _this.find('li');
+        var depthLink = depth.find('a');
+
+        depthLink.on('click', function(e){
+            e.preventDefault();
+
+            $(this).closest('li').addClass('on').siblings().removeClass('on');
+
+            if(depth.hasClass('on')) {
+                $(this).closest('.depth').addClass('active');
+            }
+        })
+
+        if(depth.hasClass('on')) {
+            $(this).closest('.depth').addClass('on active');
+        }
+    })
+
+    // popup close
+    /*$(document).on('mouseup', function (e){
+        var pop = $('.popup-wrap');
+
+        if(pop.has(e.target).length === 0) {
+            pop.hide();
+        }
+    });*/
+    $('.popup-wrap .popup-close').on('click', function(){
+        $(this).closest('.popup-wrap').hide();
+    });
+
+    $(".alert_close").click(function(){
+        $("#alert_box_v2").hide();
+    });
+
+    $(".btn_reload").click(function(){
+        $("#alert_box_v3").hide();
+        location.reload();
+    });
+});
+
+function show_alertV2(message){
+    var alert_box   =   $("#alert_box_v2");
+    $(".popup-text", alert_box).text(message);
+    alert_box.show();
+}
+function show_alertV3(message){
+    var alert_box   =   $("#alert_box_v3");
+    $(".popup-text", alert_box).text(message);
+    alert_box.show();
+}
+
+function show_alertV2(message, ok_func) {
+    var alert_box = $("#alert_box_v2");
+    $(".popup-text", alert_box).text(message);
+
+    // 확인 버튼 클릭 이벤트 리스너 등록
+    $(".alert_close").off("click").on("click", function() {
+        alert_box.hide(); // 경고 상자 숨기기
+        if (typeof ok_func === "function") {
+            ok_func(); // 콜백 함수 호출
+        }
+    });
+
+    alert_box.show(); // 경고 상자 표시
+}
+
+function show_confirmV2(message, ok_func, cancel_func) {
+    var confirm_box = $("#confirm_box_v2");
+    $(".popup-text", confirm_box).html(message);
+
+    // 확인 버튼 클릭 시
+    function handleOkClick() {
+        confirm_box.hide();
+        if (typeof ok_func === "function") {
+            ok_func();
+        }
+        // 이벤트 리스너 제거
+        $(".confirm_ok").off("click", handleOkClick);
+    }
+
+    // 취소 버튼 클릭 시
+    function handleCancelClick() {
+        confirm_box.hide();
+        if (typeof cancel_func === "function") {
+            cancel_func();
+        }
+        // 이벤트 리스너 제거
+        $(".confirm_cancel").off("click", handleCancelClick);
+    }
+
+    // 확인 버튼 클릭 이벤트 리스너
+    $(".confirm_ok").off('click').on("click", handleOkClick);
+
+    // 취소 버튼 클릭 이벤트 리스너
+    $(".confirm_cancel").off('click').on("click", handleCancelClick);
+
+    confirm_box.show();
+}
+function show_confirmV3(message, ok_func, cancel_func) {
+    var confirm_box = $("#confirm_box_v3");
+    $(".popup-text2", confirm_box).html(message);
+
+    // 확인 버튼 클릭 시
+    function handleOkClick() {
+        confirm_box.hide();
+        if (typeof ok_func === "function") {
+            ok_func();
+        }
+        // 이벤트 리스너 제거
+        $(".confirm_ok").off("click", handleOkClick);
+    }
+
+    // 취소 버튼 클릭 시
+    function handleCancelClick() {
+        confirm_box.hide();
+        if (typeof cancel_func === "function") {
+            cancel_func();
+        }
+        // 이벤트 리스너 제거
+        $(".confirm_cancel").off("click", handleCancelClick);
+    }
+
+    // 확인 버튼 클릭 이벤트 리스너
+    $(".confirm_ok").off('click').on("click", handleOkClick);
+
+    // 취소 버튼 클릭 이벤트 리스너
+    $(".confirm_cancel").off('click').on("click", handleCancelClick);
+
+    confirm_box.show();
+}

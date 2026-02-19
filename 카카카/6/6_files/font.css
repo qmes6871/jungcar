@@ -1,0 +1,7 @@
+@charset "utf-8";
+
+@font-face {font-family: 'Pretendard';font-style: normal;font-weight: 400;src: url(/resource/autoauction_2023/font/Pretendard-Regular.woff) format('woff'),url(/resource/autoauction_2023/font/Pretendard-Regular.woff2) format('woff2'),url(/resource/autoauction_2023/font/Pretendard-Regular.otf) format('opentype');}
+@font-face {font-family: 'Pretendard';font-style: normal;font-weight: 600;src: url(/resource/autoauction_2023/font/Pretendard-SemiBold.woff) format('woff'),url(/resource/autoauction_2023/font/Pretendard-SemiBold.woff2) format('woff2'),url(/resource/autoauction_2023/font/Pretendard-SemiBold.otf) format('opentype');}
+@font-face {font-family: 'Pretendard';font-style: normal;font-weight: 700;src: url(/resource/autoauction_2023/font/Pretendard-Bold.woff) format('woff'),url(/resource/autoauction_2023/font/Pretendard-Bold.woff2) format('woff2'),url(/resource/autoauction_2023/font/Pretendard-Bold.otf) format('opentype');}
+@font-face {font-family: 'Roboto';font-style: normal;font-weight: 400;src: url(/resource/autoauction_2023/font/Roboto-Regular.woff2) format('woff2'),url(/resource/autoauction_2023/font/Roboto-Regular.woff) format('woff'),url(/resource/autoauction_2023/font/Roboto-Regular.otf) format('opentype');}
+@font-face {font-family: 'Roboto';font-style: normal;font-weight: 700;src: url(/resource/autoauction_2023/font/Roboto-Bold.woff2) format('woff2'),url(/resource/autoauction_2023/font/Roboto-Bold.woff) format('woff'),url(/resource/autoauction_2023/font/Roboto-Bold.otf) format('opentype');}

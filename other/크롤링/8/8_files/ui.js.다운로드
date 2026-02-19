@@ -1,0 +1,88 @@
+function popOpen(obj){
+    var main = $(".wrapcontent");
+    var body = $("body");
+    var html = $("html");
+    main.css({"width": main.width() + "px"});
+    body.css("overflow", "hidden");
+    var bst = body.scrollTop(),
+        hst = html.scrollTop();
+    var comName = $.trim($(obj).attr("class").replace("btn_", ""));
+    if(comName.indexOf("_pop") != -1){
+        comName = $.trim(comName.replace("modalpop", ""));
+    }else{
+        comName = comName+"_pop";
+    }
+    $("."+comName).css("top", bst !== 0 ? bst + "px" : (hst !== 0 ? hst + "px" : ""));
+    $("."+comName).show();
+}
+
+function popOpen2(obj){
+    var body = $("body");
+    var html = $("html");
+    body.css("overflow", "hidden");
+    var bst = body.scrollTop(),
+        hst = html.scrollTop();
+    var comName = $.trim($(obj).attr("id").replace("btn_", ""));
+    if(comName.indexOf("_pop") != -1){
+        comName = $.trim(comName.replace("modalpop", ""));
+    }else{
+        comName = comName+"_pop";
+    }
+    $("."+comName).css("top", bst !== 0 ? bst + "px" : (hst !== 0 ? hst + "px" : ""));
+    $("."+comName).show();
+}
+
+function popClose(obj){
+   var main = $(".wrapcontent");
+    var body = $("body");
+    var html = $("html");
+    $("."+obj).fadeOut("fast", function () {
+        body.css("overflow", "");
+        main.css("width", "");
+        $(this).css("top", "");
+        $(this).hide();
+    });
+}
+
+
+$(document).ready(function() {  
+    $(".close").click(function(){
+        var popClsNm = $.trim($(this).parent().parent().parent().attr("class").replace("modalpop", ""));
+        popClose(popClsNm);
+    });
+    $(".btn_cancel").click(function(){
+        $(".close").each(function(){
+          $(this).click();  
+        })
+    });
+
+    $(".layclk").click(function(e){ 
+        $(".slayer").show();
+        $(".slayer").offset({
+            left:e.pageX + "- 100",
+            top:e.pageY
+        });
+    });
+});
+
+
+function sLayerClose(){
+    $(".slayer").hide();
+}
+function imgError(image) {
+    image.onerror = "";
+    image.src = "nonimage.gif";
+    return true;
+}
+
+function modalImgPopCls(){ /**  modal popup close **/
+        $(".modalpop").hide();
+}
+$(document).keydown(function(event){
+    if(event.keyCode == 27){
+    $('body').css("overflow", "");
+        $(".modalpop").hide();
+        $(".slayer").hide();
+    }
+    String.prototype.trim = function() {     return this.replace(/(^\s*)|(\s*$)/gi, ""); };
+});

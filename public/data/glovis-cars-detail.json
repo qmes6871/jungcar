@@ -1,25 +1,25 @@
 {
-  "at": "2026-02-19T14:54:57.363Z",
+  "at": "2026-02-19T15:59:01.863Z",
   "cnt": 1,
   "cars": [
     {
-      "id": "0",
+      "id": "car_0",
       "no": "1",
-      "name": "차량 1",
+      "name": "제네시스520쉐보레(대우)506쌍용397르노삼성370대창모터스4한국상용트럭3캠시스1수입벤츠",
       "status": "판매중",
-      "year": "",
+      "year": "1990",
       "transmission": "",
       "displacement": "",
-      "mileage": "",
+      "mileage": "0 km",
       "color": "",
-      "fuel": "",
+      "fuel": "가솔린",
       "usage": "",
       "grade": "",
       "auctionRound": "",
       "lane": "",
       "plateNumber": "",
       "location": "",
-      "price": null,
+      "price": 3680,
       "hope": null,
       "instant": null,
       "img": "/Jungcar/images/cars/1_0_thumb.jpg",
@@ -29,7 +29,7 @@
       "thumbs": [
         "/Jungcar/images/cars/1_0_thumb.jpg"
       ],
-      "url": "https://autobell.co.kr/buycar/searchList?certi=N&detailTab=0&ewInsuSvc=N&filterKey=-1309156279&filterTab=0&homeSvc=N&listType=card&order=upd_dt&subTab=1&tab=1&viewType=1"
+      "url": "https://www.autobell.co.kr/buycar/buyCarDetail/car_0"
     }
   ]
 }

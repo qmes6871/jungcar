@@ -1,0 +1,1883 @@
+[
+  {
+    "id": 62,
+    "brand": "Kia",
+    "model": "K7 프리미어 2.5 GDi 노블레스",
+    "year": 2020,
+    "mileage": 144507,
+    "price": 11778,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(61).jpg"
+    ],
+    "description": "출품번호: 1062, 배기량: 2497cc, 원가: 1590만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 74,
+    "brand": "Genesis",
+    "model": "G80 3.3 GDi AWD 럭셔리",
+    "year": 2019,
+    "mileage": 158483,
+    "price": 10259,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(73).jpg"
+    ],
+    "description": "출품번호: 1074, 배기량: 3342cc, 원가: 1385만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 73,
+    "brand": "Genesis",
+    "model": "G80 3.8 GDi AWD 파이니스트",
+    "year": 2018,
+    "mileage": 118296,
+    "price": 14444,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(72).jpg"
+    ],
+    "description": "출품번호: 1073, 배기량: 3778cc, 원가: 1950만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 72,
+    "brand": "Renault Samsung",
+    "model": "SM6 2.0 GDe SE",
+    "year": 2017,
+    "mileage": 109693,
+    "price": 3407,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(71).jpg"
+    ],
+    "description": "출품번호: 1072, 배기량: 1997cc, 원가: 460만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 71,
+    "brand": "Hyundai",
+    "model": "쏘나타 더 브릴리언트 CVVL 스마트",
+    "year": 2013,
+    "mileage": 161057,
+    "price": 1778,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(70).jpg"
+    ],
+    "description": "출품번호: 1071, 배기량: 1999cc, 원가: 240만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 70,
+    "brand": "Hyundai",
+    "model": "그랜저TG Q270 럭셔리",
+    "year": 2007,
+    "mileage": 186896,
+    "price": 741,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(69).jpg"
+    ],
+    "description": "출품번호: 1070, 배기량: 2656cc, 원가: 100만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 69,
+    "brand": "Kia",
+    "model": "더 뉴레이 1.0 가솔린 프레스티지",
+    "year": 2021,
+    "mileage": 130577,
+    "price": 3630,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(68).jpg"
+    ],
+    "description": "출품번호: 1069, 배기량: 998cc, 원가: 490만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 68,
+    "brand": "Hyundai",
+    "model": "엑센트 신형 1.6 GDI 탑",
+    "year": 2012,
+    "mileage": 191679,
+    "price": 1370,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(67).jpg"
+    ],
+    "description": "출품번호: 1068, 배기량: 1591cc, 원가: 185만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 67,
+    "brand": "Hyundai",
+    "model": "LF쏘나타 뉴라이즈 LPi 택시 스타일",
+    "year": 2019,
+    "mileage": 396609,
+    "price": 2407,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(66).jpg"
+    ],
+    "description": "출품번호: 1067, 배기량: 1999cc, 원가: 325만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 66,
+    "brand": "Kia",
+    "model": "더 뉴모닝 가솔린 럭셔리",
+    "year": 2016,
+    "mileage": 116855,
+    "price": 2667,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(65).jpg"
+    ],
+    "description": "출품번호: 1066, 배기량: 998cc, 원가: 360만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 65,
+    "brand": "Hyundai",
+    "model": "아반떼AD 1.6 GDi 밸류 플러스",
+    "year": 2018,
+    "mileage": 163812,
+    "price": 4963,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(64).jpg"
+    ],
+    "description": "출품번호: 1065, 배기량: 1591cc, 원가: 670만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 64,
+    "brand": "Hyundai",
+    "model": "그랜저IG 2.4 GDi 프리미엄",
+    "year": 2018,
+    "mileage": 107196,
+    "price": 8222,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(63).jpg"
+    ],
+    "description": "출품번호: 1064, 배기량: 2359cc, 원가: 1110만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 63,
+    "brand": "Chevrolet",
+    "model": "올 뉴말리부 2.0 터보 LTZ 프리미엄",
+    "year": 2017,
+    "mileage": 110266,
+    "price": 2889,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(62).jpg"
+    ],
+    "description": "출품번호: 1063, 배기량: 1998cc, 원가: 390만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 75,
+    "brand": "Hyundai",
+    "model": "아반떼MD M16 GDi 럭셔리",
+    "year": 2012,
+    "mileage": 147528,
+    "price": 1593,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(74).jpg"
+    ],
+    "description": "출품번호: 1075, 배기량: 1591cc, 원가: 215만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 61,
+    "brand": "Hyundai",
+    "model": "그랜저IG 2.4 GDi 프리미엄",
+    "year": 2017,
+    "mileage": 137433,
+    "price": 5593,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(60).jpg"
+    ],
+    "description": "출품번호: 1061, 배기량: 2359cc, 원가: 755만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 60,
+    "brand": "Chevrolet",
+    "model": "마티즈 크리에이티브 재즈 스타",
+    "year": 2011,
+    "mileage": 53958,
+    "price": 778,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Brown",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(59).jpg"
+    ],
+    "description": "출품번호: 1060, 배기량: 995cc, 원가: 105만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 59,
+    "brand": "Kia",
+    "model": "올 뉴모닝 가솔린 디럭스 스페셜",
+    "year": 2012,
+    "mileage": 102044,
+    "price": 1259,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(58).jpg"
+    ],
+    "description": "출품번호: 1059, 배기량: 998cc, 원가: 170만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 58,
+    "brand": "Genesis",
+    "model": "더 올뉴G80 가솔린 2.5 2WD 기본형",
+    "year": 2024,
+    "mileage": 69482,
+    "price": 32074,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(57).jpg"
+    ],
+    "description": "출품번호: 1058, 배기량: 2497cc, 원가: 4330만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 57,
+    "brand": "Kia",
+    "model": "K5 LPI 렌터카 스마트",
+    "year": 2013,
+    "mileage": 159498,
+    "price": 1259,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(56).jpg"
+    ],
+    "description": "출품번호: 1057, 배기량: 1999cc, 원가: 170만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 56,
+    "brand": "Genesis",
+    "model": "G90 3.8 AWD 프리미엄 럭셔리",
+    "year": 2021,
+    "mileage": 195761,
+    "price": 18333,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Brown",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(55).jpg"
+    ],
+    "description": "출품번호: 1056, 배기량: 3778cc, 원가: 2475만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 55,
+    "brand": "Hyundai",
+    "model": "더 뉴아반떼MD 1.6 GDi 스마트",
+    "year": 2014,
+    "mileage": 172251,
+    "price": 1667,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(54).jpg"
+    ],
+    "description": "출품번호: 1055, 배기량: 1591cc, 원가: 225만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 54,
+    "brand": "Chevrolet",
+    "model": "올 뉴말리부 1.5 터보 LS",
+    "year": 2017,
+    "mileage": 141494,
+    "price": 2148,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(53).jpg"
+    ],
+    "description": "출품번호: 1054, 배기량: 1490cc, 원가: 290만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 53,
+    "brand": "Kia",
+    "model": "K3 1.6 디젤 럭셔리",
+    "year": 2015,
+    "mileage": 278174,
+    "price": 1185,
+    "fuel": "Diesel",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(52).jpg"
+    ],
+    "description": "출품번호: 1053, 배기량: 1582cc, 원가: 160만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 52,
+    "brand": "Chevrolet",
+    "model": "임팔라 2.5 LTZ",
+    "year": 2016,
+    "mileage": 142285,
+    "price": 3556,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(51).jpg"
+    ],
+    "description": "출품번호: 1052, 배기량: 2457cc, 원가: 480만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 51,
+    "brand": "Hyundai",
+    "model": "디 올뉴그랜저 가솔린 3.5 AWD 프리미엄",
+    "year": 2023,
+    "mileage": 50008,
+    "price": 21481,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(50).jpg"
+    ],
+    "description": "출품번호: 1051, 배기량: 3470cc, 원가: 2900만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 87,
+    "brand": "Hyundai",
+    "model": "아반떼AD 1.6 GDi 밸류 플러스",
+    "year": 2018,
+    "mileage": 163098,
+    "price": 4889,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(86).jpg"
+    ],
+    "description": "출품번호: 1087, 배기량: 1591cc, 원가: 660만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 99,
+    "brand": "Hyundai",
+    "model": "신형에쿠스 VS380 럭셔리",
+    "year": 2010,
+    "mileage": 193480,
+    "price": 1074,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(98).jpg"
+    ],
+    "description": "출품번호: 1099, 배기량: 3778cc, 원가: 145만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 98,
+    "brand": "Hyundai",
+    "model": "그랜저IG 2.4 GDi 프리미엄 스페셜",
+    "year": 2018,
+    "mileage": 157969,
+    "price": 7852,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(97).jpg"
+    ],
+    "description": "출품번호: 1098, 배기량: 2359cc, 원가: 1060만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 97,
+    "brand": "Chevrolet",
+    "model": "더 뉴말리부 1.35 가솔린 LT 디럭스",
+    "year": 2019,
+    "mileage": 119262,
+    "price": 5852,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(96).jpg"
+    ],
+    "description": "출품번호: 1097, 배기량: 1341cc, 원가: 790만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 96,
+    "brand": "Hyundai",
+    "model": "그랜저HG HG 240 럭셔리",
+    "year": 2012,
+    "mileage": 148464,
+    "price": 2074,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(95).jpg"
+    ],
+    "description": "출품번호: 1096, 배기량: 2359cc, 원가: 280만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 95,
+    "brand": "Kia",
+    "model": "올 뉴K3 1.6 가솔린 럭셔리",
+    "year": 2019,
+    "mileage": 95799,
+    "price": 7481,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(94).jpg"
+    ],
+    "description": "출품번호: 1095, 배기량: 1598cc, 원가: 1010만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 94,
+    "brand": "Renault Samsung",
+    "model": "뉴 SM7 노바 2.0 LPe 장애인",
+    "year": 2017,
+    "mileage": 62713,
+    "price": 4667,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(93).jpg"
+    ],
+    "description": "출품번호: 1094, 배기량: 1998cc, 원가: 630만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 93,
+    "brand": "Kia",
+    "model": "K3 1.6 GDI 트렌디",
+    "year": 2014,
+    "mileage": 87751,
+    "price": 2481,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(92).jpg"
+    ],
+    "description": "출품번호: 1093, 배기량: 1591cc, 원가: 335만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 92,
+    "brand": "Chevrolet",
+    "model": "더 넥스트 스파크 LT 플러스",
+    "year": 2017,
+    "mileage": 84821,
+    "price": 2111,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "미색",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(91).jpg"
+    ],
+    "description": "출품번호: 1092, 배기량: 999cc, 원가: 285만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 91,
+    "brand": "Hyundai",
+    "model": "그랜저HG 디젤 HG 220 프리미엄",
+    "year": 2016,
+    "mileage": 150282,
+    "price": 3407,
+    "fuel": "Diesel",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(90).jpg"
+    ],
+    "description": "출품번호: 1091, 배기량: 2199cc, 원가: 460만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 90,
+    "brand": "Kia",
+    "model": "신형 K5(DL3) 2.0 가솔린 프레스티지",
+    "year": 2020,
+    "mileage": 54799,
+    "price": 10111,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(89).jpg"
+    ],
+    "description": "출품번호: 1090, 배기량: 1999cc, 원가: 1365만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 89,
+    "brand": "Kia",
+    "model": "올 뉴프라이드 4도어 1.4 MPI 디럭스",
+    "year": 2012,
+    "mileage": 42908,
+    "price": 2519,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(88).jpg"
+    ],
+    "description": "출품번호: 1089, 배기량: 1396cc, 원가: 340만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 88,
+    "brand": "Hyundai",
+    "model": "그랜저HG HG 240 럭셔리",
+    "year": 2012,
+    "mileage": 176975,
+    "price": 1259,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(87).jpg"
+    ],
+    "description": "출품번호: 1088, 배기량: 2359cc, 원가: 170만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 50,
+    "brand": "Hyundai",
+    "model": "아반떼MD M16 GDi 블루 세이버",
+    "year": 2012,
+    "mileage": 143757,
+    "price": 1667,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(49).jpg"
+    ],
+    "description": "출품번호: 1050, 배기량: 1591cc, 원가: 225만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 86,
+    "brand": "Hyundai",
+    "model": "디 올뉴그랜저 LPi 3.5 프리미엄",
+    "year": 2023,
+    "mileage": 46954,
+    "price": 20741,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(85).jpg"
+    ],
+    "description": "출품번호: 1086, 배기량: 3470cc, 원가: 2800만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 85,
+    "brand": "Hyundai",
+    "model": "제네시스DH G330 모던",
+    "year": 2015,
+    "mileage": 188148,
+    "price": 3926,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(84).jpg"
+    ],
+    "description": "출품번호: 1085, 배기량: 3342cc, 원가: 530만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 84,
+    "brand": "Chevrolet",
+    "model": "마티즈 크리에이티브 재즈 스타",
+    "year": 2010,
+    "mileage": 70146,
+    "price": 630,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(83).jpg"
+    ],
+    "description": "출품번호: 1084, 배기량: 995cc, 원가: 85만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 83,
+    "brand": "Hyundai",
+    "model": "아반떼AD 1.6 GDi 스마트",
+    "year": 2017,
+    "mileage": 121959,
+    "price": 3667,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Red",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(82).jpg"
+    ],
+    "description": "출품번호: 1083, 배기량: 1591cc, 원가: 495만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 82,
+    "brand": "Kia",
+    "model": "뉴모닝 LX 고급형 블랙프리미엄",
+    "year": 2009,
+    "mileage": 161321,
+    "price": 370,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(81).jpg"
+    ],
+    "description": "출품번호: 1082, 배기량: 999cc, 원가: 50만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 81,
+    "brand": "Kia",
+    "model": "K5 하이브리드 럭셔리",
+    "year": 2012,
+    "mileage": 147166,
+    "price": 1400,
+    "fuel": "Hybrid",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(80).jpg"
+    ],
+    "description": "출품번호: 1081, 배기량: 1999cc, 원가: 189만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 80,
+    "brand": "Chevrolet",
+    "model": "스파크 LPGi L",
+    "year": 2014,
+    "mileage": 102156,
+    "price": 1074,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(79).jpg"
+    ],
+    "description": "출품번호: 1080, 배기량: 995cc, 원가: 145만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 79,
+    "brand": "Hyundai",
+    "model": "아반떼MD M16 GDi 럭셔리",
+    "year": 2012,
+    "mileage": 154089,
+    "price": 1926,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(78).jpg"
+    ],
+    "description": "출품번호: 1079, 배기량: 1591cc, 원가: 260만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 78,
+    "brand": "Hyundai",
+    "model": "디 올뉴그랜저 LPi 3.5 영업용 고급형",
+    "year": 2024,
+    "mileage": 129951,
+    "price": 13889,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(77).jpg"
+    ],
+    "description": "출품번호: 1078, 배기량: 3470cc, 원가: 1875만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 77,
+    "brand": "Hyundai",
+    "model": "LF쏘나타 뉴라이즈 LPi 택시 스타일",
+    "year": 2021,
+    "mileage": 188936,
+    "price": 7185,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(76).jpg"
+    ],
+    "description": "출품번호: 1077, 배기량: 1999cc, 원가: 970만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 76,
+    "brand": "Hyundai",
+    "model": "디 올뉴그랜저 가솔린 2.5 익스클루시브",
+    "year": 2023,
+    "mileage": 35617,
+    "price": 21852,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(75).jpg"
+    ],
+    "description": "출품번호: 1076, 배기량: 2497cc, 원가: 2950만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 13,
+    "brand": "Hyundai",
+    "model": "캐스퍼 가솔린 1.0 터보 인스퍼레이션",
+    "year": 2023,
+    "mileage": 36006,
+    "price": 11111,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "Red",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(12).jpg"
+    ],
+    "description": "출품번호: 1013, 배기량: 998cc, 원가: 1500만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 25,
+    "brand": "Kia",
+    "model": "K7 프레스티지 3.0 GDI 럭셔리",
+    "year": 2012,
+    "mileage": 120543,
+    "price": 2370,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(24).jpg"
+    ],
+    "description": "출품번호: 1025, 배기량: 2999cc, 원가: 320만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 24,
+    "brand": "Hyundai",
+    "model": "LF쏘나타 2.0 CVVL 케어플러스",
+    "year": 2017,
+    "mileage": 140333,
+    "price": 5519,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(23).jpg"
+    ],
+    "description": "출품번호: 1024, 배기량: 1999cc, 원가: 745만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 23,
+    "brand": "Genesis",
+    "model": "EQ900 3.3 터보 AWD 프리미엄 럭셔리",
+    "year": 2016,
+    "mileage": 188079,
+    "price": 9222,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(22).jpg"
+    ],
+    "description": "출품번호: 1023, 배기량: 3342cc, 원가: 1245만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 22,
+    "brand": "Kia",
+    "model": "신형 K5(DL3) 2.0 가솔린 프레스티지",
+    "year": 2020,
+    "mileage": 57922,
+    "price": 12296,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(21).jpg"
+    ],
+    "description": "출품번호: 1022, 배기량: 1999cc, 원가: 1660만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 21,
+    "brand": "Chevrolet",
+    "model": "스파크 가솔린 LS",
+    "year": 2014,
+    "mileage": 124084,
+    "price": 889,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(20).jpg"
+    ],
+    "description": "출품번호: 1021, 배기량: 995cc, 원가: 120만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 20,
+    "brand": "Kia",
+    "model": "신형 K5(DL3) 2.0 가솔린 시그니처",
+    "year": 2021,
+    "mileage": 57883,
+    "price": 11481,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Blue",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(19).jpg"
+    ],
+    "description": "출품번호: 1020, 배기량: 1999cc, 원가: 1550만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 19,
+    "brand": "Kia",
+    "model": "더 뉴모닝 가솔린 럭셔리",
+    "year": 2016,
+    "mileage": 66776,
+    "price": 3778,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "미색",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(18).jpg"
+    ],
+    "description": "출품번호: 1019, 배기량: 998cc, 원가: 510만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 18,
+    "brand": "Kia",
+    "model": "K7 프레스티지 2.4 GDI 럭셔리",
+    "year": 2012,
+    "mileage": 199011,
+    "price": 1704,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(17).jpg"
+    ],
+    "description": "출품번호: 1018, 배기량: 2359cc, 원가: 230만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 17,
+    "brand": "Genesis",
+    "model": "더 뉴G70 가솔린 2.0T 2WD 기본형",
+    "year": 2023,
+    "mileage": 67270,
+    "price": 20519,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(16).jpg"
+    ],
+    "description": "출품번호: 1017, 배기량: 1998cc, 원가: 2770만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 16,
+    "brand": "Chevrolet",
+    "model": "마티즈 크리에이티브 그루브 스타",
+    "year": 2010,
+    "mileage": 126373,
+    "price": 481,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(15).jpg"
+    ],
+    "description": "출품번호: 1016, 배기량: 995cc, 원가: 65만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 15,
+    "brand": "Hyundai",
+    "model": "아반떼MD M16 GDi 럭셔리",
+    "year": 2012,
+    "mileage": 92219,
+    "price": 1667,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(14).jpg"
+    ],
+    "description": "출품번호: 1015, 배기량: 1591cc, 원가: 225만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 14,
+    "brand": "Hyundai",
+    "model": "LF쏘나타 2.0 CVVL 스마트 스페셜",
+    "year": 2017,
+    "mileage": 203790,
+    "price": 4444,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(13).jpg"
+    ],
+    "description": "출품번호: 1014, 배기량: 1999cc, 원가: 600만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 26,
+    "brand": "Hyundai",
+    "model": "그랜저HG HG 300 로얄",
+    "year": 2011,
+    "mileage": 161859,
+    "price": 1667,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(25).jpg"
+    ],
+    "description": "출품번호: 1026, 배기량: 2999cc, 원가: 225만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 12,
+    "brand": "Kia",
+    "model": "더 뉴모닝 가솔린 럭셔리",
+    "year": 2016,
+    "mileage": 163040,
+    "price": 2000,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(11).jpg"
+    ],
+    "description": "출품번호: 1012, 배기량: 998cc, 원가: 270만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 11,
+    "brand": "Chevrolet",
+    "model": "더 뉴스파크 LT",
+    "year": 2019,
+    "mileage": 122599,
+    "price": 3630,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(10).jpg"
+    ],
+    "description": "출품번호: 1011, 배기량: 999cc, 원가: 490만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 10,
+    "brand": "Kia",
+    "model": "올 뉴모닝 가솔린 디럭스",
+    "year": 2014,
+    "mileage": 147080,
+    "price": 1296,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(9).jpg"
+    ],
+    "description": "출품번호: 1010, 배기량: 998cc, 원가: 175만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 9,
+    "brand": "Chevrolet",
+    "model": "올 뉴말리부 2.0 터보 LT 프리미엄",
+    "year": 2017,
+    "mileage": 112918,
+    "price": 3630,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(8).jpg"
+    ],
+    "description": "출품번호: 1009, 배기량: 1998cc, 원가: 490만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 8,
+    "brand": "KG Mobility",
+    "model": "뉴 체어맨 W CW700 럭셔리",
+    "year": 2012,
+    "mileage": 285608,
+    "price": 1037,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(7).jpg"
+    ],
+    "description": "출품번호: 1008, 배기량: 3598cc, 원가: 140만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 7,
+    "brand": "Kia",
+    "model": "더 뉴K7 2.4 GDI 프레스티지",
+    "year": 2015,
+    "mileage": 243856,
+    "price": 1852,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(6).jpg"
+    ],
+    "description": "출품번호: 1007, 배기량: 2359cc, 원가: 250만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 6,
+    "brand": "Chevrolet",
+    "model": "올 뉴크루즈 1.4 터보 LS",
+    "year": 2017,
+    "mileage": 81927,
+    "price": 3000,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Blue",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(5).jpg"
+    ],
+    "description": "출품번호: 1006, 배기량: 1399cc, 원가: 405만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 5,
+    "brand": "Kia",
+    "model": "K5 2.0 CVVT 프레스티지",
+    "year": 2012,
+    "mileage": 204732,
+    "price": 1889,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(4).jpg"
+    ],
+    "description": "출품번호: 1005, 배기량: 1998cc, 원가: 255만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 4,
+    "brand": "Genesis",
+    "model": "더 올뉴G80 가솔린 2.5 AWD 기본형",
+    "year": 2021,
+    "mileage": 89275,
+    "price": 20889,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(3).jpg"
+    ],
+    "description": "출품번호: 1004, 배기량: 2497cc, 원가: 2820만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 3,
+    "brand": "Hyundai",
+    "model": "아반떼AD 1.6 GDi 법인전용",
+    "year": 2016,
+    "mileage": 112860,
+    "price": 3556,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(2).jpg"
+    ],
+    "description": "출품번호: 1003, 배기량: 1591cc, 원가: 480만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 2,
+    "brand": "Hyundai",
+    "model": "그랜저HG HG 300 프리미엄",
+    "year": 2014,
+    "mileage": 172872,
+    "price": 1741,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(1).jpg"
+    ],
+    "description": "출품번호: 1002, 배기량: 2999cc, 원가: 235만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 38,
+    "brand": "Kia",
+    "model": "올 뉴K7 3.0 LPI 렌터카 럭셔리",
+    "year": 2017,
+    "mileage": 154487,
+    "price": 5926,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(37).jpg"
+    ],
+    "description": "출품번호: 1038, 배기량: 2999cc, 원가: 800만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 49,
+    "brand": "Hyundai",
+    "model": "그랜저IG 3.0 LPi 택시 개인형",
+    "year": 2018,
+    "mileage": 414569,
+    "price": 2815,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(48).jpg"
+    ],
+    "description": "출품번호: 1049, 배기량: 2999cc, 원가: 380만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 48,
+    "brand": "Renault Samsung",
+    "model": "SM6 2.0 LPe 장애인 LE",
+    "year": 2016,
+    "mileage": 132892,
+    "price": 3222,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(47).jpg"
+    ],
+    "description": "출품번호: 1048, 배기량: 1998cc, 원가: 435만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 47,
+    "brand": "Chevrolet",
+    "model": "스파크 가솔린 LT 스페셜 에디션",
+    "year": 2012,
+    "mileage": 169596,
+    "price": 815,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(46).jpg"
+    ],
+    "description": "출품번호: 1047, 배기량: 995cc, 원가: 110만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 46,
+    "brand": "Hyundai",
+    "model": "아반떼AD 1.6 GDi 밸류 플러스",
+    "year": 2018,
+    "mileage": 87645,
+    "price": 6037,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(45).jpg"
+    ],
+    "description": "출품번호: 1046, 배기량: 1591cc, 원가: 815만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 45,
+    "brand": "Kia",
+    "model": "올 뉴프라이드 5도어 1.4 MPI 트렌디",
+    "year": 2014,
+    "mileage": 81468,
+    "price": 1852,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Red",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(44).jpg"
+    ],
+    "description": "출품번호: 1045, 배기량: 1396cc, 원가: 250만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 44,
+    "brand": "Kia",
+    "model": "올 뉴K7 R2.2 디젤 프레스티지",
+    "year": 2017,
+    "mileage": 225485,
+    "price": 4519,
+    "fuel": "Diesel",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(43).jpg"
+    ],
+    "description": "출품번호: 1044, 배기량: 2199cc, 원가: 610만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 43,
+    "brand": "Hyundai",
+    "model": "아반떼AD 1.6 GDi 밸류 플러스",
+    "year": 2018,
+    "mileage": 146604,
+    "price": 4259,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(42).jpg"
+    ],
+    "description": "출품번호: 1043, 배기량: 1591cc, 원가: 575만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 42,
+    "brand": "Genesis",
+    "model": "EQ900 3.8 GDi AWD 럭셔리",
+    "year": 2016,
+    "mileage": 252444,
+    "price": 6815,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(41).jpg"
+    ],
+    "description": "출품번호: 1042, 배기량: 3778cc, 원가: 920만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 41,
+    "brand": "Renault Samsung",
+    "model": "뉴 SM5 플래티넘 LPLi 장애인 RE",
+    "year": 2014,
+    "mileage": 188285,
+    "price": 1000,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(40).jpg"
+    ],
+    "description": "출품번호: 1041, 배기량: 1998cc, 원가: 135만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 40,
+    "brand": "Hyundai",
+    "model": "그랜저IG 3.0 GDi 익스클루시브",
+    "year": 2018,
+    "mileage": 70320,
+    "price": 12296,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(39).jpg"
+    ],
+    "description": "출품번호: 1040, 배기량: 2999cc, 원가: 1660만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 39,
+    "brand": "Renault Samsung",
+    "model": "뉴 SM5 신형 2.0 RE",
+    "year": 2010,
+    "mileage": 146935,
+    "price": 741,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(38).jpg"
+    ],
+    "description": "출품번호: 1039, 배기량: 1998cc, 원가: 100만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 1,
+    "brand": "Kia",
+    "model": "레이 가솔린 터보 프레스티지",
+    "year": 2015,
+    "mileage": 174443,
+    "price": 3222,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I.jpg"
+    ],
+    "description": "출품번호: 1001, 배기량: 998cc, 원가: 435만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 37,
+    "brand": "Hyundai",
+    "model": "그랜저IG 3.0 LPi 택시 모범형",
+    "year": 2019,
+    "mileage": 151487,
+    "price": 6593,
+    "fuel": "LPG",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(36).jpg"
+    ],
+    "description": "출품번호: 1037, 배기량: 2999cc, 원가: 890만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 36,
+    "brand": "Hyundai",
+    "model": "디 올뉴그랜저 가솔린 2.5 프리미엄",
+    "year": 2023,
+    "mileage": 58924,
+    "price": 21111,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(35).jpg"
+    ],
+    "description": "출품번호: 1036, 배기량: 2497cc, 원가: 2850만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 35,
+    "brand": "Hyundai",
+    "model": "그랜저HG HG 240 모던",
+    "year": 2014,
+    "mileage": 210011,
+    "price": 1296,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(34).jpg"
+    ],
+    "description": "출품번호: 1035, 배기량: 2359cc, 원가: 175만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 34,
+    "brand": "Renault Samsung",
+    "model": "SM6 1.6 TCe LE",
+    "year": 2017,
+    "mileage": 114480,
+    "price": 3963,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(33).jpg"
+    ],
+    "description": "출품번호: 1034, 배기량: 1618cc, 원가: 535만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 33,
+    "brand": "Kia",
+    "model": "뉴모닝 LX 고급형 블랙프리미엄",
+    "year": 2009,
+    "mileage": 179232,
+    "price": 593,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(32).jpg"
+    ],
+    "description": "출품번호: 1033, 배기량: 999cc, 원가: 80만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 32,
+    "brand": "Kia",
+    "model": "올 뉴모닝(JA) 가솔린 럭셔리",
+    "year": 2017,
+    "mileage": 117621,
+    "price": 3815,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "미색",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(31).jpg"
+    ],
+    "description": "출품번호: 1032, 배기량: 998cc, 원가: 515만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 31,
+    "brand": "Hyundai",
+    "model": "그랜저HG HG 300 익스클루시브",
+    "year": 2013,
+    "mileage": 100468,
+    "price": 2815,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(30).jpg"
+    ],
+    "description": "출품번호: 1031, 배기량: 2999cc, 원가: 380만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 30,
+    "brand": "Genesis",
+    "model": "신형 G90 3.5 터보 AWD 기본형",
+    "year": 2022,
+    "mileage": 120060,
+    "price": 35111,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "Black",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(29).jpg"
+    ],
+    "description": "출품번호: 1030, 배기량: 3470cc, 원가: 4740만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 29,
+    "brand": "Kia",
+    "model": "뉴모닝 SLX 고급형 블랙프리미엄",
+    "year": 2011,
+    "mileage": 122538,
+    "price": 630,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Hatchback",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(28).jpg"
+    ],
+    "description": "출품번호: 1029, 배기량: 999cc, 원가: 85만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 28,
+    "brand": "Hyundai",
+    "model": "YF쏘나타 Y20 프라임 고급형",
+    "year": 2010,
+    "mileage": 124397,
+    "price": 1593,
+    "fuel": "Gasoline",
+    "transmission": "Automatic",
+    "bodyType": "Sedan",
+    "color": "White",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(27).jpg"
+    ],
+    "description": "출품번호: 1028, 배기량: 1998cc, 원가: 215만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  },
+  {
+    "id": 27,
+    "brand": "Kia",
+    "model": "로체 어드밴스 LX18 기본형",
+    "year": 2008,
+    "mileage": 195158,
+    "price": 963,
+    "fuel": "Gasoline",
+    "transmission": "Manual",
+    "bodyType": "Van",
+    "color": "Gray",
+    "images": [
+      "/Jungcar/images/auction/OBmZCjL58I(26).jpg"
+    ],
+    "description": "출품번호: 1027, 배기량: 1798cc, 원가: 130만원",
+    "status": "available",
+    "featured": 0,
+    "drivetrain": "FWD"
+  }
+]

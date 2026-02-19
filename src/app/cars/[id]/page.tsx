@@ -1,1061 +1,461 @@
-import CarDetailClient from './CarDetailClient';
+'use client';
 
-export interface CarPerformanceReport {
-  accidentHistory: string;
-  floodDamage: string;
-  totalLoss: string;
-  usageChange: string;
-  odometerStatus: string;
-  overallGrade: string;
-  exteriorCondition: string;
-  interiorCondition: string;
-  engineCondition: string;
-  transmissionCondition: string;
-  steeringCondition: string;
-  brakeCondition: string;
-  electricalCondition: string;
-  tireCondition: string;
-  paintStatus: {
-    hood: string;
-    frontLeftFender: string;
-    frontRightFender: string;
-    frontLeftDoor: string;
-    frontRightDoor: string;
-    rearLeftDoor: string;
-    rearRightDoor: string;
-    rearLeftFender: string;
-    rearRightFender: string;
-    trunk: string;
-    roof: string;
-  };
-}
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import {
+  ArrowLeft,
+  Calendar,
+  Gauge,
+  Fuel,
+  Settings,
+  Palette,
+  Car,
+  Phone,
+  Mail,
+  MessageCircle,
+  Share2,
+  Heart,
+  Loader2,
+  ExternalLink,
+  MapPin,
+  Hash,
+  Gavel,
+  Tag,
+  Cog,
+} from 'lucide-react';
 
-export interface CarOption {
+interface GlovisCarDetail {
+  id: string;
+  no: string;
   name: string;
-  available: boolean;
-}
-
-export interface CarData {
-  id: number;
-  brand: string;
-  model: string;
-  year: number;
-  mileage: number;
-  price: number;
-  fuel: string;
-  transmission: string;
-  bodyType: string;
-  color: string;
-  engine: string;
-  displacement: string;
-  drivetrain: string;
-  doors: number;
-  seats: number;
-  vin: string;
-  plateNumber: string;
-  firstRegistration: string;
-  description: string;
-  images: string[];
   status: string;
-  options: CarOption[];
-  performanceReport: CarPerformanceReport;
+  year: string;
+  transmission: string;
+  displacement: string;
+  mileage: string;
+  color: string;
+  fuel: string;
+  usage: string;
+  grade: string;
+  auctionRound: string;
+  lane: string;
+  plateNumber: string;
+  location: string;
+  price: number | null;
+  hope: number | null;
+  instant: number | null;
+  img: string;
+  url: string;
 }
 
-const carsData: Record<string, CarData> = {
-  '1': {
-    id: 1,
-    brand: 'Hyundai',
-    model: 'Sonata DN8',
-    year: 2023,
-    mileage: 15000,
-    price: 28500,
-    fuel: 'Gasoline',
-    transmission: 'Automatic',
-    bodyType: 'Sedan',
-    color: 'Phantom Black',
-    engine: '2.5L Smartstream',
-    displacement: '2,497 cc',
-    drivetrain: 'Front-Wheel Drive',
-    doors: 4,
-    seats: 5,
-    vin: 'KMHL341CBNA123456',
-    plateNumber: '123가 4567',
-    firstRegistration: '2023-03-15',
-    description: 'This 2023 Hyundai Sonata DN8 is in excellent condition with low mileage. Thoroughly inspected and ready for export.',
-    images: [
-      'https://images.unsplash.com/photo-1590656371803-0ae2ae004989?w=1200',
-      'https://images.unsplash.com/photo-1688893287874-ac7fbd686c24?w=1200',
-      'https://images.unsplash.com/photo-1714348938045-0c74379cd4d9?w=1200',
-      'https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Sunroof', available: true },
-      { name: 'Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: true },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: false },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: true },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: false },
-      { name: 'Head-Up Display', available: false },
-      { name: 'Bose Premium Audio', available: true },
-      { name: 'Dash Camera', available: false },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A',
-      exteriorCondition: 'Good',
-      interiorCondition: 'Excellent',
-      engineCondition: 'Excellent',
-      transmissionCondition: 'Excellent',
-      steeringCondition: 'Good',
-      brakeCondition: 'Good',
-      electricalCondition: 'Excellent',
-      tireCondition: 'Good (70% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
-  '2': {
-    id: 2,
-    brand: 'Kia',
-    model: 'K5 DL3',
-    year: 2022,
-    mileage: 28000,
-    price: 24500,
-    fuel: 'Gasoline',
-    transmission: 'Automatic',
-    bodyType: 'Sedan',
-    color: 'Snow White Pearl',
-    engine: '2.5L GDi',
-    displacement: '2,497 cc',
-    drivetrain: 'Front-Wheel Drive',
-    doors: 4,
-    seats: 5,
-    vin: 'KNAG411ABNA654321',
-    plateNumber: '456나 7890',
-    firstRegistration: '2022-06-20',
-    description: '2022 Kia K5 DL3 in excellent condition. Ready for export with all documentation.',
-    images: [
-      'https://images.unsplash.com/photo-1688893287874-ac7fbd686c24?w=1200',
-      'https://images.unsplash.com/photo-1590656371803-0ae2ae004989?w=1200',
-      'https://images.unsplash.com/photo-1714348938045-0c74379cd4d9?w=1200',
-      'https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Sunroof', available: false },
-      { name: 'Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: false },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: false },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: false },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: false },
-      { name: 'Head-Up Display', available: false },
-      { name: 'Bose Premium Audio', available: false },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A',
-      exteriorCondition: 'Good',
-      interiorCondition: 'Good',
-      engineCondition: 'Excellent',
-      transmissionCondition: 'Good',
-      steeringCondition: 'Good',
-      brakeCondition: 'Good',
-      electricalCondition: 'Good',
-      tireCondition: 'Good (60% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Repainted',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
-  '3': {
-    id: 3,
-    brand: 'Genesis',
-    model: 'G80 RG3',
-    year: 2023,
-    mileage: 12000,
-    price: 52000,
-    fuel: 'Gasoline',
-    transmission: 'Automatic',
-    bodyType: 'Sedan',
-    color: 'Vik Black',
-    engine: '3.5L Twin-Turbo V6',
-    displacement: '3,470 cc',
-    drivetrain: 'All-Wheel Drive',
-    doors: 4,
-    seats: 5,
-    vin: 'KMTG541DBPA789012',
-    plateNumber: '789다 1234',
-    firstRegistration: '2023-01-10',
-    description: 'Luxury 2023 Genesis G80 with premium features. Exceptional luxury sedan ready for export.',
-    images: [
-      'https://images.unsplash.com/photo-1714348938045-0c74379cd4d9?w=1200',
-      'https://images.unsplash.com/photo-1590656371803-0ae2ae004989?w=1200',
-      'https://images.unsplash.com/photo-1688893287874-ac7fbd686c24?w=1200',
-      'https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Panoramic Sunroof', available: true },
-      { name: 'Nappa Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: true },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: true },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: true },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: true },
-      { name: 'Head-Up Display', available: true },
-      { name: 'Lexicon Premium Audio', available: true },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A+',
-      exteriorCondition: 'Excellent',
-      interiorCondition: 'Excellent',
-      engineCondition: 'Excellent',
-      transmissionCondition: 'Excellent',
-      steeringCondition: 'Excellent',
-      brakeCondition: 'Excellent',
-      electricalCondition: 'Excellent',
-      tireCondition: 'Excellent (85% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
-  '4': {
-    id: 4,
-    brand: 'Hyundai',
-    model: 'Tucson NX4',
-    year: 2022,
-    mileage: 32000,
-    price: 31000,
-    fuel: 'Diesel',
-    transmission: 'Automatic',
-    bodyType: 'SUV',
-    color: 'Amazon Gray',
-    engine: '2.0L CRDi',
-    displacement: '1,997 cc',
-    drivetrain: 'All-Wheel Drive',
-    doors: 4,
-    seats: 5,
-    vin: 'KMHJ381CDNA234567',
-    plateNumber: '234라 5678',
-    firstRegistration: '2022-05-10',
-    description: '2022 Hyundai Tucson NX4 diesel AWD in great condition. Spacious SUV with advanced safety features, perfect for families.',
-    images: [
-      'https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=1200',
-      'https://images.unsplash.com/photo-1590656371803-0ae2ae004989?w=1200',
-      'https://images.unsplash.com/photo-1688893287848-a218df183f36?w=1200',
-      'https://images.unsplash.com/photo-1575764679429-57558f46f259?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Sunroof', available: true },
-      { name: 'Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: false },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: false },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: true },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: true },
-      { name: 'Head-Up Display', available: false },
-      { name: 'Bose Premium Audio', available: false },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A',
-      exteriorCondition: 'Good',
-      interiorCondition: 'Good',
-      engineCondition: 'Good',
-      transmissionCondition: 'Good',
-      steeringCondition: 'Good',
-      brakeCondition: 'Good',
-      electricalCondition: 'Good',
-      tireCondition: 'Good (55% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Repainted',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
-  '5': {
-    id: 5,
-    brand: 'Kia',
-    model: 'Sorento MQ4',
-    year: 2023,
-    mileage: 18000,
-    price: 38000,
-    fuel: 'Diesel',
-    transmission: 'Automatic',
-    bodyType: 'SUV',
-    color: 'Snow White Pearl',
-    engine: '2.2L CRDi Smartstream',
-    displacement: '2,151 cc',
-    drivetrain: 'All-Wheel Drive',
-    doors: 4,
-    seats: 7,
-    vin: 'KNAS511ABPA345678',
-    plateNumber: '345마 6789',
-    firstRegistration: '2023-02-25',
-    description: '2023 Kia Sorento MQ4 with 7 seats and diesel AWD. Low mileage, full option package with advanced ADAS features.',
-    images: [
-      'https://images.unsplash.com/photo-1688893287848-a218df183f36?w=1200',
-      'https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=1200',
-      'https://images.unsplash.com/photo-1575764679429-57558f46f259?w=1200',
-      'https://images.unsplash.com/photo-1714348938323-534552cbfad9?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Panoramic Sunroof', available: true },
-      { name: 'Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: true },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: true },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: true },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: true },
-      { name: 'Head-Up Display', available: false },
-      { name: 'Bose Premium Audio', available: true },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A',
-      exteriorCondition: 'Good',
-      interiorCondition: 'Excellent',
-      engineCondition: 'Excellent',
-      transmissionCondition: 'Excellent',
-      steeringCondition: 'Good',
-      brakeCondition: 'Good',
-      electricalCondition: 'Excellent',
-      tireCondition: 'Good (75% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
-  '6': {
-    id: 6,
-    brand: 'Hyundai',
-    model: 'Palisade LX2',
-    year: 2022,
-    mileage: 25000,
-    price: 45000,
-    fuel: 'Gasoline',
-    transmission: 'Automatic',
-    bodyType: 'SUV',
-    color: 'Abyss Black Pearl',
-    engine: '3.8L V6 GDi',
-    displacement: '3,778 cc',
-    drivetrain: 'All-Wheel Drive',
-    doors: 4,
-    seats: 8,
-    vin: 'KMHR381DBNA456789',
-    plateNumber: '456바 7890',
-    firstRegistration: '2022-08-12',
-    description: 'Flagship 2022 Hyundai Palisade LX2 with 8-seat configuration. Premium features throughout, ideal for large families or VIP transport.',
-    images: [
-      'https://images.unsplash.com/photo-1575764679429-57558f46f259?w=1200',
-      'https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=1200',
-      'https://images.unsplash.com/photo-1688893287848-a218df183f36?w=1200',
-      'https://images.unsplash.com/photo-1714348938323-534552cbfad9?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Sunroof', available: true },
-      { name: 'Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: true },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: true },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: true },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: true },
-      { name: 'Head-Up Display', available: true },
-      { name: 'JBL Premium Audio', available: true },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A',
-      exteriorCondition: 'Good',
-      interiorCondition: 'Good',
-      engineCondition: 'Good',
-      transmissionCondition: 'Good',
-      steeringCondition: 'Good',
-      brakeCondition: 'Good',
-      electricalCondition: 'Good',
-      tireCondition: 'Good (65% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Repainted',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
-  '7': {
-    id: 7,
-    brand: 'Genesis',
-    model: 'GV80',
-    year: 2023,
-    mileage: 8000,
-    price: 65000,
-    fuel: 'Diesel',
-    transmission: 'Automatic',
-    bodyType: 'SUV',
-    color: 'Cardiff Green',
-    engine: '3.0L Inline-6 Turbo Diesel',
-    displacement: '2,996 cc',
-    drivetrain: 'All-Wheel Drive',
-    doors: 4,
-    seats: 5,
-    vin: 'KMUG581EBPA567890',
-    plateNumber: '567사 8901',
-    firstRegistration: '2023-04-05',
-    description: 'Premium 2023 Genesis GV80 luxury SUV with only 8,000 km. Full luxury package with Lexicon audio and advanced driving aids.',
-    images: [
-      'https://images.unsplash.com/photo-1714348938323-534552cbfad9?w=1200',
-      'https://images.unsplash.com/photo-1575764679429-57558f46f259?w=1200',
-      'https://images.unsplash.com/photo-1714348938045-0c74379cd4d9?w=1200',
-      'https://images.unsplash.com/photo-1688893287848-a218df183f36?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Panoramic Sunroof', available: true },
-      { name: 'Nappa Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: true },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: true },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: true },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: true },
-      { name: 'Head-Up Display', available: true },
-      { name: 'Lexicon Premium Audio', available: true },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A+',
-      exteriorCondition: 'Excellent',
-      interiorCondition: 'Excellent',
-      engineCondition: 'Excellent',
-      transmissionCondition: 'Excellent',
-      steeringCondition: 'Excellent',
-      brakeCondition: 'Excellent',
-      electricalCondition: 'Excellent',
-      tireCondition: 'Excellent (90% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
-  '8': {
-    id: 8,
-    brand: 'Kia',
-    model: 'Carnival KA4',
-    year: 2022,
-    mileage: 35000,
-    price: 42000,
-    fuel: 'Diesel',
-    transmission: 'Automatic',
-    bodyType: 'Van',
-    color: 'Snow White Pearl',
-    engine: '2.2L CRDi Smartstream',
-    displacement: '2,151 cc',
-    drivetrain: 'Front-Wheel Drive',
-    doors: 5,
-    seats: 11,
-    vin: 'KNAK811CBNA678901',
-    plateNumber: '678아 9012',
-    firstRegistration: '2022-04-18',
-    description: '2022 Kia Carnival KA4 with 11-seat configuration. Ideal for passenger transport or large family use. Well-maintained with full service history.',
-    images: [
-      'https://images.unsplash.com/photo-1592805723127-004b174a1798?w=1200',
-      'https://images.unsplash.com/photo-1665564593840-f20a27db050a?w=1200',
-      'https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=1200',
-      'https://images.unsplash.com/photo-1688893287848-a218df183f36?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Sunroof', available: false },
-      { name: 'Leather Seats', available: true },
-      { name: 'Heated Seats (1st & 2nd Row)', available: true },
-      { name: 'Ventilated Seats', available: false },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: false },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: false },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Sliding Doors', available: true },
-      { name: 'Power Trunk', available: true },
-      { name: 'Rear Entertainment System', available: false },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'B+',
-      exteriorCondition: 'Good',
-      interiorCondition: 'Fair',
-      engineCondition: 'Good',
-      transmissionCondition: 'Good',
-      steeringCondition: 'Good',
-      brakeCondition: 'Good',
-      electricalCondition: 'Good',
-      tireCondition: 'Fair (45% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Repainted',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Repainted',
-        roof: 'Normal',
-      },
-    },
-  },
-  '9': {
-    id: 9,
-    brand: 'Hyundai',
-    model: 'Staria',
-    year: 2023,
-    mileage: 12000,
-    price: 48000,
-    fuel: 'Diesel',
-    transmission: 'Automatic',
-    bodyType: 'Van',
-    color: 'Moonlight Blue',
-    engine: '2.2L CRDi',
-    displacement: '2,199 cc',
-    drivetrain: 'Front-Wheel Drive',
-    doors: 5,
-    seats: 9,
-    vin: 'KMJW911DBPA789012',
-    plateNumber: '789자 0123',
-    firstRegistration: '2023-01-22',
-    description: '2023 Hyundai Staria Premium with futuristic design. Low mileage, 9-seat luxury MPV with spacious cabin and modern safety features.',
-    images: [
-      'https://images.unsplash.com/photo-1665564593840-f20a27db050a?w=1200',
-      'https://images.unsplash.com/photo-1592805723127-004b174a1798?w=1200',
-      'https://images.unsplash.com/photo-1575764679429-57558f46f259?w=1200',
-      'https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Sunroof', available: false },
-      { name: 'Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: true },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: true },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: true },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Sliding Doors', available: true },
-      { name: 'Power Trunk', available: true },
-      { name: 'Rear Entertainment System', available: true },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A',
-      exteriorCondition: 'Excellent',
-      interiorCondition: 'Excellent',
-      engineCondition: 'Excellent',
-      transmissionCondition: 'Excellent',
-      steeringCondition: 'Good',
-      brakeCondition: 'Good',
-      electricalCondition: 'Excellent',
-      tireCondition: 'Good (80% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
-  '10': {
-    id: 10,
-    brand: 'Hyundai',
-    model: 'Avante CN7',
-    year: 2021,
-    mileage: 45000,
-    price: 18000,
-    fuel: 'Gasoline',
-    transmission: 'Automatic',
-    bodyType: 'Sedan',
-    color: 'Intense Blue',
-    engine: '1.6L Smartstream',
-    displacement: '1,598 cc',
-    drivetrain: 'Front-Wheel Drive',
-    doors: 4,
-    seats: 5,
-    vin: 'KMHD041ABMA890123',
-    plateNumber: '890차 1234',
-    firstRegistration: '2021-09-08',
-    description: '2021 Hyundai Avante CN7 with competitive price point. Well-maintained sedan with good fuel efficiency, ideal for daily commuting.',
-    images: [
-      'https://images.unsplash.com/photo-1665564591116-19a1d2cdb0cc?w=1200',
-      'https://images.unsplash.com/photo-1590656371803-0ae2ae004989?w=1200',
-      'https://images.unsplash.com/photo-1688893287874-ac7fbd686c24?w=1200',
-      'https://images.unsplash.com/photo-1714348938517-ebe870af89c1?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Sunroof', available: false },
-      { name: 'Leather Seats', available: false },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: false },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: false },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: false },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: false },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: false },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: false },
-      { name: 'Head-Up Display', available: false },
-      { name: 'Premium Audio', available: false },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'Minor (Rear bumper)',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'B+',
-      exteriorCondition: 'Fair',
-      interiorCondition: 'Good',
-      engineCondition: 'Good',
-      transmissionCondition: 'Good',
-      steeringCondition: 'Good',
-      brakeCondition: 'Good',
-      electricalCondition: 'Good',
-      tireCondition: 'Fair (40% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Repainted',
-        roof: 'Normal',
-      },
-    },
-  },
-  '11': {
-    id: 11,
-    brand: 'Kia',
-    model: 'Sportage NQ5',
-    year: 2023,
-    mileage: 10000,
-    price: 32000,
-    fuel: 'Hybrid',
-    transmission: 'Automatic',
-    bodyType: 'SUV',
-    color: 'Expedition Green',
-    engine: '1.6L T-GDi Hybrid',
-    displacement: '1,598 cc',
-    drivetrain: 'All-Wheel Drive',
-    doors: 4,
-    seats: 5,
-    vin: 'KNAS211DBPA901234',
-    plateNumber: '901카 2345',
-    firstRegistration: '2023-05-30',
-    description: '2023 Kia Sportage NQ5 Hybrid AWD with exceptional fuel economy. Very low mileage, modern design with full safety suite.',
-    images: [
-      'https://images.unsplash.com/photo-1710594022719-a37944dc12ae?w=1200',
-      'https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=1200',
-      'https://images.unsplash.com/photo-1688893287848-a218df183f36?w=1200',
-      'https://images.unsplash.com/photo-1575764679429-57558f46f259?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Panoramic Sunroof', available: true },
-      { name: 'Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: true },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: true },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: true },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: true },
-      { name: 'Head-Up Display', available: true },
-      { name: 'Harman Kardon Audio', available: true },
-      { name: 'Dash Camera', available: true },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A+',
-      exteriorCondition: 'Excellent',
-      interiorCondition: 'Excellent',
-      engineCondition: 'Excellent',
-      transmissionCondition: 'Excellent',
-      steeringCondition: 'Excellent',
-      brakeCondition: 'Excellent',
-      electricalCondition: 'Excellent',
-      tireCondition: 'Excellent (90% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Normal',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
-  '12': {
-    id: 12,
-    brand: 'Genesis',
-    model: 'G70',
-    year: 2022,
-    mileage: 22000,
-    price: 42000,
-    fuel: 'Gasoline',
-    transmission: 'Automatic',
-    bodyType: 'Sedan',
-    color: 'Havana Red',
-    engine: '2.0L Turbo GDi',
-    displacement: '1,998 cc',
-    drivetrain: 'Rear-Wheel Drive',
-    doors: 4,
-    seats: 5,
-    vin: 'KMTG341CBNA012345',
-    plateNumber: '012타 3456',
-    firstRegistration: '2022-07-14',
-    description: '2022 Genesis G70 sport sedan with rear-wheel drive. Engaging driving dynamics combined with luxury comfort. Well-equipped and export ready.',
-    images: [
-      'https://images.unsplash.com/photo-1714348938517-ebe870af89c1?w=1200',
-      'https://images.unsplash.com/photo-1714348938045-0c74379cd4d9?w=1200',
-      'https://images.unsplash.com/photo-1590656371803-0ae2ae004989?w=1200',
-      'https://images.unsplash.com/photo-1688893287874-ac7fbd686c24?w=1200',
-    ],
-    status: 'available',
-    options: [
-      { name: 'Navigation', available: true },
-      { name: 'Sunroof', available: true },
-      { name: 'Leather Seats', available: true },
-      { name: 'Heated Seats', available: true },
-      { name: 'Ventilated Seats', available: true },
-      { name: 'Heated Steering Wheel', available: true },
-      { name: 'Smart Cruise Control', available: true },
-      { name: 'Lane Keeping Assist', available: true },
-      { name: 'Blind Spot Monitor', available: true },
-      { name: 'Forward Collision Avoidance', available: true },
-      { name: 'Rear Camera', available: true },
-      { name: 'Around View Monitor', available: false },
-      { name: 'Parking Sensors', available: true },
-      { name: 'Apple CarPlay / Android Auto', available: true },
-      { name: 'Wireless Charging', available: true },
-      { name: 'LED Headlights', available: true },
-      { name: 'Power Trunk', available: false },
-      { name: 'Head-Up Display', available: true },
-      { name: 'Lexicon Premium Audio', available: true },
-      { name: 'Dash Camera', available: false },
-    ],
-    performanceReport: {
-      accidentHistory: 'None',
-      floodDamage: 'None',
-      totalLoss: 'None',
-      usageChange: 'None',
-      odometerStatus: 'Normal',
-      overallGrade: 'A',
-      exteriorCondition: 'Good',
-      interiorCondition: 'Good',
-      engineCondition: 'Excellent',
-      transmissionCondition: 'Excellent',
-      steeringCondition: 'Good',
-      brakeCondition: 'Good',
-      electricalCondition: 'Excellent',
-      tireCondition: 'Good (60% remaining)',
-      paintStatus: {
-        hood: 'Normal',
-        frontLeftFender: 'Repainted',
-        frontRightFender: 'Normal',
-        frontLeftDoor: 'Normal',
-        frontRightDoor: 'Normal',
-        rearLeftDoor: 'Normal',
-        rearRightDoor: 'Normal',
-        rearLeftFender: 'Normal',
-        rearRightFender: 'Normal',
-        trunk: 'Normal',
-        roof: 'Normal',
-      },
-    },
-  },
+interface GlovisData {
+  at: string;
+  cnt: number;
+  cars: GlovisCarDetail[];
+}
+
+const statusColors: Record<string, string> = {
+  '유찰': 'bg-gray-100 text-gray-700',
+  '낙찰': 'bg-green-100 text-green-700',
+  '낙찰(부)': 'bg-yellow-100 text-yellow-700',
+  '상담체결': 'bg-blue-100 text-blue-700',
+  '진행중': 'bg-purple-100 text-purple-700',
 };
 
-const allCarsForRelated = [
-  { id: 1, brand: 'Hyundai', model: 'Sonata DN8', year: 2023, mileage: 15000, price: 28500, fuel: 'Gasoline', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1590656371803-0ae2ae004989?w=800'] },
-  { id: 2, brand: 'Kia', model: 'K5 DL3', year: 2022, mileage: 28000, price: 24500, fuel: 'Gasoline', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1688893287874-ac7fbd686c24?w=800'] },
-  { id: 3, brand: 'Genesis', model: 'G80 RG3', year: 2023, mileage: 12000, price: 52000, fuel: 'Gasoline', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1714348938045-0c74379cd4d9?w=800'] },
-  { id: 4, brand: 'Hyundai', model: 'Tucson NX4', year: 2022, mileage: 32000, price: 31000, fuel: 'Diesel', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1616627091698-50d033ce0980?w=800'] },
-  { id: 5, brand: 'Kia', model: 'Sorento MQ4', year: 2023, mileage: 18000, price: 38000, fuel: 'Diesel', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1688893287848-a218df183f36?w=800'] },
-  { id: 6, brand: 'Hyundai', model: 'Palisade LX2', year: 2022, mileage: 25000, price: 45000, fuel: 'Gasoline', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1575764679429-57558f46f259?w=800'] },
-  { id: 7, brand: 'Genesis', model: 'GV80', year: 2023, mileage: 8000, price: 65000, fuel: 'Diesel', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1714348938323-534552cbfad9?w=800'] },
-  { id: 8, brand: 'Kia', model: 'Carnival KA4', year: 2022, mileage: 35000, price: 42000, fuel: 'Diesel', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1592805723127-004b174a1798?w=800'] },
-  { id: 9, brand: 'Hyundai', model: 'Staria', year: 2023, mileage: 12000, price: 48000, fuel: 'Diesel', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1665564593840-f20a27db050a?w=800'] },
-  { id: 10, brand: 'Hyundai', model: 'Avante CN7', year: 2021, mileage: 45000, price: 18000, fuel: 'Gasoline', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1665564591116-19a1d2cdb0cc?w=800'] },
-  { id: 11, brand: 'Kia', model: 'Sportage NQ5', year: 2023, mileage: 10000, price: 32000, fuel: 'Hybrid', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1710594022719-a37944dc12ae?w=800'] },
-  { id: 12, brand: 'Genesis', model: 'G70', year: 2022, mileage: 22000, price: 42000, fuel: 'Gasoline', transmission: 'Automatic', images: ['https://images.unsplash.com/photo-1714348938517-ebe870af89c1?w=800'] },
-];
+export default function CarDetailPage({ params }: { params: { id: string } }) {
+  const [car, setCar] = useState<GlovisCarDetail | null>(null);
+  const [relatedCars, setRelatedCars] = useState<GlovisCarDetail[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-export function generateStaticParams() {
-  return Object.keys(carsData).map((id) => ({
-    id: id,
-  }));
-}
+  useEffect(() => {
+    async function fetchCarData() {
+      try {
+        const res = await fetch('/Jungcar/data/glovis-cars-detail.json');
+        if (res.ok) {
+          const data: GlovisData = await res.json();
+          const foundCar = data.cars.find(c => c.no === params.id);
+          if (foundCar) {
+            setCar(foundCar);
+            // Get related cars (same brand or nearby numbers)
+            const related = data.cars
+              .filter(c => c.no !== params.id)
+              .slice(0, 6);
+            setRelatedCars(related);
+          } else {
+            setNotFound(true);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch car data:', error);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCarData();
+  }, [params.id]);
 
-export default async function CarDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const car = carsData[id] || carsData['1'];
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#f5f5f5]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#0a4d0e]" />
+      </div>
+    );
+  }
 
-  // Show up to 3 related cars from the same brand or body type, excluding current
-  const related = allCarsForRelated
-    .filter((c) => c.id !== car.id)
-    .filter((c) => c.brand === car.brand || carsData[c.id.toString()]?.bodyType === car.bodyType)
-    .slice(0, 3);
+  if (notFound || !car) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#f5f5f5]">
+        <h1 className="text-2xl font-bold text-[#0a4d0e]">차량을 찾을 수 없습니다</h1>
+        <p className="mt-2 text-[#0a4d0e]/60">출품번호: {params.id}</p>
+        <Link
+          href="/cars"
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#0a4d0e] px-4 py-2 text-sm font-medium text-white"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          차량 목록으로
+        </Link>
+      </div>
+    );
+  }
 
-  // If not enough related, fill with other cars
-  const finalRelated = related.length >= 3
-    ? related
-    : [
-        ...related,
-        ...allCarsForRelated
-          .filter((c) => c.id !== car.id && !related.find((r) => r.id === c.id))
-          .slice(0, 3 - related.length),
-      ];
+  // Parse brand from name
+  const brandMatch = car.name.match(/^\[([^\]]+)\]/);
+  const brand = brandMatch ? brandMatch[1] : '';
+  const modelName = car.name.replace(/^\[[^\]]+\]\s*/, '');
 
-  return <CarDetailClient car={car} relatedCars={finalRelated} />;
+  return (
+    <div className="min-h-screen bg-[#f5f5f5]">
+      {/* Back Button */}
+      <div className="mx-auto max-w-7xl px-4 pt-28 pb-4 sm:px-6 lg:px-8">
+        <Link
+          href="/cars"
+          className="inline-flex items-center gap-2 text-sm font-medium text-[#0a4d0e]/60 hover:text-[#0a4d0e] transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          차량 목록으로
+        </Link>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        {/* Main Info */}
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white shadow-sm">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={car.img}
+                alt={car.name}
+                className="h-full w-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/Jungcar/images/placeholder-car.jpg';
+                }}
+              />
+              {car.status && (
+                <div className={`absolute top-4 left-4 rounded-full px-3 py-1 text-sm font-medium ${statusColors[car.status] || 'bg-gray-100 text-gray-700'}`}>
+                  {car.status}
+                </div>
+              )}
+            </div>
+          </motion.div>
+
+          {/* Car Info */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                {brand && <p className="text-sm text-[#0a4d0e]/50">{brand}</p>}
+                <h1 className="text-2xl font-bold text-[#0a4d0e] sm:text-3xl">{modelName}</h1>
+              </div>
+              <div className="flex gap-2 flex-shrink-0">
+                <button className="rounded-lg border border-[#0a4d0e]/15 p-2 text-[#0a4d0e]/40 hover:bg-white hover:text-[#0a4d0e] transition-colors">
+                  <Share2 className="h-5 w-5" />
+                </button>
+                <button className="rounded-lg border border-[#0a4d0e]/15 p-2 text-[#0a4d0e]/40 hover:bg-white hover:text-red-500 transition-colors">
+                  <Heart className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Auction Info Badge */}
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#0a4d0e]/10 px-3 py-1 text-xs font-medium text-[#0a4d0e]">
+                <Hash className="h-3 w-3" />
+                출품번호 {car.no}
+              </span>
+              {car.auctionRound && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#D4A843]/20 px-3 py-1 text-xs font-medium text-[#D4A843]">
+                  <Gavel className="h-3 w-3" />
+                  {car.auctionRound}
+                </span>
+              )}
+              {car.lane && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+                  {car.lane}
+                </span>
+              )}
+              {car.location && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+                  <MapPin className="h-3 w-3" />
+                  {car.location}
+                </span>
+              )}
+            </div>
+
+            {/* Prices */}
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              <div className="rounded-xl bg-[#0a4d0e] p-4 text-white">
+                <p className="text-xs opacity-70">시작가</p>
+                <p className="mt-1 text-2xl font-bold">
+                  {car.price ? `${car.price.toLocaleString()}` : '-'}
+                  <span className="text-sm font-normal ml-0.5">만원</span>
+                </p>
+              </div>
+              <div className="rounded-xl bg-white p-4 shadow-sm">
+                <p className="text-xs text-[#0a4d0e]/50">희망가</p>
+                <p className="mt-1 text-xl font-bold text-[#0a4d0e]">
+                  {car.hope ? `${car.hope.toLocaleString()}` : '-'}
+                  <span className="text-sm font-normal text-[#0a4d0e]/60 ml-0.5">만원</span>
+                </p>
+              </div>
+              <div className="rounded-xl bg-white p-4 shadow-sm">
+                <p className="text-xs text-[#0a4d0e]/50">즉시체결가</p>
+                <p className="mt-1 text-xl font-bold text-[#D4A843]">
+                  {car.instant ? `${car.instant.toLocaleString()}` : '-'}
+                  <span className="text-sm font-normal text-[#0a4d0e]/60 ml-0.5">만원</span>
+                </p>
+              </div>
+            </div>
+
+            {/* Quick Specs */}
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {[
+                { icon: Calendar, label: '연식', value: car.year ? `${car.year}년` : '-' },
+                { icon: Gauge, label: '주행거리', value: car.mileage || '-' },
+                { icon: Fuel, label: '연료', value: car.fuel || '-' },
+                { icon: Settings, label: '변속기', value: car.transmission || '-' },
+                { icon: Car, label: '배기량', value: car.displacement || '-' },
+                { icon: Palette, label: '색상', value: car.color || '-' },
+              ].map((spec) => (
+                <div key={spec.label} className="rounded-xl bg-white p-3 shadow-sm">
+                  <spec.icon className="h-4 w-4 text-[#D4A843]" />
+                  <p className="mt-1.5 text-[10px] uppercase tracking-wider text-[#0a4d0e]/40">{spec.label}</p>
+                  <p className="text-sm font-semibold text-[#0a4d0e]">{spec.value}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Contact Buttons */}
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="tel:+821012345678"
+                className="flex items-center gap-2 rounded-xl bg-[#0a4d0e] px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-[#0d6611] hover:shadow-lg"
+              >
+                <Phone className="h-4 w-4" />
+                전화문의
+              </a>
+              <a
+                href="https://wa.me/821012345678"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-xl bg-[#25D366] px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-[#20BD5A] hover:shadow-lg"
+              >
+                <MessageCircle className="h-4 w-4" />
+                WhatsApp
+              </a>
+              <a
+                href={car.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-xl border border-[#0a4d0e]/20 bg-white px-5 py-3 text-sm font-semibold text-[#0a4d0e] transition-all hover:bg-[#0a4d0e]/5"
+              >
+                <ExternalLink className="h-4 w-4" />
+                경매사이트
+              </a>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Detailed Specs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-10"
+        >
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-[#0a4d0e]">
+              <Cog className="h-5 w-5 text-[#D4A843]" />
+              차량 정보
+            </h2>
+            <div className="mt-4 divide-y divide-[#0a4d0e]/10 rounded-xl border border-[#0a4d0e]/10 text-sm">
+              {[
+                ['출품번호', car.no],
+                ['차량명', car.name],
+                ['연식', car.year ? `${car.year}년` : '-'],
+                ['주행거리', car.mileage || '-'],
+                ['변속기', car.transmission || '-'],
+                ['배기량', car.displacement || '-'],
+                ['연료', car.fuel || '-'],
+                ['색상', car.color || '-'],
+                ['용도', car.usage || '-'],
+                ['성능등급', car.grade || '-'],
+                ['차량번호', car.plateNumber || '-'],
+                ['경매회차', car.auctionRound || '-'],
+                ['레인', car.lane || '-'],
+                ['경매장', car.location || '-'],
+              ].map(([label, value]) => (
+                <div key={label} className="flex justify-between p-3">
+                  <span className="text-[#0a4d0e]/50">{label}</span>
+                  <span className="font-semibold text-[#0a4d0e]">{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Grade Info */}
+        {car.grade && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-6"
+          >
+            <div className="rounded-2xl bg-white p-6 shadow-sm">
+              <h2 className="flex items-center gap-2 text-lg font-bold text-[#0a4d0e]">
+                <Tag className="h-5 w-5 text-[#D4A843]" />
+                성능등급
+              </h2>
+              <div className="mt-4 flex items-center gap-4 rounded-xl bg-[#0a4d0e]/5 p-4">
+                <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-[#0a4d0e]">
+                  <span className="text-2xl font-bold text-white">{car.grade}</span>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-[#0a4d0e]">차량 성능등급</p>
+                  <p className="text-xs text-[#0a4d0e]/50">현대글로비스 경매장 평가 등급</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Inquiry Form */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-10"
+        >
+          <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+            <h2 className="text-xl font-bold text-[#0a4d0e]">이 차량에 관심이 있으신가요?</h2>
+            <p className="mt-2 text-sm text-[#0a4d0e]/50">
+              아래 양식을 작성해주시면 빠르게 연락드리겠습니다.
+            </p>
+
+            <form onSubmit={(e) => { e.preventDefault(); alert('문의가 접수되었습니다!'); }} className="mt-6 grid gap-4 md:grid-cols-2">
+              <div>
+                <label className="block text-xs font-semibold text-[#0a4d0e]/60 mb-1.5">이름 *</label>
+                <input
+                  type="text"
+                  required
+                  className="w-full rounded-xl border border-[#0a4d0e]/15 bg-[#f5f5f5] px-4 py-3 text-sm text-[#0a4d0e] focus:outline-none focus:ring-2 focus:ring-[#0a4d0e]/20 focus:border-[#0a4d0e]"
+                  placeholder="이름을 입력하세요"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-[#0a4d0e]/60 mb-1.5">이메일 *</label>
+                <input
+                  type="email"
+                  required
+                  className="w-full rounded-xl border border-[#0a4d0e]/15 bg-[#f5f5f5] px-4 py-3 text-sm text-[#0a4d0e] focus:outline-none focus:ring-2 focus:ring-[#0a4d0e]/20 focus:border-[#0a4d0e]"
+                  placeholder="email@example.com"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-[#0a4d0e]/60 mb-1.5">전화번호</label>
+                <input
+                  type="tel"
+                  className="w-full rounded-xl border border-[#0a4d0e]/15 bg-[#f5f5f5] px-4 py-3 text-sm text-[#0a4d0e] focus:outline-none focus:ring-2 focus:ring-[#0a4d0e]/20 focus:border-[#0a4d0e]"
+                  placeholder="010-1234-5678"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-xs font-semibold text-[#0a4d0e]/60 mb-1.5">문의내용 *</label>
+                <textarea
+                  required
+                  rows={4}
+                  defaultValue={`${car.year} ${car.name} (출품번호: ${car.no}) 차량에 관심이 있습니다.`}
+                  className="w-full rounded-xl border border-[#0a4d0e]/15 bg-[#f5f5f5] px-4 py-3 text-sm text-[#0a4d0e] focus:outline-none focus:ring-2 focus:ring-[#0a4d0e]/20 focus:border-[#0a4d0e]"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <button
+                  type="submit"
+                  className="w-full rounded-xl bg-[#0a4d0e] py-3 text-sm font-semibold text-white transition-all hover:bg-[#0d6611] hover:shadow-lg"
+                >
+                  문의하기
+                </button>
+              </div>
+            </form>
+          </div>
+        </motion.div>
+
+        {/* Related Vehicles */}
+        {relatedCars.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="mt-10"
+          >
+            <h2 className="text-xl font-bold text-[#0a4d0e]">다른 차량</h2>
+            <p className="mt-2 text-sm text-[#0a4d0e]/50">
+              이 차량도 확인해보세요
+            </p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedCars.slice(0, 3).map((relatedCar) => (
+                <Link
+                  key={relatedCar.id}
+                  href={`/cars/${relatedCar.no}`}
+                  className="group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md hover:-translate-y-1"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={relatedCar.img}
+                      alt={relatedCar.name}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <span className="inline-flex items-center gap-1 rounded bg-[#0a4d0e]/10 px-2 py-0.5 text-xs font-medium text-[#0a4d0e]">
+                      #{relatedCar.no}
+                    </span>
+                    <h3 className="mt-2 text-sm font-semibold text-gray-900 line-clamp-1">
+                      {relatedCar.name}
+                    </h3>
+                    <p className="mt-1 text-lg font-bold text-[#0a4d0e]">
+                      {relatedCar.price ? `${relatedCar.price.toLocaleString()}만원` : '-'}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </div>
+    </div>
+  );
 }

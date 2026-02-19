@@ -33,6 +33,7 @@ const auctionImages = [
 const auctionSchedule = [
   {
     name: 'Hyundai Glovis',
+    slug: 'hyundai-glovis',
     location: 'Shihwa, Ansan',
     days: 'Every Tuesday & Thursday',
     time: '09:00 AM KST',
@@ -41,38 +42,23 @@ const auctionSchedule = [
   },
   {
     name: 'AutoHub Auction',
+    slug: 'autohub',
     location: 'Gimpo, Gyeonggi-do',
     days: 'Every Wednesday',
     time: '10:00 AM KST',
     vehicles: '2,000+',
     color: '#0a4d0e',
   },
-  {
-    name: 'SK Encar Auction',
-    location: 'Incheon, Gyeonggi-do',
-    days: 'Every Monday & Friday',
-    time: '09:30 AM KST',
-    vehicles: '1,500+',
-    color: '#0a4d0e',
-  },
-  {
-    name: 'Shinsegae Auto Auction',
-    location: 'Yongin, Gyeonggi-do',
-    days: 'Every Thursday',
-    time: '10:00 AM KST',
-    vehicles: '1,000+',
-    color: '#0a4d0e',
-  },
 ];
 
 const teamMembers = [
-  { name: 'James Jung', role: 'CEO & Founder', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058.jpg' },
-  { name: 'Sarah Kim', role: 'Sales Director', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_01.jpg' },
-  { name: 'Yuna Lee', role: 'Export Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_02.jpg' },
-  { name: 'Jiwon Park', role: 'Auction Specialist', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_03.jpg' },
-  { name: 'Daniel Choi', role: 'Vehicle Inspector', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_04.jpg' },
-  { name: 'Minjae Seo', role: 'Logistics Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_05.jpg' },
-  { name: 'Hyunwoo Kim', role: 'Customer Support', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_06.jpg' },
+  { name: 'Marina', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058.jpg' },
+  { name: 'Sofia Oh', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_01.jpg' },
+  { name: 'Logan Lee', role: 'Manager', image: '/Jungcar/images/staff/manager-new.jpeg' },
+  { name: 'Daniel Kim', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_03.jpg' },
+  { name: 'Elena Jung', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_04.jpg' },
+  { name: 'Led Kim', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_05.jpg' },
+  { name: 'Marat', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_06.jpg' },
 ];
 
 export default function Home() {
@@ -84,7 +70,7 @@ export default function Home() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/Jungcar/images/hero-banner.jpg"
+            src="/Jungcar/images/hero-banner.png"
             alt="Premium Korean Vehicles"
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -274,48 +260,49 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 max-w-3xl mx-auto">
             {auctionSchedule.map((auction, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="group relative overflow-hidden rounded-2xl border border-[#0a4d0e]/10 bg-white p-6 shadow-sm transition-all hover:border-[#0a4d0e]/30 hover:shadow-lg"
-              >
-                {/* Header */}
-                <div className="flex items-start justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a4d0e]/10">
-                    <Gavel className="h-6 w-6 text-[#0a4d0e]" />
+              <Link key={index} href={`/auction/${auction.slug}`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="group relative overflow-hidden rounded-2xl border border-[#0a4d0e]/10 bg-white p-6 shadow-sm transition-all hover:border-[#0a4d0e]/30 hover:shadow-lg cursor-pointer"
+                >
+                  {/* Header */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a4d0e]/10">
+                      <Gavel className="h-6 w-6 text-[#0a4d0e]" />
+                    </div>
+                    <span className="rounded-full bg-[#0a4d0e]/10 px-3 py-1 text-xs font-medium text-[#0a4d0e]/70">
+                      {auction.vehicles} cars
+                    </span>
                   </div>
-                  <span className="rounded-full bg-[#0a4d0e]/10 px-3 py-1 text-xs font-medium text-[#0a4d0e]/70">
-                    {auction.vehicles} cars
-                  </span>
-                </div>
 
-                {/* Name */}
-                <h3 className="mt-5 text-lg font-bold text-[#0a4d0e]">{auction.name}</h3>
+                  {/* Name */}
+                  <h3 className="mt-5 text-lg font-bold text-[#0a4d0e]">{auction.name}</h3>
 
-                {/* Details */}
-                <div className="mt-4 space-y-3">
-                  <div className="flex items-center gap-3 text-sm text-[#0a4d0e]/60">
-                    <MapPin className="h-4 w-4 flex-shrink-0 text-[#0a4d0e]" />
-                    {auction.location}
+                  {/* Details */}
+                  <div className="mt-4 space-y-3">
+                    <div className="flex items-center gap-3 text-sm text-[#0a4d0e]/60">
+                      <MapPin className="h-4 w-4 flex-shrink-0 text-[#0a4d0e]" />
+                      {auction.location}
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-[#0a4d0e]/60">
+                      <Calendar className="h-4 w-4 flex-shrink-0 text-[#0a4d0e]" />
+                      {auction.days}
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-[#0a4d0e]/60">
+                      <Clock className="h-4 w-4 flex-shrink-0 text-[#0a4d0e]" />
+                      {auction.time}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 text-sm text-[#0a4d0e]/60">
-                    <Calendar className="h-4 w-4 flex-shrink-0 text-[#0a4d0e]" />
-                    {auction.days}
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-[#0a4d0e]/60">
-                    <Clock className="h-4 w-4 flex-shrink-0 text-[#0a4d0e]" />
-                    {auction.time}
-                  </div>
-                </div>
 
-                {/* Hover accent */}
-                <div className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#0a4d0e] to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-              </motion.div>
+                  {/* Hover accent */}
+                  <div className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#0a4d0e] to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                </motion.div>
+              </Link>
             ))}
           </div>
 

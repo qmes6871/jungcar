@@ -1,0 +1,35 @@
+{
+  "at": "2026-02-19T14:54:57.363Z",
+  "cnt": 1,
+  "cars": [
+    {
+      "id": "0",
+      "no": "1",
+      "name": "차량 1",
+      "status": "판매중",
+      "year": "",
+      "transmission": "",
+      "displacement": "",
+      "mileage": "",
+      "color": "",
+      "fuel": "",
+      "usage": "",
+      "grade": "",
+      "auctionRound": "",
+      "lane": "",
+      "plateNumber": "",
+      "location": "",
+      "price": null,
+      "hope": null,
+      "instant": null,
+      "img": "/Jungcar/images/cars/1_0_thumb.jpg",
+      "images": [
+        "/Jungcar/images/cars/1_0_main.jpg"
+      ],
+      "thumbs": [
+        "/Jungcar/images/cars/1_0_thumb.jpg"
+      ],
+      "url": "https://autobell.co.kr/buycar/searchList?certi=N&detailTab=0&ewInsuSvc=N&filterKey=-1309156279&filterTab=0&homeSvc=N&listType=card&order=upd_dt&subTab=1&tab=1&viewType=1"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+==================================================
+현대글로비스 경매 차량 크롤러 시작
+시간: 2026. 2. 20. 오전 9:00:02
+==================================================
+
+로그인 페이지 접속 중...
+로그인 중...
+로그인 완료
+
+경매 차량 목록 페이지 접속 중...
+
+[페이지 1] 크롤링 중...
+  -> 0대 발견
+  -> 다음 페이지 없음
+
+총 0대 크롤링 완료 (중복 제거됨)
+저장 완료: /var/www/Jungcar/public/data/glovis-cars.json (0.1KB)
+
+==================================================
+크롤링 완료: 2026. 2. 20. 오전 9:00:13
+==================================================
+Starting AutoHub Auction crawler...
+Target: sellcarauction.co.kr
+Logging in...
+Login successful
+Navigating to exhibit list...
+Total cars found: 0
+
+Total cars extracted: 0
+Processed 0 unique cars
+
+Saved 0 cars to /var/www/Jungcar/public/data/autohub-cars.json

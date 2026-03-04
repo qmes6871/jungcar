@@ -109,6 +109,30 @@ interface GlovisData {
   cars: GlovisCar[];
 }
 
+// SSANCAR data interface
+interface SsancarCar {
+  id: number;
+  stockNo: string;
+  name: string;
+  manufacturer: string;
+  year: string;
+  mileage: number;
+  fuel: string;
+  transmission: string;
+  color: string;
+  price: number;
+  priceUSD: number;
+  img: string;
+  images: string[];
+  detailUrl: string;
+}
+
+interface SsancarData {
+  crawledAt: string;
+  totalCount: number;
+  cars: SsancarCar[];
+}
+
 const statusColors: Record<string, string> = {
   '유찰': 'bg-gray-100 text-gray-700',
   '낙찰': 'bg-green-100 text-green-700',
@@ -195,6 +219,38 @@ const auctionData: Record<string, {
     ],
     mapUrl: 'https://maps.google.com/?q=37.6185,126.6856',
   },
+  'ssancar': {
+    name: 'SSANCAR Auction',
+    nameKr: '싼카 경매장',
+    location: 'Lotte Auto Auction',
+    address: '롯데오토옥션 경매장',
+    days: 'Every Monday & Friday',
+    time: '10:00 AM KST',
+    vehicles: '1,100+',
+    description: 'SSANCAR provides access to Korea\'s major auto auctions including Lotte Auto Auction. We offer comprehensive vehicle inspection, competitive pricing, and export services to customers worldwide.',
+    features: [
+      'Access to multiple auction houses',
+      'Comprehensive vehicle inspection',
+      'Export-ready vehicles',
+      'Competitive bid pricing',
+      'Global shipping support',
+      'Professional vehicle appraisal',
+    ],
+    vehicleTypes: [
+      'Sedans',
+      'SUVs & Crossovers',
+      'Luxury Vehicles',
+      'Electric & Hybrid',
+      'Commercial Vehicles',
+      'Imported Vehicles',
+    ],
+    images: [
+      '/Jungcar/images/auction/1.jpg',
+      '/Jungcar/images/auction/2.jpg',
+      '/Jungcar/images/auction/3.jpg',
+    ],
+    mapUrl: 'https://maps.google.com/?q=37.5665,126.9780',
+  },
 };
 
 export default function AuctionDetailPage() {
@@ -205,6 +261,7 @@ export default function AuctionDetailPage() {
   // Car data state
   const [carsData, setCarsData] = useState<CarsData | null>(null);
   const [glovisData, setGlovisData] = useState<GlovisData | null>(null);
+  const [ssancarData, setSsancarData] = useState<SsancarData | null>(null);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [brandFilter, setBrandFilter] = useState('All');
@@ -239,6 +296,15 @@ export default function AuctionDetailPage() {
         .then(res => res.json())
         .then(data => {
           setGlovisData(data);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    } else if (slug === 'ssancar') {
+      setLoading(true);
+      fetch('/Jungcar/data/ssancar-auction.json')
+        .then(res => res.json())
+        .then(data => {
+          setSsancarData(data);
           setLoading(false);
         })
         .catch(() => setLoading(false));
@@ -846,6 +912,127 @@ export default function AuctionDetailPage() {
                 <Car className="mx-auto h-16 w-16 text-[#0a4d0e]/20" />
                 <p className="mt-4 text-lg font-semibold text-[#0a4d0e]">No vehicles found</p>
                 <p className="mt-2 text-[#0a4d0e]/60">Try adjusting your search or filters</p>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ===== VEHICLE LISTING (SSANCAR) ===== */}
+      {slug === 'ssancar' && (
+        <section className="py-16 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-10"
+            >
+              <span className="inline-block rounded-full bg-[#0a4d0e]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#0a4d0e]">
+                Auction Vehicles
+              </span>
+              <h2 className="mt-4 text-3xl font-bold text-[#0a4d0e]">
+                Current <span className="text-[#D4A843]">Inventory</span>
+              </h2>
+              <p className="mt-2 text-[#0a4d0e]/60">
+                {ssancarData ? `${ssancarData.totalCount} vehicles available for auction` : 'Loading vehicles...'}
+              </p>
+            </motion.div>
+
+            {/* Cars Grid */}
+            {loading ? (
+              <div className="py-20 text-center">
+                <Loader2 className="mx-auto h-12 w-12 animate-spin text-[#0a4d0e]" />
+                <p className="mt-4 text-lg font-semibold text-[#0a4d0e]">Loading vehicles...</p>
+              </div>
+            ) : ssancarData && ssancarData.cars.length > 0 ? (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {ssancarData.cars.map((car, idx) => (
+                  <motion.div
+                    key={car.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.05 }}
+                    className="group overflow-hidden rounded-2xl border border-[#0a4d0e]/10 bg-white shadow-sm transition-all hover:border-[#0a4d0e]/30 hover:shadow-lg"
+                  >
+                    {/* Image */}
+                    <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={car.img.startsWith('/') ? `/Jungcar${car.img}` : car.img}
+                        alt={car.name}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/Jungcar/images/cars/default.jpg';
+                        }}
+                      />
+                      <div className="absolute top-3 left-3">
+                        <span className="rounded-full bg-[#0a4d0e] px-3 py-1 text-xs font-medium text-white">
+                          #{car.stockNo}
+                        </span>
+                      </div>
+                      <div className="absolute top-3 right-3">
+                        <span className="rounded-full bg-[#D4A843] px-3 py-1 text-xs font-bold text-white">
+                          Bid
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-5">
+                      <h3 className="text-sm font-bold text-[#0a4d0e] line-clamp-2 min-h-[40px]">
+                        {car.name}
+                      </h3>
+
+                      {/* Specs */}
+                      <div className="mt-3 flex flex-wrap gap-2 text-xs text-[#0a4d0e]/60">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {car.year}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Gauge className="h-3 w-3" />
+                          {car.mileage.toLocaleString()}km
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Fuel className="h-3 w-3" />
+                          {car.fuel}
+                        </span>
+                      </div>
+
+                      {/* Price */}
+                      <div className="mt-4 flex items-end justify-between">
+                        <div>
+                          <p className="text-xs text-[#0a4d0e]/50">Starting Bid</p>
+                          <p className="text-lg font-bold text-[#D4A843]">
+                            ${car.priceUSD.toLocaleString()}
+                          </p>
+                          <p className="text-xs text-[#0a4d0e]/50">
+                            (~{car.price.toLocaleString()}만원)
+                          </p>
+                        </div>
+                        <span className="rounded-full bg-[#0a4d0e]/10 px-3 py-1 text-xs font-medium text-[#0a4d0e]">
+                          {car.manufacturer}
+                        </span>
+                      </div>
+
+                      {/* Link */}
+                      <Link
+                        href={`/auction/ssancar/${car.id}`}
+                        className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#0a4d0e] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#0a4d0e]/90"
+                      >
+                        View Details
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-20 text-center">
+                <Car className="mx-auto h-16 w-16 text-[#0a4d0e]/20" />
+                <p className="mt-4 text-lg font-semibold text-[#0a4d0e]">No vehicles found</p>
               </div>
             )}
           </div>

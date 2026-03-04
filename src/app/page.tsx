@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -12,7 +13,23 @@ import {
   Clock,
   MapPin,
   Gavel,
+  Car,
+  Gauge,
+  Fuel,
 } from 'lucide-react';
+
+interface CarData {
+  id: number;
+  name: string;
+  manufacturer: string;
+  model: string;
+  year: string;
+  mileage: number;
+  fuel: string;
+  price: number;
+  crId: string;
+  img: string;
+}
 
 const stats = [
   { value: '5,000+', label: 'Cars Exported' },
@@ -49,6 +66,15 @@ const auctionSchedule = [
     vehicles: '2,000+',
     color: '#0a4d0e',
   },
+  {
+    name: 'SSANCAR Auction',
+    slug: 'ssancar',
+    location: 'Lotte Auto Auction',
+    days: 'Every Monday & Friday',
+    time: '10:00 AM KST',
+    vehicles: '1,100+',
+    color: '#0a4d0e',
+  },
 ];
 
 const teamMembers = [
@@ -62,6 +88,40 @@ const teamMembers = [
 ];
 
 export default function Home() {
+  const [featuredCars, setFeaturedCars] = useState<CarData[]>([]);
+
+  useEffect(() => {
+    fetch('/Jungcar/data/autobell-cars.json')
+      .then(res => res.json())
+      .then(data => {
+        // 유효한 데이터가 있는 차량만 필터링하고 8대 선택
+        const validCars = data.cars.filter((car: CarData) =>
+          car.model && car.manufacturer && car.price
+        );
+        setFeaturedCars(validCars.slice(0, 8));
+      })
+      .catch(err => console.error('Failed to load cars:', err));
+  }, []);
+
+  const formatPrice = (price: number) => {
+    if (!price) return '-';
+    if (price >= 10000) {
+      return `${(price / 10000).toFixed(1)}억`;
+    }
+    return `${price.toLocaleString()}만원`;
+  };
+
+  const getImageUrl = (car: CarData) => {
+    if (car.img && !car.img.includes('default')) {
+      return `/Jungcar${car.img}`;
+    }
+    if (car.crId) {
+      const encodedPath = encodeURIComponent(`https://static.glovis.net/picture/dlr/prd/carImg/${car.crId}/normal/thumb/`);
+      return `https://img.autobell.co.kr/?src=${encodedPath}&type=w&w=800&quality=80&ttype=jpg`;
+    }
+    return '/Jungcar/images/cars/default.jpg';
+  };
+
   return (
     <div className="overflow-hidden">
       {/* ===== SECTION 1: HERO ===== */}
@@ -170,6 +230,109 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </section>
 
+      {/* ===== FEATURED CARS SECTION ===== */}
+      {featuredCars.length > 0 && (
+        <section className="py-20 sm:py-28 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            {/* Section header */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
+              <span className="inline-block rounded-full bg-[#0a4d0e]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#0a4d0e]">
+                Available Now
+              </span>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+                Featured <span className="text-[#0a4d0e]">Vehicles</span>
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                Browse our latest selection of quality Korean vehicles ready for export
+              </p>
+            </motion.div>
+
+            {/* Cars grid */}
+            <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {featuredCars.map((car, index) => (
+                <motion.div
+                  key={car.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                >
+                  <Link href={`/cars/${car.id}`}>
+                    <div className="group overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-md transition-all hover:shadow-xl hover:-translate-y-1">
+                      {/* Image */}
+                      <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={getImageUrl(car)}
+                          alt={car.name}
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/images/cars/default.jpg';
+                          }}
+                        />
+                        {/* Manufacturer badge */}
+                        <div className="absolute top-3 left-3">
+                          <span className="inline-block rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-[#0a4d0e] backdrop-blur-sm">
+                            {car.manufacturer}
+                          </span>
+                        </div>
+                      </div>
+                      {/* Info */}
+                      <div className="p-4">
+                        <h3 className="font-bold text-gray-900 line-clamp-1 group-hover:text-[#0a4d0e]">
+                          {car.model}
+                        </h3>
+                        <div className="mt-2 flex items-center gap-3 text-xs text-gray-500">
+                          <span className="flex items-center gap-1">
+                            <Car className="h-3.5 w-3.5" />
+                            {car.year || '-'}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Gauge className="h-3.5 w-3.5" />
+                            {car.mileage ? car.mileage.toLocaleString() : '0'}km
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Fuel className="h-3.5 w-3.5" />
+                            {car.fuel || '-'}
+                          </span>
+                        </div>
+                        <div className="mt-3 flex items-center justify-between">
+                          <p className="text-lg font-bold text-[#D4A843]">
+                            {formatPrice(car.price)}
+                          </p>
+                          <ArrowRight className="h-4 w-4 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-[#0a4d0e]" />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* View all button */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-10 text-center"
+            >
+              <Link
+                href="/cars"
+                className="group inline-flex items-center gap-2 rounded-xl bg-[#0a4d0e] px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#0d6611] hover:shadow-lg hover:shadow-[#0a4d0e]/20"
+              >
+                View All 7,000+ Vehicles
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
       {/* ===== SECTION 2: AUCTION GALLERIES ===== */}
       <section className="py-20 sm:py-28 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -260,7 +423,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 max-w-3xl mx-auto">
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
             {auctionSchedule.map((auction, index) => (
               <Link key={index} href={`/auction/${auction.slug}`}>
                 <motion.div

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -54,7 +55,10 @@ interface CarsResponse {
   cars: CarData[];
 }
 
-export default function CarDetailPage({ params }: { params: { id: string } }) {
+export default function CarDetailPage() {
+  const params = useParams();
+  const carId = params?.id ? parseInt(params.id as string) : 0;
+
   const [car, setCar] = useState<CarData | null>(null);
   const [relatedCars, setRelatedCars] = useState<CarData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,12 +66,19 @@ export default function CarDetailPage({ params }: { params: { id: string } }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
+    if (!carId) {
+      setNotFound(true);
+      setLoading(false);
+      return;
+    }
+
     async function fetchCarData() {
       try {
-        const res = await fetch('/data/autobell-cars.json');
+        // Use full URL for client-side fetch
+        const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+        const res = await fetch(`${baseUrl}/Jungcar/data/autobell-cars.json`);
         if (res.ok) {
           const data: CarsResponse = await res.json();
-          const carId = parseInt(params.id);
           const foundCar = data.cars.find(c => c.id === carId);
 
           if (foundCar) {
@@ -80,6 +91,8 @@ export default function CarDetailPage({ params }: { params: { id: string } }) {
           } else {
             setNotFound(true);
           }
+        } else {
+          setNotFound(true);
         }
       } catch (error) {
         console.error('Failed to fetch car data:', error);
@@ -89,9 +102,10 @@ export default function CarDetailPage({ params }: { params: { id: string } }) {
       }
     }
     fetchCarData();
-  }, [params.id]);
+  }, [carId]);
 
   const formatPrice = (price: number) => {
+    if (!price) return '-';
     if (price >= 10000) {
       return `${(price / 10000).toFixed(1)}억원`;
     }
@@ -99,15 +113,25 @@ export default function CarDetailPage({ params }: { params: { id: string } }) {
   };
 
   const formatMileage = (km: number) => {
+    if (!km) return '0km';
     return `${km.toLocaleString()}km`;
   };
 
   const getImageUrl = (carData: CarData) => {
-    if (carData.img && !carData.img.includes('default')) {
+    // 이미 전체 URL인 경우 그대로 사용
+    if (carData.img && carData.img.startsWith('http')) {
       return carData.img;
     }
-    const encodedPath = encodeURIComponent(`https://static.glovis.net/picture/dlr/prd/carImg/${carData.crId}/normal/thumb/`);
-    return `https://img.autobell.co.kr/?src=${encodedPath}&type=w&w=1200&quality=90&ttype=jpg`;
+    // 로컬 경로인 경우 basePath 추가
+    if (carData.img && !carData.img.includes('default')) {
+      return `/Jungcar${carData.img}`;
+    }
+    // crId가 있으면 오토벨 CDN URL 생성
+    if (carData.crId) {
+      const encodedPath = encodeURIComponent(`https://static.glovis.net/picture/dlr/prd/carImg/${carData.crId}/normal/thumb/`);
+      return `https://img.autobell.co.kr/?src=${encodedPath}&type=w&w=1200&quality=90&ttype=jpg`;
+    }
+    return '/Jungcar/images/cars/default.jpg';
   };
 
   if (loading) {

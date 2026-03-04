@@ -27,7 +27,9 @@ interface CarData {
   img: string;
   images: string[];
   thumbs: string[];
-  originalImg: string;
+  originalImg?: string;
+  source?: string;
+  detailUrl?: string;
 }
 
 interface CarsResponse {
@@ -62,10 +64,22 @@ export default function CarsPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    fetch('/data/autobell-cars.json')
-      .then(res => res.json())
-      .then(data => {
-        setCarsData(data);
+    // 두 데이터 소스 모두 로드
+    Promise.all([
+      fetch('/Jungcar/data/autobell-cars.json').then(res => res.json()),
+      fetch('/Jungcar/data/ssancar-stock.json').then(res => res.json()).catch(() => ({ cars: [] }))
+    ])
+      .then(([autobellData, ssancarData]) => {
+        // 두 데이터를 합침
+        const combinedCars = [
+          ...(ssancarData.cars || []),  // SSANCAR 차량을 먼저 (최신)
+          ...(autobellData.cars || [])
+        ];
+        setCarsData({
+          ...autobellData,
+          totalCount: combinedCars.length,
+          cars: combinedCars
+        });
         setLoading(false);
       })
       .catch(err => {
@@ -122,6 +136,7 @@ export default function CarsPage() {
   }, [searchTerm, selectedManufacturer, selectedFuel, priceRange, yearRange]);
 
   const formatPrice = (price: number) => {
+    if (!price) return '-';
     if (price >= 10000) {
       return `${(price / 10000).toFixed(1)}억`;
     }
@@ -129,18 +144,30 @@ export default function CarsPage() {
   };
 
   const formatMileage = (km: number) => {
+    if (!km) return '0km';
     return `${km.toLocaleString()}km`;
   };
 
   // 이미지 URL 생성
   const getImageUrl = (car: CarData) => {
-    // 로컬 이미지가 있으면 사용
-    if (car.img && !car.img.includes('default')) {
+    // 이미 전체 URL인 경우 그대로 사용
+    if (car.img && car.img.startsWith('http')) {
       return car.img;
     }
+    // 로컬 이미지가 있으면 사용 (ssancar 포함)
+    if (car.img && !car.img.includes('default')) {
+      return `/Jungcar${car.img}`;
+    }
+    // ssancar 원본 이미지 사용
+    if (car.source === 'ssancar' && car.originalImg) {
+      return car.originalImg;
+    }
     // 오토벨 원본 이미지 사용
-    const encodedPath = encodeURIComponent(`https://static.glovis.net/picture/dlr/prd/carImg/${car.crId}/normal/thumb/`);
-    return `https://img.autobell.co.kr/?src=${encodedPath}&type=w&w=800&quality=80&ttype=jpg`;
+    if (car.crId) {
+      const encodedPath = encodeURIComponent(`https://static.glovis.net/picture/dlr/prd/carImg/${car.crId}/normal/thumb/`);
+      return `https://img.autobell.co.kr/?src=${encodedPath}&type=w&w=800&quality=80&ttype=jpg`;
+    }
+    return '/Jungcar/images/cars/default.jpg';
   };
 
   return (

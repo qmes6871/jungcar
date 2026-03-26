@@ -14,7 +14,7 @@ import sharp from 'sharp';
 
 const DATA_FILE = '/var/www/Jungcar/public/data/autohub-cars.json';
 const IMAGE_DIR = '/var/www/Jungcar/public/images/cars';
-const BASE_PATH = '/Jungcar/images/cars';
+const BASE_PATH = '/images/cars';
 
 // 이미지 크기 설정
 const SIZES = {

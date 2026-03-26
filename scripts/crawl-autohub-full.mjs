@@ -265,7 +265,7 @@ function saveResults(cars, filename) {
       transmission: car.transmission?.includes('오토') ? 'Automatic' : 'Manual',
       bodyType: getBodyType(car.name),
       color: translateColor(car.color),
-      image: car.thumbnail || '/Jungcar/images/auction/car-placeholder.jpg',
+      image: car.thumbnail || '/images/auction/car-placeholder.jpg',
       images: car.images || [],
       status: 'Available',
       detail: {

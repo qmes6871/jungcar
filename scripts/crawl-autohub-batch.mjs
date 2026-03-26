@@ -293,7 +293,7 @@ function formatCar(d) {
     transmission: d.transmission?.includes('오토') ? 'Automatic' : 'Manual',
     bodyType: getBodyType(d.name),
     color: translateColor(d.color),
-    image: d.thumbnail || '/Jungcar/images/auction/car-placeholder.jpg',
+    image: d.thumbnail || '/images/auction/car-placeholder.jpg',
     images: d.images || [],
     status: 'Available',
     detail: {

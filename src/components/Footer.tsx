@@ -39,7 +39,7 @@ export default function Footer() {
                 <div className="relative h-12 w-44">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/Jungcar/images/logo/logo.png"
+                    src="/images/logo/logo.png"
                     alt="JungCar"
                     className="h-full w-full object-contain object-left"
                   />

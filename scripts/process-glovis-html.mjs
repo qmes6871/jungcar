@@ -38,7 +38,7 @@ async function processImage(inputPath, carNo, imageIndex) {
       .resize(SIZES.thumb.width, SIZES.thumb.height, { fit: 'cover' })
       .jpeg({ quality: 80 })
       .toFile(thumbPath);
-    results.thumb = `/Jungcar/images/cars/${baseFilename}_thumb.jpg`;
+    results.thumb = `/images/cars/${baseFilename}_thumb.jpg`;
 
     // 메인
     const mainPath = path.join(OUTPUT_DIR, `${baseFilename}_main.jpg`);
@@ -46,7 +46,7 @@ async function processImage(inputPath, carNo, imageIndex) {
       .resize(SIZES.main.width, SIZES.main.height, { fit: 'cover' })
       .jpeg({ quality: 85 })
       .toFile(mainPath);
-    results.main = `/Jungcar/images/cars/${baseFilename}_main.jpg`;
+    results.main = `/images/cars/${baseFilename}_main.jpg`;
 
     // 대표 이미지 (첫번째만)
     if (imageIndex === 0) {
@@ -55,7 +55,7 @@ async function processImage(inputPath, carNo, imageIndex) {
         .resize(SIZES.large.width, SIZES.large.height, { fit: 'inside', withoutEnlargement: true })
         .jpeg({ quality: 90 })
         .toFile(largePath);
-      results.large = `/Jungcar/images/cars/${baseFilename}_large.jpg`;
+      results.large = `/images/cars/${baseFilename}_large.jpg`;
 
       // 기본 이미지도 저장
       const defaultPath = path.join(OUTPUT_DIR, `${carNo}.jpg`);
@@ -63,7 +63,7 @@ async function processImage(inputPath, carNo, imageIndex) {
         .resize(800, 600, { fit: 'cover' })
         .jpeg({ quality: 85 })
         .toFile(defaultPath);
-      results.default = `/Jungcar/images/cars/${carNo}.jpg`;
+      results.default = `/images/cars/${carNo}.jpg`;
     }
   } catch (err) {
     console.log(`    리사이징 에러: ${err.message}`);
@@ -209,12 +209,12 @@ async function main() {
           }
         } catch (err) {
           console.log(`    ${car.no}: 이미지 처리 실패 - ${err.message}`);
-          car.img = `/Jungcar/images/cars/${car.no}.jpg`;
+          car.img = `/images/cars/${car.no}.jpg`;
           car.images = [];
           car.thumbs = [];
         }
       } else {
-        car.img = `/Jungcar/images/cars/${car.no}.jpg`;
+        car.img = `/images/cars/${car.no}.jpg`;
         car.images = [];
         car.thumbs = [];
       }

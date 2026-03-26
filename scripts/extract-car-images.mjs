@@ -88,7 +88,7 @@ for (const car of jsonData.cars) {
       fs.copyFileSync(srcPath, destPath);
 
       // 이미지 경로 추가
-      car.img = `/Jungcar/images/cars/${destFileName}`;
+      car.img = `/images/cars/${destFileName}`;
       processedCount++;
 
       if (processedCount % 100 === 0) {

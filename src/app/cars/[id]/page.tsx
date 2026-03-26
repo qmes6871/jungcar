@@ -76,7 +76,7 @@ export default function CarDetailPage() {
       try {
         // Use full URL for client-side fetch
         const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-        const res = await fetch(`${baseUrl}/Jungcar/data/autobell-cars.json`);
+        const res = await fetch(`${baseUrl}/data/vehicle-stock.json`);
         if (res.ok) {
           const data: CarsResponse = await res.json();
           const foundCar = data.cars.find(c => c.id === carId);
@@ -124,14 +124,14 @@ export default function CarDetailPage() {
     }
     // 로컬 경로인 경우 basePath 추가
     if (carData.img && !carData.img.includes('default')) {
-      return `/Jungcar${carData.img}`;
+      return `${carData.img}`;
     }
     // crId가 있으면 오토벨 CDN URL 생성
     if (carData.crId) {
       const encodedPath = encodeURIComponent(`https://static.glovis.net/picture/dlr/prd/carImg/${carData.crId}/normal/thumb/`);
       return `https://img.autobell.co.kr/?src=${encodedPath}&type=w&w=1200&quality=90&ttype=jpg`;
     }
-    return '/Jungcar/images/cars/default.jpg';
+    return '/images/cars/default.jpg';
   };
 
   if (loading) {
@@ -165,7 +165,7 @@ export default function CarDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 상단 네비게이션 */}
-      <div className="sticky top-0 z-50 bg-white shadow-sm">
+      <div className="sticky top-[82px] lg:top-[98px] z-40 bg-white shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <Link
@@ -275,7 +275,7 @@ export default function CarDetailPage() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="sticky top-20 space-y-6"
+              className="sticky top-[140px] lg:top-[156px] space-y-6"
             >
               {/* 가격 카드 */}
               <div className="rounded-2xl bg-white p-6 shadow-lg">

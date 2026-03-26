@@ -28,6 +28,7 @@ import {
   Cog,
   Palette,
   Tag,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   AlertTriangle,
@@ -109,7 +110,7 @@ interface GlovisData {
   cars: GlovisCar[];
 }
 
-// SSANCAR data interface
+// Auction car data interface
 interface SsancarCar {
   id: number;
   stockNo: string;
@@ -181,9 +182,9 @@ const auctionData: Record<string, {
       'Specialty Vehicles',
     ],
     images: [
-      '/Jungcar/images/auction/1.jpg',
-      '/Jungcar/images/auction/2.jpg',
-      '/Jungcar/images/auction/3.jpg',
+      '/images/auction/1.jpg',
+      '/images/auction/2.jpg',
+      '/images/auction/3.jpg',
     ],
     mapUrl: 'https://maps.google.com/?q=37.3219,126.7319',
   },
@@ -213,21 +214,21 @@ const auctionData: Record<string, {
       'Premium & Luxury',
     ],
     images: [
-      '/Jungcar/images/auction/4.jpg',
-      '/Jungcar/images/auction/5.jpg',
-      '/Jungcar/images/auction/6.jpg',
+      '/images/auction/4.jpg',
+      '/images/auction/5.jpg',
+      '/images/auction/6.jpg',
     ],
     mapUrl: 'https://maps.google.com/?q=37.6185,126.6856',
   },
-  'ssancar': {
-    name: 'SSANCAR Auction',
-    nameKr: '싼카 경매장',
-    location: 'Lotte Auto Auction',
-    address: '롯데오토옥션 경매장',
+  'vehicle': {
+    name: 'Korea Auto Auction',
+    nameKr: '경매차량',
+    location: 'Korea',
+    address: '한국 경매장',
     days: 'Every Monday & Friday',
     time: '10:00 AM KST',
     vehicles: '1,100+',
-    description: 'SSANCAR provides access to Korea\'s major auto auctions including Lotte Auto Auction. We offer comprehensive vehicle inspection, competitive pricing, and export services to customers worldwide.',
+    description: 'Korea Auto Auction is one of Korea\'s major auto auction houses. We offer comprehensive vehicle inspection, competitive pricing, and export services to customers worldwide.',
     features: [
       'Access to multiple auction houses',
       'Comprehensive vehicle inspection',
@@ -245,9 +246,9 @@ const auctionData: Record<string, {
       'Imported Vehicles',
     ],
     images: [
-      '/Jungcar/images/auction/1.jpg',
-      '/Jungcar/images/auction/2.jpg',
-      '/Jungcar/images/auction/3.jpg',
+      '/images/auction/1.jpg',
+      '/images/auction/2.jpg',
+      '/images/auction/3.jpg',
     ],
     mapUrl: 'https://maps.google.com/?q=37.5665,126.9780',
   },
@@ -261,7 +262,7 @@ export default function AuctionDetailPage() {
   // Car data state
   const [carsData, setCarsData] = useState<CarsData | null>(null);
   const [glovisData, setGlovisData] = useState<GlovisData | null>(null);
-  const [ssancarData, setSsancarData] = useState<SsancarData | null>(null);
+  const [vehicleData, setSsancarData] = useState<SsancarData | null>(null);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [brandFilter, setBrandFilter] = useState('All');
@@ -270,6 +271,13 @@ export default function AuctionDetailPage() {
   const [selectedCar, setSelectedCar] = useState<AuctionCar | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'info' | 'eval' | 'options' | 'notice'>('info');
+  // Ssancar specific filters
+  const [vehicleManufacturerFilter, setSsancarManufacturerFilter] = useState('All');
+  const [vehicleFuelFilter, setSsancarFuelFilter] = useState('All');
+  const [vehicleSortBy, setSsancarSortBy] = useState('stock-asc');
+  const [vehiclePriceRange, setSsancarPriceRange] = useState<[number, number]>([0, 100000]);
+  const [vehicleYearRange, setSsancarYearRange] = useState<[number, number]>([2000, 2026]);
+  const [showSsancarAdvanced, setShowSsancarAdvanced] = useState(false);
   const itemsPerPage = 12;
 
   // Reset modal state when car changes
@@ -283,7 +291,7 @@ export default function AuctionDetailPage() {
   useEffect(() => {
     if (slug === 'autohub') {
       setLoading(true);
-      fetch('/Jungcar/data/autohub-cars.json')
+      fetch('/data/autohub-cars.json')
         .then(res => res.json())
         .then(data => {
           setCarsData(data);
@@ -292,16 +300,16 @@ export default function AuctionDetailPage() {
         .catch(() => setLoading(false));
     } else if (slug === 'hyundai-glovis') {
       setLoading(true);
-      fetch('/Jungcar/data/glovis-cars.json')
+      fetch('/data/glovis-cars.json')
         .then(res => res.json())
         .then(data => {
           setGlovisData(data);
           setLoading(false);
         })
         .catch(() => setLoading(false));
-    } else if (slug === 'ssancar') {
+    } else if (slug === 'vehicle') {
       setLoading(true);
-      fetch('/Jungcar/data/ssancar-auction.json')
+      fetch('/data/vehicle-auction.json')
         .then(res => res.json())
         .then(data => {
           setSsancarData(data);
@@ -322,6 +330,96 @@ export default function AuctionDetailPage() {
     const unique = [...new Set(glovisData.cars.map(c => c.status).filter(Boolean))];
     return ['All', ...unique];
   }, [glovisData]);
+
+  // Ssancar manufacturers and fuel types
+  const vehicleManufacturers = useMemo(() => {
+    if (!vehicleData) return ['All'];
+    const unique = [...new Set(vehicleData.cars.map(c => c.manufacturer).filter(Boolean))].sort();
+    return ['All', ...unique];
+  }, [vehicleData]);
+
+  const vehicleFuelTypes = useMemo(() => {
+    if (!vehicleData) return ['All'];
+    const unique = [...new Set(vehicleData.cars.map(c => c.fuel).filter(Boolean))].sort();
+    return ['All', ...unique];
+  }, [vehicleData]);
+
+  // Filtered and sorted vehicle cars
+  const filteredSsancarCars = useMemo(() => {
+    if (!vehicleData) return [];
+    let result = [...vehicleData.cars];
+
+    // Search filter
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(car =>
+        car.name.toLowerCase().includes(q) ||
+        car.stockNo.toLowerCase().includes(q) ||
+        car.manufacturer.toLowerCase().includes(q)
+      );
+    }
+
+    // Manufacturer filter
+    if (vehicleManufacturerFilter !== 'All') {
+      result = result.filter(car => car.manufacturer === vehicleManufacturerFilter);
+    }
+
+    // Fuel filter
+    if (vehicleFuelFilter !== 'All') {
+      result = result.filter(car => car.fuel === vehicleFuelFilter);
+    }
+
+    // Price range filter
+    result = result.filter(car => {
+      const price = car.price || 0;
+      return price >= vehiclePriceRange[0] && price <= vehiclePriceRange[1];
+    });
+
+    // Year range filter
+    result = result.filter(car => {
+      const yearMatch = car.year?.match(/(\d{4})/);
+      const year = yearMatch ? parseInt(yearMatch[1]) : 2020;
+      return year >= vehicleYearRange[0] && year <= vehicleYearRange[1];
+    });
+
+    // Sorting
+    switch (vehicleSortBy) {
+      case 'stock-asc':
+        result.sort((a, b) => a.stockNo.localeCompare(b.stockNo));
+        break;
+      case 'stock-desc':
+        result.sort((a, b) => b.stockNo.localeCompare(a.stockNo));
+        break;
+      case 'price-asc':
+        result.sort((a, b) => (a.price || 0) - (b.price || 0));
+        break;
+      case 'price-desc':
+        result.sort((a, b) => (b.price || 0) - (a.price || 0));
+        break;
+      case 'year-desc':
+        result.sort((a, b) => {
+          const yearA = parseInt(a.year?.match(/(\d{4})/)?.[1] || '0');
+          const yearB = parseInt(b.year?.match(/(\d{4})/)?.[1] || '0');
+          return yearB - yearA;
+        });
+        break;
+      case 'year-asc':
+        result.sort((a, b) => {
+          const yearA = parseInt(a.year?.match(/(\d{4})/)?.[1] || '0');
+          const yearB = parseInt(b.year?.match(/(\d{4})/)?.[1] || '0');
+          return yearA - yearB;
+        });
+        break;
+    }
+
+    return result;
+  }, [vehicleData, searchQuery, vehicleManufacturerFilter, vehicleFuelFilter, vehiclePriceRange, vehicleYearRange, vehicleSortBy]);
+
+  const totalSsancarPages = Math.ceil(filteredSsancarCars.length / itemsPerPage);
+  const paginatedSsancarCars = filteredSsancarCars.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const filteredGlovisCars = useMemo(() => {
     if (!glovisData) return [];
@@ -376,7 +474,7 @@ export default function AuctionDetailPage() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, brandFilter, statusFilter]);
+  }, [searchQuery, brandFilter, statusFilter, vehicleManufacturerFilter, vehicleFuelFilter, vehicleSortBy, vehiclePriceRange, vehicleYearRange]);
 
   if (!auction) {
     return (
@@ -807,7 +905,7 @@ export default function AuctionDetailPage() {
                           alt={`${car.brand} ${car.model}`}
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/Jungcar/images/auction/car-placeholder.jpg';
+                            (e.target as HTMLImageElement).src = '/images/auction/car-placeholder.jpg';
                           }}
                         />
                         <div className="absolute top-3 left-3">
@@ -918,8 +1016,8 @@ export default function AuctionDetailPage() {
         </section>
       )}
 
-      {/* ===== VEHICLE LISTING (SSANCAR) ===== */}
-      {slug === 'ssancar' && (
+      {/* ===== VEHICLE LISTING (KOREA AUCTION) ===== */}
+      {slug === 'vehicle' && (
         <section className="py-16 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -935,9 +1033,147 @@ export default function AuctionDetailPage() {
                 Current <span className="text-[#D4A843]">Inventory</span>
               </h2>
               <p className="mt-2 text-[#0a4d0e]/60">
-                {ssancarData ? `${ssancarData.totalCount} vehicles available for auction` : 'Loading vehicles...'}
+                {vehicleData ? `${vehicleData.totalCount} vehicles available for auction` : 'Loading vehicles...'}
               </p>
             </motion.div>
+
+            {/* Search and Filter Section */}
+            <div className="mb-8 space-y-4">
+              {/* Search Bar */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="relative flex-1">
+                  <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#0a4d0e]/40" />
+                  <input
+                    type="text"
+                    placeholder="Search by name, stock number, or manufacturer..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full rounded-xl border border-[#0a4d0e]/20 bg-white py-3 pl-12 pr-4 text-[#0a4d0e] placeholder:text-[#0a4d0e]/40 focus:border-[#0a4d0e] focus:outline-none focus:ring-1 focus:ring-[#0a4d0e]"
+                  />
+                </div>
+                <button
+                  onClick={() => setShowSsancarAdvanced(!showSsancarAdvanced)}
+                  className={`flex items-center justify-center gap-2 rounded-xl border px-6 py-3 font-medium transition-colors ${
+                    showSsancarAdvanced
+                      ? 'border-[#0a4d0e] bg-[#0a4d0e] text-white'
+                      : 'border-[#0a4d0e]/20 bg-white text-[#0a4d0e] hover:border-[#0a4d0e]/40'
+                  }`}
+                >
+                  <SlidersHorizontal className="h-5 w-5" />
+                  Advanced Filters
+                  <ChevronDown className={`h-4 w-4 transition-transform ${showSsancarAdvanced ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
+
+              {/* Advanced Filters */}
+              {showSsancarAdvanced && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="rounded-xl border border-[#0a4d0e]/10 bg-[#f5f5f5] p-6"
+                >
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    {/* Manufacturer Filter */}
+                    <div>
+                      <label className="mb-2 block text-sm font-medium text-[#0a4d0e]">Manufacturer</label>
+                      <select
+                        value={vehicleManufacturerFilter}
+                        onChange={(e) => setSsancarManufacturerFilter(e.target.value)}
+                        className="w-full rounded-lg border border-[#0a4d0e]/20 bg-white px-4 py-2.5 text-[#0a4d0e] focus:border-[#0a4d0e] focus:outline-none"
+                      >
+                        {vehicleManufacturers.map((m) => (
+                          <option key={m} value={m}>{m}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Fuel Filter */}
+                    <div>
+                      <label className="mb-2 block text-sm font-medium text-[#0a4d0e]">Fuel Type</label>
+                      <select
+                        value={vehicleFuelFilter}
+                        onChange={(e) => setSsancarFuelFilter(e.target.value)}
+                        className="w-full rounded-lg border border-[#0a4d0e]/20 bg-white px-4 py-2.5 text-[#0a4d0e] focus:border-[#0a4d0e] focus:outline-none"
+                      >
+                        {vehicleFuelTypes.map((f) => (
+                          <option key={f} value={f}>{f}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Year Range */}
+                    <div>
+                      <label className="mb-2 block text-sm font-medium text-[#0a4d0e]">Year Range</label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          min="2000"
+                          max="2026"
+                          value={vehicleYearRange[0]}
+                          onChange={(e) => setSsancarYearRange([parseInt(e.target.value) || 2000, vehicleYearRange[1]])}
+                          className="w-full rounded-lg border border-[#0a4d0e]/20 bg-white px-3 py-2 text-center text-[#0a4d0e] focus:border-[#0a4d0e] focus:outline-none"
+                        />
+                        <span className="text-[#0a4d0e]/40">~</span>
+                        <input
+                          type="number"
+                          min="2000"
+                          max="2026"
+                          value={vehicleYearRange[1]}
+                          onChange={(e) => setSsancarYearRange([vehicleYearRange[0], parseInt(e.target.value) || 2026])}
+                          className="w-full rounded-lg border border-[#0a4d0e]/20 bg-white px-3 py-2 text-center text-[#0a4d0e] focus:border-[#0a4d0e] focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Sort By */}
+                    <div>
+                      <label className="mb-2 block text-sm font-medium text-[#0a4d0e]">Sort By</label>
+                      <select
+                        value={vehicleSortBy}
+                        onChange={(e) => setSsancarSortBy(e.target.value)}
+                        className="w-full rounded-lg border border-[#0a4d0e]/20 bg-white px-4 py-2.5 text-[#0a4d0e] focus:border-[#0a4d0e] focus:outline-none"
+                      >
+                        <option value="stock-asc">Stock No. (Ascending)</option>
+                        <option value="stock-desc">Stock No. (Descending)</option>
+                        <option value="price-asc">Price (Low to High)</option>
+                        <option value="price-desc">Price (High to Low)</option>
+                        <option value="year-desc">Year (Newest First)</option>
+                        <option value="year-asc">Year (Oldest First)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Reset Filters */}
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      onClick={() => {
+                        setSearchQuery('');
+                        setSsancarManufacturerFilter('All');
+                        setSsancarFuelFilter('All');
+                        setSsancarYearRange([2000, 2026]);
+                        setSsancarSortBy('stock-asc');
+                      }}
+                      className="text-sm font-medium text-[#0a4d0e]/60 hover:text-[#0a4d0e] transition-colors"
+                    >
+                      Reset All Filters
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Results Count */}
+              {vehicleData && (
+                <div className="flex items-center justify-between text-sm text-[#0a4d0e]/60">
+                  <p>
+                    Showing {paginatedSsancarCars.length} of {filteredSsancarCars.length} vehicles
+                    {filteredSsancarCars.length !== vehicleData.cars.length && (
+                      <span> (filtered from {vehicleData.cars.length} total)</span>
+                    )}
+                  </p>
+                </div>
+              )}
+            </div>
 
             {/* Cars Grid */}
             {loading ? (
@@ -945,9 +1181,9 @@ export default function AuctionDetailPage() {
                 <Loader2 className="mx-auto h-12 w-12 animate-spin text-[#0a4d0e]" />
                 <p className="mt-4 text-lg font-semibold text-[#0a4d0e]">Loading vehicles...</p>
               </div>
-            ) : ssancarData && ssancarData.cars.length > 0 ? (
+            ) : paginatedSsancarCars.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {ssancarData.cars.map((car, idx) => (
+                {paginatedSsancarCars.map((car, idx) => (
                   <motion.div
                     key={car.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -960,11 +1196,11 @@ export default function AuctionDetailPage() {
                     <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={car.img.startsWith('/') ? `/Jungcar${car.img}` : car.img}
+                        src={car.img.startsWith('/') ? `${car.img}` : car.img}
                         alt={car.name}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/Jungcar/images/cars/default.jpg';
+                          (e.target as HTMLImageElement).src = '/images/cars/default.jpg';
                         }}
                       />
                       <div className="absolute top-3 left-3">
@@ -1019,7 +1255,7 @@ export default function AuctionDetailPage() {
 
                       {/* Link */}
                       <Link
-                        href={`/auction/ssancar/${car.id}`}
+                        href={`/auction/vehicle/${car.id}`}
                         className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#0a4d0e] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#0a4d0e]/90"
                       >
                         View Details
@@ -1033,6 +1269,88 @@ export default function AuctionDetailPage() {
               <div className="py-20 text-center">
                 <Car className="mx-auto h-16 w-16 text-[#0a4d0e]/20" />
                 <p className="mt-4 text-lg font-semibold text-[#0a4d0e]">No vehicles found</p>
+                <p className="mt-2 text-sm text-[#0a4d0e]/60">Try adjusting your search or filters</p>
+              </div>
+            )}
+
+            {/* Pagination */}
+            {totalSsancarPages > 1 && (
+              <div className="mt-12 flex items-center justify-center gap-2">
+                <button
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#0a4d0e]/20 text-[#0a4d0e] transition-colors hover:bg-[#0a4d0e]/5 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+
+                {/* Page Numbers */}
+                {(() => {
+                  const pages = [];
+                  const maxVisiblePages = 5;
+                  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                  const endPage = Math.min(totalSsancarPages, startPage + maxVisiblePages - 1);
+
+                  if (endPage - startPage + 1 < maxVisiblePages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                  }
+
+                  if (startPage > 1) {
+                    pages.push(
+                      <button
+                        key={1}
+                        onClick={() => setCurrentPage(1)}
+                        className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#0a4d0e]/20 text-[#0a4d0e] transition-colors hover:bg-[#0a4d0e]/5"
+                      >
+                        1
+                      </button>
+                    );
+                    if (startPage > 2) {
+                      pages.push(<span key="dots1" className="px-2 text-[#0a4d0e]/40">...</span>);
+                    }
+                  }
+
+                  for (let i = startPage; i <= endPage; i++) {
+                    pages.push(
+                      <button
+                        key={i}
+                        onClick={() => setCurrentPage(i)}
+                        className={`flex h-10 w-10 items-center justify-center rounded-lg border transition-colors ${
+                          currentPage === i
+                            ? 'border-[#0a4d0e] bg-[#0a4d0e] text-white'
+                            : 'border-[#0a4d0e]/20 text-[#0a4d0e] hover:bg-[#0a4d0e]/5'
+                        }`}
+                      >
+                        {i}
+                      </button>
+                    );
+                  }
+
+                  if (endPage < totalSsancarPages) {
+                    if (endPage < totalSsancarPages - 1) {
+                      pages.push(<span key="dots2" className="px-2 text-[#0a4d0e]/40">...</span>);
+                    }
+                    pages.push(
+                      <button
+                        key={totalSsancarPages}
+                        onClick={() => setCurrentPage(totalSsancarPages)}
+                        className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#0a4d0e]/20 text-[#0a4d0e] transition-colors hover:bg-[#0a4d0e]/5"
+                      >
+                        {totalSsancarPages}
+                      </button>
+                    );
+                  }
+
+                  return pages;
+                })()}
+
+                <button
+                  onClick={() => setCurrentPage(Math.min(totalSsancarPages, currentPage + 1))}
+                  disabled={currentPage === totalSsancarPages}
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#0a4d0e]/20 text-[#0a4d0e] transition-colors hover:bg-[#0a4d0e]/5 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
               </div>
             )}
           </div>
@@ -1166,7 +1484,7 @@ export default function AuctionDetailPage() {
                   alt={`${selectedCar.brand} ${selectedCar.model}`}
                   className="h-full w-full object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/Jungcar/images/auction/car-placeholder.jpg';
+                    (e.target as HTMLImageElement).src = '/images/auction/car-placeholder.jpg';
                   }}
                 />
                 {/* Image Navigation */}

@@ -86,11 +86,8 @@ async function main() {
     const images = JSON.parse(car.images || '[]');
     // 이미지 경로 수정 - .jpg 확장자 제거 (파일명에 이미 있을 수 있음)
     const fixedImages = images.map(img => {
-      // /images/auction/OBmZCjL58I(61).jpg 형태를 /Jungcar/images/auction/OBmZCjL58I(61) 형태로
+      // 이미지 경로 정리
       let fixedPath = img.replace('.jpg', '');
-      if (!fixedPath.startsWith('/Jungcar')) {
-        fixedPath = '/Jungcar' + fixedPath;
-      }
       return fixedPath;
     });
 
@@ -122,7 +119,7 @@ async function main() {
       plateNumber: `Auction #${entryNo}`,
       firstRegistration: `${car.year}-01-01`,
       description: `${car.brand} ${car.model} from Hyundai Glovis Auction. ${car.description || ''}`,
-      images: fixedImages.length > 0 ? fixedImages : ['/Jungcar/images/auction/OBmZCjL58I'],
+      images: fixedImages.length > 0 ? fixedImages : ['/images/auction/OBmZCjL58I'],
       status: 'auction',
       options: generateOptions(),
       performanceReport: generatePerformanceReport(),

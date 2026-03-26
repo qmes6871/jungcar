@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Loader2, Gavel, ExternalLink, Car, Gauge, Fuel } from 'lucide-react';
+import { Search, Loader2, Gavel, ExternalLink, Car, Gauge, Fuel, Filter, X } from 'lucide-react';
 
 interface SsancarCar {
   id: number;
@@ -57,12 +57,15 @@ export default function AuctionCarsPage() {
   const [fuelFilter, setFuelFilter] = useState('All');
   const [sortBy, setSortBy] = useState('stock-asc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 100000]);
+  const [yearRange, setYearRange] = useState<[number, number]>([2000, 2026]);
   const itemsPerPage = 32;
 
   useEffect(() => {
     async function fetchCars() {
       try {
-        const res = await fetch('/Jungcar/data/ssancar-auction.json');
+        const res = await fetch('/data/vehicle-auction.json');
         if (res.ok) {
           const json = await res.json();
           setData(json);
@@ -103,6 +106,18 @@ export default function AuctionCarsPage() {
       result = result.filter(car => car.fuel === fuelFilter);
     }
 
+    // 가격 필터
+    result = result.filter(car => {
+      const price = car.price || 0;
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
+
+    // 연식 필터
+    result = result.filter(car => {
+      const year = parseInt(car.year) || 0;
+      return year >= yearRange[0] && year <= yearRange[1];
+    });
+
     switch (sortBy) {
       case 'price-asc':
         result.sort((a, b) => (a.price || 0) - (b.price || 0));
@@ -125,7 +140,7 @@ export default function AuctionCarsPage() {
     }
 
     return result;
-  }, [data, searchQuery, brandFilter, fuelFilter, sortBy]);
+  }, [data, searchQuery, brandFilter, fuelFilter, sortBy, priceRange, yearRange]);
 
   const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
   const paginatedCars = filteredCars.slice(
@@ -135,7 +150,21 @@ export default function AuctionCarsPage() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, brandFilter, fuelFilter, sortBy]);
+  }, [searchQuery, brandFilter, fuelFilter, sortBy, priceRange, yearRange]);
+
+  const resetFilters = () => {
+    setSearchQuery('');
+    setBrandFilter('All');
+    setFuelFilter('All');
+    setPriceRange([0, 100000]);
+    setYearRange([2000, 2026]);
+    setSortBy('stock-asc');
+  };
+
+  const formatPriceLabel = (price: number) => {
+    if (!price) return '$0';
+    return `$${price.toLocaleString()}`;
+  };
 
   const formatPrice = (price: number) => {
     if (!price) return '-';
@@ -164,7 +193,7 @@ export default function AuctionCarsPage() {
             <Gavel className="h-8 w-8 text-[#D4A843]" />
             <div>
               <h1 className="text-2xl font-bold text-white sm:text-3xl">
-                SSANCAR Auction Vehicles
+                Auction Vehicles
               </h1>
               <p className="text-white/60">
                 Total {data?.totalCount.toLocaleString()} vehicles | Updated: {data?.crawledAt ? new Date(data.crawledAt).toLocaleDateString('en-US') : '-'}
@@ -226,10 +255,93 @@ export default function AuctionCarsPage() {
               <option value="mileage-asc">Lowest Mileage</option>
             </select>
 
+            {/* Filter Toggle */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                showFilters ? 'bg-[#0a4d0e] text-white' : 'border border-gray-200 text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              <Filter className="h-4 w-4" />
+              Advanced
+            </button>
+
             <span className="text-sm font-medium text-[#0a4d0e]">
               {filteredCars.length.toLocaleString()} vehicles
             </span>
           </div>
+
+          {/* Advanced Filters */}
+          {showFilters && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              className="mt-4 grid grid-cols-1 gap-4 border-t border-gray-200 pt-4 sm:grid-cols-2 lg:grid-cols-4"
+            >
+              {/* Price Range */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Price: {formatPriceLabel(priceRange[0])} ~ {formatPriceLabel(priceRange[1])}
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="range"
+                    min="0"
+                    max="50000"
+                    step="1000"
+                    value={priceRange[0]}
+                    onChange={(e) => setPriceRange([parseInt(e.target.value), priceRange[1]])}
+                    className="flex-1 accent-[#0a4d0e]"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="100000"
+                    step="1000"
+                    value={priceRange[1]}
+                    onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+                    className="flex-1 accent-[#0a4d0e]"
+                  />
+                </div>
+              </div>
+
+              {/* Year Range */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Year: {yearRange[0]} ~ {yearRange[1]}
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="range"
+                    min="2000"
+                    max="2026"
+                    value={yearRange[0]}
+                    onChange={(e) => setYearRange([parseInt(e.target.value), yearRange[1]])}
+                    className="flex-1 accent-[#0a4d0e]"
+                  />
+                  <input
+                    type="range"
+                    min="2000"
+                    max="2026"
+                    value={yearRange[1]}
+                    onChange={(e) => setYearRange([yearRange[0], parseInt(e.target.value)])}
+                    className="flex-1 accent-[#0a4d0e]"
+                  />
+                </div>
+              </div>
+
+              {/* Reset Button */}
+              <div className="flex items-end">
+                <button
+                  onClick={resetFilters}
+                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-[#0a4d0e] transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                  Reset Filters
+                </button>
+              </div>
+            </motion.div>
+          )}
         </div>
       </section>
 
@@ -249,12 +361,12 @@ export default function AuctionCarsPage() {
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={car.img || '/Jungcar/images/placeholder-car.jpg'}
+                    src={car.img || '/images/placeholder-car.jpg'}
                     alt={car.name}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = '/Jungcar/images/placeholder-car.jpg';
+                      (e.target as HTMLImageElement).src = '/images/placeholder-car.jpg';
                     }}
                   />
                   <div className="absolute top-2 left-2">

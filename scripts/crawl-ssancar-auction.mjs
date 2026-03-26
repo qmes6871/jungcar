@@ -305,7 +305,7 @@ async function main() {
       color: car.color,
       price: car.price,
       priceUSD: car.priceUSD,
-      location: 'SSANCAR Auction',
+      location: 'KOREA Auction',
       dealerName: 'SSANCAR',
       description: `SSANCAR 경매 차량 (Stock No. ${car.stockNo})`,
       img: images.thumb || '/images/cars/default.jpg',

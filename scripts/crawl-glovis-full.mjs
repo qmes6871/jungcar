@@ -96,7 +96,7 @@ async function processImage(buffer, carNo, imageIndex) {
       .resize(SIZES.thumb.width, SIZES.thumb.height, { fit: 'cover' })
       .jpeg({ quality: 80 })
       .toFile(thumbPath);
-    results.thumb = `/Jungcar/images/cars/${baseFilename}_thumb.jpg`;
+    results.thumb = `/images/cars/${baseFilename}_thumb.jpg`;
 
     // 메인
     const mainPath = path.join(OUTPUT_DIR, `${baseFilename}_main.jpg`);
@@ -104,7 +104,7 @@ async function processImage(buffer, carNo, imageIndex) {
       .resize(SIZES.main.width, SIZES.main.height, { fit: 'cover' })
       .jpeg({ quality: 85 })
       .toFile(mainPath);
-    results.main = `/Jungcar/images/cars/${baseFilename}_main.jpg`;
+    results.main = `/images/cars/${baseFilename}_main.jpg`;
 
     // 대표 이미지 (첫번째만)
     if (imageIndex === 0) {
@@ -113,7 +113,7 @@ async function processImage(buffer, carNo, imageIndex) {
         .resize(SIZES.large.width, SIZES.large.height, { fit: 'inside', withoutEnlargement: true })
         .jpeg({ quality: 90 })
         .toFile(largePath);
-      results.large = `/Jungcar/images/cars/${baseFilename}_large.jpg`;
+      results.large = `/images/cars/${baseFilename}_large.jpg`;
 
       // 기본 이미지도 저장
       const defaultPath = path.join(OUTPUT_DIR, `${carNo}.jpg`);
@@ -121,7 +121,7 @@ async function processImage(buffer, carNo, imageIndex) {
         .resize(800, 600, { fit: 'cover' })
         .jpeg({ quality: 85 })
         .toFile(defaultPath);
-      results.default = `/Jungcar/images/cars/${carNo}.jpg`;
+      results.default = `/images/cars/${carNo}.jpg`;
     }
   } catch (err) {
     console.log(`    리사이징 에러: ${err.message}`);
@@ -366,7 +366,7 @@ async function main() {
           price: car.startPrice ? parseInt(car.startPrice.replace(/[^0-9]/g, '')) || null : null,
           hope: car.hopePrice ? parseInt(car.hopePrice.replace(/[^0-9]/g, '')) || null : null,
           instant: null,
-          img: localThumbs[0] || localImages[0] || `/Jungcar/images/cars/${carNo}.jpg`,
+          img: localThumbs[0] || localImages[0] || `/images/cars/${carNo}.jpg`,
           images: localImages,
           thumbs: localThumbs,
           url: `${BASE_URL}/auction/exhibitView.do?acc=${car.meta.acc}&gn=${encodeURIComponent(car.meta.gn)}&rc=${car.meta.rc}&atn=${car.meta.atn}`,
@@ -380,7 +380,7 @@ async function main() {
         console.log(`    오류: ${err.message}`);
         detailedCars.push({
           ...car,
-          img: `/Jungcar/images/cars/${carNo}.jpg`,
+          img: `/images/cars/${carNo}.jpg`,
           images: [],
           thumbs: [],
           error: err.message

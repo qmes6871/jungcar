@@ -150,7 +150,7 @@ function main() {
   // 이미지 경로 추가
   cars.forEach(car => {
     if (car.no) {
-      car.img = `/Jungcar/images/cars/${car.no}.jpg`;
+      car.img = `/images/cars/${car.no}.jpg`;
     }
   });
 

@@ -42,13 +42,13 @@ const ITEMS_PER_PAGE = 24;
 
 // 제조사 목록
 const MANUFACTURERS = [
-  '전체', '현대', '기아', '제네시스', '쉐보레(GM대우)', 'KG모빌리티(쌍용)',
-  '르노(삼성)', '벤츠', 'BMW', '아우디', '폭스바겐', '볼보', '렉서스',
-  '토요타', '혼다', '포드', '지프', '랜드로버', '포르쉐', '테슬라'
+  '전체', 'Hyundai', 'Kia', 'Genesis', 'Chevrolet', 'SsangYong',
+  'Renault', 'Mercedes-Benz', 'BMW', 'Audi', 'Volkswagen', 'Volvo', 'Lexus',
+  'Toyota', 'Honda', 'Ford', 'Jeep', 'Land Rover', 'Porsche', 'Tesla', 'Other'
 ];
 
 // 연료 타입
-const FUEL_TYPES = ['전체', '가솔린', '디젤', '하이브리드', 'LPG', '전기'];
+const FUEL_TYPES = ['전체', 'Gasoline', 'Diesel', 'Hybrid', 'LPG', 'Electric'];
 
 export default function CarsPage() {
   const [carsData, setCarsData] = useState<CarsResponse | null>(null);
@@ -64,22 +64,11 @@ export default function CarsPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    // 두 데이터 소스 모두 로드
-    Promise.all([
-      fetch('/Jungcar/data/autobell-cars.json').then(res => res.json()),
-      fetch('/Jungcar/data/ssancar-stock.json').then(res => res.json()).catch(() => ({ cars: [] }))
-    ])
-      .then(([autobellData, ssancarData]) => {
-        // 두 데이터를 합침
-        const combinedCars = [
-          ...(ssancarData.cars || []),  // SSANCAR 차량을 먼저 (최신)
-          ...(autobellData.cars || [])
-        ];
-        setCarsData({
-          ...autobellData,
-          totalCount: combinedCars.length,
-          cars: combinedCars
-        });
+    // 차량 재고 데이터 로드
+    fetch('/data/vehicle-stock.json')
+      .then(res => res.json())
+      .then(data => {
+        setCarsData(data);
         setLoading(false);
       })
       .catch(err => {
@@ -90,11 +79,11 @@ export default function CarsPage() {
 
   // 필터링된 차량 목록
   const filteredCars = useMemo(() => {
-    if (!carsData) return [];
+    if (!carsData?.cars) return [];
 
     return carsData.cars.filter(car => {
       // 검색어 필터
-      if (searchTerm && !car.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (searchTerm && !(car.name || '').toLowerCase().includes(searchTerm.toLowerCase())) {
         return false;
       }
 
@@ -104,17 +93,18 @@ export default function CarsPage() {
       }
 
       // 연료 필터
-      if (selectedFuel !== '전체' && !car.fuel.includes(selectedFuel)) {
+      if (selectedFuel !== '전체' && !(car.fuel || '').includes(selectedFuel)) {
         return false;
       }
 
       // 가격 필터
-      if (car.price < priceRange[0] || car.price > priceRange[1]) {
+      const price = car.price || 0;
+      if (price < priceRange[0] || price > priceRange[1]) {
         return false;
       }
 
       // 연식 필터
-      const year = parseInt(car.year);
+      const year = parseInt(car.year) || 0;
       if (year < yearRange[0] || year > yearRange[1]) {
         return false;
       }
@@ -135,12 +125,23 @@ export default function CarsPage() {
     setCurrentPage(1);
   }, [searchTerm, selectedManufacturer, selectedFuel, priceRange, yearRange]);
 
-  const formatPrice = (price: number) => {
+  const formatPrice = (car: CarData) => {
+    const price = car.price;
     if (!price) return '-';
+    // USD 가격 표시
+    if (car.source === 'vehicle') {
+      return `$${price.toLocaleString()}`;
+    }
+    // Autobell은 만원 단위
     if (price >= 10000) {
       return `${(price / 10000).toFixed(1)}억`;
     }
     return `${price.toLocaleString()}만원`;
+  };
+
+  const formatPriceValue = (price: number) => {
+    if (!price) return '-';
+    return `$${price.toLocaleString()}`;
   };
 
   const formatMileage = (km: number) => {
@@ -154,12 +155,12 @@ export default function CarsPage() {
     if (car.img && car.img.startsWith('http')) {
       return car.img;
     }
-    // 로컬 이미지가 있으면 사용 (ssancar 포함)
+    // 로컬 이미지가 있으면 사용
     if (car.img && !car.img.includes('default')) {
-      return `/Jungcar${car.img}`;
+      return `${car.img}`;
     }
-    // ssancar 원본 이미지 사용
-    if (car.source === 'ssancar' && car.originalImg) {
+    // 원본 이미지 사용
+    if (car.source === 'vehicle' && car.originalImg) {
       return car.originalImg;
     }
     // 오토벨 원본 이미지 사용
@@ -167,7 +168,7 @@ export default function CarsPage() {
       const encodedPath = encodeURIComponent(`https://static.glovis.net/picture/dlr/prd/carImg/${car.crId}/normal/thumb/`);
       return `https://img.autobell.co.kr/?src=${encodedPath}&type=w&w=800&quality=80&ttype=jpg`;
     }
-    return '/Jungcar/images/cars/default.jpg';
+    return '/images/cars/default.jpg';
   };
 
   return (
@@ -188,7 +189,7 @@ export default function CarsPage() {
               Premium <span className="text-[#D4A843]">Used Cars</span>
             </h1>
             <p className="mx-auto mt-3 max-w-xl text-base text-white/80">
-              현대글로비스 오토벨 인증 중고차
+              Premium Used Cars from Korea
             </p>
           </motion.div>
         </div>
@@ -259,7 +260,7 @@ export default function CarsPage() {
               {/* 가격 범위 */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  가격: {formatPrice(priceRange[0])} ~ {formatPrice(priceRange[1])}
+                  가격: {formatPriceValue(priceRange[0])} ~ {formatPriceValue(priceRange[1])}
                 </label>
                 <div className="flex gap-2">
                   <input
@@ -353,7 +354,7 @@ export default function CarsPage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={getImageUrl(car)}
-                            alt={car.name}
+                            alt={car.name || 'Car'}
                             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = '/images/cars/default.jpg';
@@ -361,7 +362,7 @@ export default function CarsPage() {
                           />
                           <div className="absolute top-3 left-3">
                             <span className="rounded-full bg-[#0a4d0e] px-3 py-1 text-xs font-medium text-white">
-                              {car.manufacturer}
+                              {car.manufacturer || 'Other'}
                             </span>
                           </div>
                         </div>
@@ -369,13 +370,13 @@ export default function CarsPage() {
                         {/* 정보 */}
                         <div className="p-4">
                           <h3 className="font-bold text-gray-900 line-clamp-2 min-h-[48px] group-hover:text-[#0a4d0e]">
-                            {car.name}
+                            {car.name || 'Unknown'}
                           </h3>
 
                           <div className="mt-3 flex flex-wrap gap-2 text-xs text-gray-500">
                             <span className="flex items-center gap-1">
                               <Calendar className="h-3.5 w-3.5" />
-                              {car.year}년
+                              {car.year || '-'}년
                             </span>
                             <span className="flex items-center gap-1">
                               <Gauge className="h-3.5 w-3.5" />
@@ -383,17 +384,17 @@ export default function CarsPage() {
                             </span>
                             <span className="flex items-center gap-1">
                               <Fuel className="h-3.5 w-3.5" />
-                              {car.fuel}
+                              {car.fuel || '-'}
                             </span>
                           </div>
 
                           <div className="mt-3 flex items-center justify-between">
                             <span className="text-xl font-bold text-[#D4A843]">
-                              {formatPrice(car.price)}
+                              {formatPrice(car)}
                             </span>
                             <span className="flex items-center gap-1 text-xs text-gray-400">
                               <MapPin className="h-3.5 w-3.5" />
-                              {car.location}
+                              {car.location || '-'}
                             </span>
                           </div>
                         </div>

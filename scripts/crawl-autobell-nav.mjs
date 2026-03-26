@@ -45,9 +45,9 @@ async function processImage(buffer, carNo, idx) {
   const results = {};
   try {
     await sharp(buffer).resize(400, 300, { fit: 'cover' }).jpeg({ quality: 80 }).toFile(path.join(OUTPUT_DIR, `${carNo}_${idx}_thumb.jpg`));
-    results.thumb = `/Jungcar/images/cars/${carNo}_${idx}_thumb.jpg`;
+    results.thumb = `/images/cars/${carNo}_${idx}_thumb.jpg`;
     await sharp(buffer).resize(800, 600, { fit: 'cover' }).jpeg({ quality: 85 }).toFile(path.join(OUTPUT_DIR, `${carNo}_${idx}_main.jpg`));
-    results.main = `/Jungcar/images/cars/${carNo}_${idx}_main.jpg`;
+    results.main = `/images/cars/${carNo}_${idx}_main.jpg`;
     if (idx === 0) {
       await sharp(buffer).resize(1600, 1200, { fit: 'inside', withoutEnlargement: true }).jpeg({ quality: 90 }).toFile(path.join(OUTPUT_DIR, `${carNo}_${idx}_large.jpg`));
       await sharp(buffer).resize(800, 600, { fit: 'cover' }).jpeg({ quality: 85 }).toFile(path.join(OUTPUT_DIR, `${carNo}.jpg`));
@@ -195,12 +195,12 @@ async function main() {
         try {
           const buf = await downloadImage(car.imgSrc);
           const res = await processImage(buf, carNo, 0);
-          car.img = res.thumb || res.main || `/Jungcar/images/cars/${carNo}.jpg`;
+          car.img = res.thumb || res.main || `/images/cars/${carNo}.jpg`;
           car.images = res.main ? [res.main] : [];
           car.thumbs = res.thumb ? [res.thumb] : [];
           totalImages++;
-        } catch { car.img = `/Jungcar/images/cars/${carNo}.jpg`; car.images = []; car.thumbs = []; }
-      } else { car.img = `/Jungcar/images/cars/${carNo}.jpg`; car.images = []; car.thumbs = []; }
+        } catch { car.img = `/images/cars/${carNo}.jpg`; car.images = []; car.thumbs = []; }
+      } else { car.img = `/images/cars/${carNo}.jpg`; car.images = []; car.thumbs = []; }
 
       allCars.push({
         id: car.id, no: carNo, name: car.name, status: '판매중', year: car.year, transmission: '', displacement: '',

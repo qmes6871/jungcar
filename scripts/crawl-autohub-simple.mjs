@@ -289,7 +289,7 @@ async function main() {
         transmission,
         bodyType,
         color,
-        image: car.imgSrc || '/Jungcar/images/auction/car-placeholder.jpg',
+        image: car.imgSrc || '/images/auction/car-placeholder.jpg',
         status: 'Available',
       });
     }

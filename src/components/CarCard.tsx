@@ -27,7 +27,7 @@ export default function CarCard({
   transmission,
   images,
 }: CarCardProps) {
-  const imageUrl = images[0] || '/Jungcar/images/placeholder-car.jpg';
+  const imageUrl = images[0] || '/images/placeholder-car.jpg';
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {

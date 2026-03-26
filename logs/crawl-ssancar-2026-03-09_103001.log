@@ -1,0 +1,15 @@
+======================================
+SSANCAR 크롤링 시작: 2026-03-09 10:30:01
+======================================
+
+[1] 경매 차량 크롤링 (상세 페이지 포함)...
+/var/www/Jungcar/scripts/cron-crawl-ssancar.sh: line 23: /usr/local/bin/node: Permission denied
+[1] 경매 차량 크롤링 실패 (exit code: 126)
+
+[2] 일반 차량 크롤링 (목록만)...
+/var/www/Jungcar/scripts/cron-crawl-ssancar.sh: line 35: /usr/local/bin/node: Permission denied
+[2] 일반 차량 크롤링 실패 (exit code: 126)
+
+======================================
+SSANCAR 크롤링 종료: 2026-03-09 10:30:01
+======================================

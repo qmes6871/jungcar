@@ -108,14 +108,14 @@ async function processImage(buffer, carNo, imageIndex) {
       .resize(SIZES.thumb.width, SIZES.thumb.height, { fit: 'cover' })
       .jpeg({ quality: 80 })
       .toFile(thumbPath);
-    results.thumb = `/Jungcar/images/cars/${baseFilename}_thumb.jpg`;
+    results.thumb = `/images/cars/${baseFilename}_thumb.jpg`;
 
     const mainPath = path.join(OUTPUT_DIR, `${baseFilename}_main.jpg`);
     await sharp(buffer)
       .resize(SIZES.main.width, SIZES.main.height, { fit: 'cover' })
       .jpeg({ quality: 85 })
       .toFile(mainPath);
-    results.main = `/Jungcar/images/cars/${baseFilename}_main.jpg`;
+    results.main = `/images/cars/${baseFilename}_main.jpg`;
 
     if (imageIndex === 0) {
       const largePath = path.join(OUTPUT_DIR, `${baseFilename}_large.jpg`);
@@ -123,14 +123,14 @@ async function processImage(buffer, carNo, imageIndex) {
         .resize(SIZES.large.width, SIZES.large.height, { fit: 'inside', withoutEnlargement: true })
         .jpeg({ quality: 90 })
         .toFile(largePath);
-      results.large = `/Jungcar/images/cars/${baseFilename}_large.jpg`;
+      results.large = `/images/cars/${baseFilename}_large.jpg`;
 
       const defaultPath = path.join(OUTPUT_DIR, `${carNo}.jpg`);
       await sharp(buffer)
         .resize(800, 600, { fit: 'cover' })
         .jpeg({ quality: 85 })
         .toFile(defaultPath);
-      results.default = `/Jungcar/images/cars/${carNo}.jpg`;
+      results.default = `/images/cars/${carNo}.jpg`;
     }
   } catch (err) {
     // 무시
@@ -336,12 +336,12 @@ async function main() {
               totalImages++;
             }
           } catch (err) {
-            car.img = `/Jungcar/images/cars/${carNo}.jpg`;
+            car.img = `/images/cars/${carNo}.jpg`;
             car.images = [];
             car.thumbs = [];
           }
         } else {
-          car.img = `/Jungcar/images/cars/${carNo}.jpg`;
+          car.img = `/images/cars/${carNo}.jpg`;
           car.images = [];
           car.thumbs = [];
         }

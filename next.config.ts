@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: '/Jungcar',
+  // basePath 제거됨 - jungcar.com 도메인 사용
   images: {
     remotePatterns: [
       {

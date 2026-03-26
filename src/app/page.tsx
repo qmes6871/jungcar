@@ -27,8 +27,10 @@ interface CarData {
   mileage: number;
   fuel: string;
   price: number;
+  priceUSD?: number;
   crId: string;
   img: string;
+  source?: string;
 }
 
 const stats = [
@@ -39,87 +41,76 @@ const stats = [
 ];
 
 const auctionImages = [
-  { src: '/Jungcar/images/auction/1.jpg', alt: 'Korea Auto Auction', label: 'Auto Auction' },
-  { src: '/Jungcar/images/auction/2.jpg', alt: 'Auction Floor', label: 'Auction Floor' },
-  { src: '/Jungcar/images/auction/3.jpg', alt: 'Vehicle Inspection', label: 'Vehicle Inspection' },
-  { src: '/Jungcar/images/auction/4.jpg', alt: 'Auction Center', label: 'Auction Center' },
-  { src: '/Jungcar/images/auction/5.jpg', alt: 'Vehicle Yard', label: 'Vehicle Yard' },
-  { src: '/Jungcar/images/auction/6.jpg', alt: 'Premium Vehicles', label: 'Premium Vehicles' },
+  { src: '/images/auction/1.jpg', alt: 'Korea Auto Auction', label: 'Auto Auction' },
+  { src: '/images/auction/2.jpg', alt: 'Auction Floor', label: 'Auction Floor' },
+  { src: '/images/auction/3.jpg', alt: 'Vehicle Inspection', label: 'Vehicle Inspection' },
+  { src: '/images/auction/4.jpg', alt: 'Auction Center', label: 'Auction Center' },
+  { src: '/images/auction/5.jpg', alt: 'Vehicle Yard', label: 'Vehicle Yard' },
+  { src: '/images/auction/6.jpg', alt: 'Premium Vehicles', label: 'Premium Vehicles' },
 ];
 
 const auctionSchedule = [
   {
-    name: 'Hyundai Glovis',
-    slug: 'hyundai-glovis',
-    location: 'Shihwa, Ansan',
-    days: 'Every Tuesday & Thursday',
-    time: '09:00 AM KST',
-    vehicles: '3,000+',
-    color: '#0a4d0e',
-  },
-  {
-    name: 'AutoHub Auction',
-    slug: 'autohub',
-    location: 'Gimpo, Gyeonggi-do',
-    days: 'Every Wednesday',
-    time: '10:00 AM KST',
-    vehicles: '2,000+',
-    color: '#0a4d0e',
-  },
-  {
-    name: 'SSANCAR Auction',
-    slug: 'ssancar',
-    location: 'Lotte Auto Auction',
+    name: 'KOREA Auction',
+    slug: 'vehicle',
+    location: 'Korea',
     days: 'Every Monday & Friday',
     time: '10:00 AM KST',
-    vehicles: '1,100+',
+    vehicles: '1,830+',
     color: '#0a4d0e',
   },
 ];
 
 const teamMembers = [
-  { name: 'Marina', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058.jpg' },
-  { name: 'Sofia Oh', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_01.jpg' },
-  { name: 'Logan Lee', role: 'Manager', image: '/Jungcar/images/staff/manager-new.jpeg' },
-  { name: 'Daniel Kim', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_03.jpg' },
-  { name: 'Elena Jung', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_04.jpg' },
-  { name: 'Led Kim', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_05.jpg' },
-  { name: 'Marat', role: 'Manager', image: '/Jungcar/images/staff/KakaoTalk_20260119_134736058_06.jpg' },
+  { name: 'Marina', role: 'Manager', image: '/images/staff/KakaoTalk_20260119_134736058.jpg' },
+  { name: 'Sofia Oh', role: 'Manager', image: '/images/staff/KakaoTalk_20260119_134736058_01.jpg' },
+  { name: 'Logan Lee', role: 'Manager', image: '/images/staff/manager-new.jpeg' },
+  { name: 'Daniel Kim', role: 'Manager', image: '/images/staff/KakaoTalk_20260119_134736058_03.jpg' },
+  { name: 'Elena Jung', role: 'Manager', image: '/images/staff/KakaoTalk_20260119_134736058_04.jpg' },
+  { name: 'Led Kim', role: 'Manager', image: '/images/staff/KakaoTalk_20260119_134736058_05.jpg' },
+  { name: 'Marat', role: 'Manager', image: '/images/staff/KakaoTalk_20260119_134736058_06.jpg' },
 ];
 
 export default function Home() {
   const [featuredCars, setFeaturedCars] = useState<CarData[]>([]);
 
   useEffect(() => {
-    fetch('/Jungcar/data/autobell-cars.json')
+    // 차량 재고 데이터 로드
+    fetch('/data/vehicle-stock.json')
       .then(res => res.json())
       .then(data => {
-        // 유효한 데이터가 있는 차량만 필터링하고 8대 선택
-        const validCars = data.cars.filter((car: CarData) =>
-          car.model && car.manufacturer && car.price
-        );
-        setFeaturedCars(validCars.slice(0, 8));
+        const cars = data.cars
+          .filter((car: CarData) => car.name && car.manufacturer && car.priceUSD)
+          .slice(0, 8)
+          .map((car: CarData & { priceUSD?: number }) => ({
+            ...car,
+            model: car.name,
+            price: car.priceUSD || car.price
+          }));
+        setFeaturedCars(cars);
       })
       .catch(err => console.error('Failed to load cars:', err));
   }, []);
 
-  const formatPrice = (price: number) => {
+  const formatPrice = (car: CarData) => {
+    const price = car.priceUSD || car.price;
     if (!price) return '-';
-    if (price >= 10000) {
-      return `${(price / 10000).toFixed(1)}억`;
-    }
-    return `${price.toLocaleString()}만원`;
+    return `$${price.toLocaleString()}`;
   };
 
   const getImageUrl = (car: CarData) => {
-    if (car.img && !car.img.includes('default')) {
-      return `/Jungcar${car.img}`;
+    // 차량 이미지 (http:// 또는 https://로 시작)
+    if (car.img && (car.img.startsWith('http://') || car.img.startsWith('https://'))) {
+      return car.img;
+    }
+    if (car.img && !car.img.includes('default') && !car.img.includes('placeholder')) {
+      return `${car.img}`;
     }
     if (car.crId) {
       const encodedPath = encodeURIComponent(`https://static.glovis.net/picture/dlr/prd/carImg/${car.crId}/normal/thumb/`);
       return `https://img.autobell.co.kr/?src=${encodedPath}&type=w&w=800&quality=80&ttype=jpg`;
     }
-    return '/Jungcar/images/cars/default.jpg';
+    return '/images/cars/default.jpg';
   };
 
   return (
@@ -130,7 +121,7 @@ export default function Home() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/Jungcar/images/hero-banner.png"
+            src="/images/hero-banner.png"
             alt="Premium Korean Vehicles"
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -303,7 +294,7 @@ export default function Home() {
                         </div>
                         <div className="mt-3 flex items-center justify-between">
                           <p className="text-lg font-bold text-[#D4A843]">
-                            {formatPrice(car.price)}
+                            {formatPrice(car)}
                           </p>
                           <ArrowRight className="h-4 w-4 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-[#0a4d0e]" />
                         </div>
@@ -325,7 +316,7 @@ export default function Home() {
                 href="/cars"
                 className="group inline-flex items-center gap-2 rounded-xl bg-[#0a4d0e] px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#0d6611] hover:shadow-lg hover:shadow-[#0a4d0e]/20"
               >
-                View All 7,000+ Vehicles
+                View All 10,000+ Vehicles
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </motion.div>

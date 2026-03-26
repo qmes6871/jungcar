@@ -29,9 +29,9 @@ const auctionHouses = [
     vehicles: 'All vehicle types except vans',
     volume: '3,000+ vehicles per session',
     images: [
-      '/Jungcar/images/auction/1.jpg',
-      '/Jungcar/images/auction/2.jpg',
-      '/Jungcar/images/auction/3.jpg',
+      '/images/auction/1.jpg',
+      '/images/auction/2.jpg',
+      '/images/auction/3.jpg',
     ],
   },
   {
@@ -43,9 +43,9 @@ const auctionHouses = [
     vehicles: 'All vehicle types',
     volume: '1,500+ vehicles per session',
     images: [
-      '/Jungcar/images/auction/4.jpg',
-      '/Jungcar/images/auction/5.jpg',
-      '/Jungcar/images/auction/6.jpg',
+      '/images/auction/4.jpg',
+      '/images/auction/5.jpg',
+      '/images/auction/6.jpg',
     ],
   },
 ];
@@ -103,7 +103,7 @@ export default function AuctionPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/Jungcar/images/hero-banner.jpg"
+            src="/images/hero-banner.jpg"
             alt="Korean Auto Auction"
             className="absolute inset-0 h-full w-full object-cover"
           />

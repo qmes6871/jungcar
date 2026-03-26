@@ -113,7 +113,7 @@ export default function HowToBuyPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/Jungcar/images/hero-banner.jpg"
+            src="/images/hero-banner.jpg"
             alt="How to Buy"
             className="absolute inset-0 h-full w-full object-cover"
           />

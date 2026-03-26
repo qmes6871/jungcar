@@ -184,7 +184,7 @@ async function main() {
 
           try {
             await downloadImage(imgUrl, filepath);
-            downloadedImages.push(`/Jungcar/images/auction/${filename}`);
+            downloadedImages.push(`/images/auction/${filename}`);
             console.log(`  - 이미지 ${j + 1}/${images.length} 다운로드 완료`);
           } catch (err) {
             console.log(`  - 이미지 ${j + 1} 다운로드 실패: ${err.message}`);

@@ -43,7 +43,7 @@ export default function Header() {
             <div className="relative h-16 w-56 sm:h-20 sm:w-72 transition-transform group-hover:scale-105">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/Jungcar/images/logo/logo.png"
+                src="/images/logo/logo.png"
                 alt="JungCar"
                 className="h-full w-full object-contain"
               />

@@ -76,7 +76,7 @@ export default function CarDetailPage() {
       try {
         // Use full URL for client-side fetch
         const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-        const res = await fetch(`${baseUrl}/data/vehicle-stock.json`);
+        const res = await fetch(`${baseUrl}/data/ssancar-stock.json`);
         if (res.ok) {
           const data: CarsResponse = await res.json();
           const foundCar = data.cars.find(c => c.id === carId);

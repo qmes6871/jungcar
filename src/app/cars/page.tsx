@@ -65,7 +65,7 @@ export default function CarsPage() {
 
   useEffect(() => {
     // 차량 재고 데이터 로드
-    fetch('/data/vehicle-stock.json')
+    fetch('/data/ssancar-stock.json')
       .then(res => res.json())
       .then(data => {
         setCarsData(data);
